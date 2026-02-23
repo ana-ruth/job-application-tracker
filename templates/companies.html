@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Companies</title>
+    </head>
+
+    <body>
+        <h1>Companies</h1>
+
+        <table>
+            <tr>
+                <th>Company</th>
+                <th>Industry</th>
+                <th>Website</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Notes</th>
+            </tr>
+  
+           {% for company in companies %}
+            <tr>
+                <td>{{company['company_name']}}</td>
+                <td>{{company['industry']}}</td>
+                <td>{{company['website']}}</td>
+                <td>{{company['city']}}</td>
+                <td>{{company['state']}}</td>
+                <td>{{company['notes']}}</td>
+            </tr>
+            {%endfor%}
+            
+        </table>
+    </body>
+</html>

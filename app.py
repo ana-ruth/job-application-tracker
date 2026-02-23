@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, redirect
 import mysql.connector
 
+from database import *
+
 app = Flask(__name__)
 
 def get_db():
@@ -17,6 +19,12 @@ def dashboard():
     stats = cursor.fetchone()
     conn.close()
     return render_template('dashboard.html', stats=stats)
+
+@app.route('/companies')
+def companies():
+    companies = read_all_companies()
+    return render_template('companies.html', companies=companies)
+
 
 
 if __name__ == '__main__':

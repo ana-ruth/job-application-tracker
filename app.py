@@ -25,6 +25,12 @@ def companies():
     companies = read_all_companies()
     return render_template('companies.html', companies=companies)
 
+@app.route('/companies/delete', methods=['POST'])
+def deleteCompany():
+    if request.method == 'POST':
+        company = request.form['Company'] 
+        delete_company(company) 
+    return redirect('/companies')
 
 
 if __name__ == '__main__':

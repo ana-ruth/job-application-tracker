@@ -29,5 +29,14 @@
             {%endfor%}
             
         </table>
+
+        <h2>Delete Company</h2>
+        <form action="/companies/delete" method = "POST">
+
+            <input type="text" name="Company" placeholder = "Company A">
+            <button type ="submit"> Delete</button>
+        </form>
+      
+
     </body>
 </html>

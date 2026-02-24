@@ -33,3 +33,19 @@ def delete_company(company):
     except mysql.connector.Error as error:
         print(f'Error: {error}')
         conn.rollback()
+
+def update_company(company, notes):
+    try:
+        conn = get_db()
+        cursor = conn.cursor(dictionary=True)   
+        update_query = 'UPDATE companies SET notes = %s WHERE company_name = %s'
+        cursor.execute(update_query, (notes, company))
+        conn.commit()
+        conn.close()
+
+
+
+        
+    except mysql.connector.Error as error:
+        print(f'Error: {error}')
+        conn.rollback()

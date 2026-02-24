@@ -32,6 +32,15 @@ def deleteCompany():
         delete_company(company) 
     return redirect('/companies')
 
+@app.route('/companies/update', methods=['POST'])
+def updateCompany():
+    if request.method == 'POST':
+        company = request.form['companyName']
+        notes = request.form['CompanyNotes']
+        update_company(company, notes)
+
+    return redirect('/companies')
+
 
 if __name__ == '__main__':
     app.run(debug=True)

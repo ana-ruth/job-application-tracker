@@ -37,6 +37,18 @@
             <button type ="submit"> Delete</button>
         </form>
       
+        <h2>Update Company</h2>
+        <form action="/companies/update" method = "POST">
+            <label for="companies">Select company: </label>
+            <select id="companies" name="companyName">
+                {% for company in companies %}
+                <option value = "{{company['company_name']}}" >{{company['company_name']}}</option>
+                {%endfor%}
+            </select>
+
+            <input type="text" name = "CompanyNotes" placeholder="Notes...">
+            <button type ="submit">Update</button>
+        </form>
 
     </body>
 </html>

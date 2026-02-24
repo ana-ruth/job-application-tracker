@@ -9,7 +9,7 @@ config = {
 }
 
 '''
-        Companies Table
+    Companies Table
 '''
 def read_all_companies():
     conn = get_db()
@@ -43,8 +43,21 @@ def update_company(company, notes):
         conn.commit()
         conn.close()
 
+    except mysql.connector.Error as error:
+        print(f'Error: {error}')
+        conn.rollback()
 
-
+def create_company(company_name, industry, website, city, state, notes):
+    try:
+        conn = get_db()
+        cursor = conn.cursor(dictionary=True)   
+        insert_query = '''INSERT INTO companies (company_name, industry, website, city, state, notes) 
+                           VALUES (%s, %s, %s, %s, %s, %s)
+                       '''
+        values = (company_name, industry, website, city, state, notes)
+        cursor.execute(insert_query, values)
+        conn.commit()
+        conn.close()
         
     except mysql.connector.Error as error:
         print(f'Error: {error}')

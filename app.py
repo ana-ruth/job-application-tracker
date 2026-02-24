@@ -41,6 +41,20 @@ def updateCompany():
 
     return redirect('/companies')
 
+@app.route('/companies/insert', methods=['POST'])
+def createCompany():
+    if request.method == 'POST':
+        company = request.form['company_name'] 
+        industry = request.form['industry']
+        website =  request.form['website']
+        city = request.form['city']
+        state = request.form['state']
+        notes = request.form['notes']
+        
+        create_company(company, industry, website,city, state, notes)
+    
+    return redirect('/companies')
+
 
 if __name__ == '__main__':
     app.run(debug=True)

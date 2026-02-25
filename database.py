@@ -20,12 +20,12 @@ def read_all_companies():
 
     return companies
 
-def delete_company(company):
+def delete_company(companyID):
     try:
         conn = get_db()
         cursor = conn.cursor(dictionary=True)
-        delete_query = 'DELETE FROM companies WHERE company_name = %s'
-        cursor.execute(delete_query, (company,))
+        delete_query = 'DELETE FROM companies WHERE company_id = %s'
+        cursor.execute(delete_query, (companyID,))
         conn.commit()
         conn.close()
 

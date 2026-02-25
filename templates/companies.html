@@ -15,6 +15,8 @@
                 <th>City</th>
                 <th>State</th>
                 <th>Notes</th>
+
+                <th>Delete</th>
             </tr>
   
            {% for company in companies %}
@@ -25,17 +27,25 @@
                 <td>{{company['city']}}</td>
                 <td>{{company['state']}}</td>
                 <td>{{company['notes']}}</td>
+
+                <td><form action="/companies/delete" method = "POST">
+                    <input type="hidden" name="company_id" value = "{{company['company_id']}}">
+                    <button type ="submit" onclick="return confirm('Are you sure?')"> Delete</button>
+                    </form>
+                </td>
+
             </tr>
             {%endfor%}
             
         </table>
-
+<!--
         <h2>Delete Company</h2>
         <form action="/companies/delete" method = "POST">
 
             <input type="text" name="Company" placeholder = "Company A">
             <button type ="submit"> Delete</button>
         </form>
+    -->
       
         <h2>Update Company</h2>
         <form action="/companies/update" method = "POST">

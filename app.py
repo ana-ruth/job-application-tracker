@@ -28,8 +28,8 @@ def companies():
 @app.route('/companies/delete', methods=['POST'])
 def deleteCompany():
     if request.method == 'POST':
-        company = request.form['Company'] 
-        delete_company(company) 
+        companyID = request.form['company_id'] 
+        delete_company(companyID) 
     return redirect('/companies')
 
 @app.route('/companies/update', methods=['POST'])
@@ -50,7 +50,7 @@ def createCompany():
         city = request.form['city']
         state = request.form['state']
         notes = request.form['notes']
-        
+
         create_company(company, industry, website,city, state, notes)
     
     return redirect('/companies')

@@ -62,12 +62,13 @@ def deleteCompany():
 def createCompany():
     if request.method == 'POST':
 
+        # if user input is empty set it to None (Null)
         company = request.form['company_name'] 
-        industry = request.form['industry'] 
-        website =  request.form['website']
-        city = request.form['city']
-        state = request.form['state']
-        notes = request.form['notes']
+        industry = request.form['industry'].strip() or None
+        website =  request.form['website'].strip() or None
+        city = request.form['city'].strip() or None
+        state = request.form['state'].strip() or None
+        notes = request.form['notes'].strip() or None
 
         create_company(company, industry, website,city, state, notes)
     

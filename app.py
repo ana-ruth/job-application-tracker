@@ -20,6 +20,10 @@ def dashboard():
     conn.close()
     return render_template('dashboard.html', stats=stats)
 
+'''
+    Companies Table
+'''
+
 @app.route('/companies')
 def companies():
 
@@ -48,8 +52,6 @@ def updateCompany(company_id):
     return redirect(url_for('companies'))
 
 
-
-
 @app.route('/companies/delete', methods=['POST'])
 def deleteCompany():
     if request.method == 'POST':
@@ -73,6 +75,22 @@ def createCompany():
         create_company(company, industry, website,city, state, notes)
     
     return redirect('/companies')
+
+
+'''
+    Contacts Table
+'''
+
+@app.route('/contacts')
+def contacts():
+
+    edit_id = request.args.get('edit', type=int)    
+    conn = get_db() 
+    cursor = conn.cursor(dictionary=True) 
+    cursor.close
+    contacts = read_all_contacts()
+
+    return render_template('contacts.html', contacts=contacts, edit_id=edit_id)
 
 
 if __name__ == '__main__':

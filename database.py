@@ -63,3 +63,23 @@ def create_company(company_name, industry, website, city, state, notes):
     except mysql.connector.Error as error:
         print(f'Error Inserting Company: {error}')
         conn.rollback()
+
+
+'''
+    Contacts Table
+'''
+
+def read_all_contacts():
+    conn = get_db()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("""
+                   SELECT c.*, co.company_name 
+                   FROM contacts c 
+                   LEFT JOIN companies co ON c.company_id = co.company_id
+        """)
+    
+    
+    contacts = cursor.fetchall()
+    conn.close()
+
+    return contacts

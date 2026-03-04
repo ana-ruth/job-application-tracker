@@ -20,31 +20,32 @@ def read_all_companies():
 
     return companies
 
-def delete_company(companyID):
+def delete_company(company_id):
     try:
         conn = get_db()
         cursor = conn.cursor(dictionary=True)
         delete_query = 'DELETE FROM companies WHERE company_id = %s'
-        cursor.execute(delete_query, (companyID,))
+        cursor.execute(delete_query, (company_id,))
         conn.commit()
         conn.close()
 
         
     except mysql.connector.Error as error:
-        print(f'Error: {error}')
+        print(f'Error Deleting Company: {error}')
         conn.rollback()
 
-def update_company(company, notes):
+def update_company(company_id, company_name, industry, website, city, state, notes):
     try:
         conn = get_db()
         cursor = conn.cursor(dictionary=True)   
-        update_query = 'UPDATE companies SET notes = %s WHERE company_name = %s'
-        cursor.execute(update_query, (notes, company))
+        update_query = 'UPDATE companies SET company_name = %s, industry = %s, website = %s, city = %s, state = %s, notes = %s WHERE company_id = %s'
+        
+        cursor.execute(update_query, (company_name, industry, website, city, state, notes, company_id))
         conn.commit()
         conn.close()
 
     except mysql.connector.Error as error:
-        print(f'Error: {error}')
+        print(f'Error Updating Company: {error}')
         conn.rollback()
 
 def create_company(company_name, industry, website, city, state, notes):
@@ -60,5 +61,5 @@ def create_company(company_name, industry, website, city, state, notes):
         conn.close()
         
     except mysql.connector.Error as error:
-        print(f'Error: {error}')
+        print(f'Error Inserting Company: {error}')
         conn.rollback()

@@ -7,62 +7,80 @@
     <body>
         <h1>Companies</h1>
 
-        <table>
+    <table>
+        <thead>
             <tr>
-                <th>Company</th>
-                <th>Industry</th>
-                <th>Website</th>
-                <th>City</th>
-                <th>State</th>
-                <th>Notes</th>
-
-                <th>Delete</th>
+                    <th>Company</th>
+                    <th>Industry</th>
+                    <th>Website</th>
+                    <th>City</th>
+                    <th>State</th>
+                    <th>Notes</th>
+                    <th>Actions</th>
             </tr>
-  
-           {% for company in companies %}
+        </thead>
+
+        <tbody>
+            {% for company in companies %}
             <tr>
-                <td>{{company['company_name']}}</td>
-                <td>{{company['industry']}}</td>
-                <td>{{company['website']}}</td>
-                <td>{{company['city']}}</td>
-                <td>{{company['state']}}</td>
-                <td>{{company['notes']}}</td>
+                {% if edit_id == company['company_id'] %}
+                    <form id="edit-form-{{ company['company_id'] }}" action="/companies/update/{{ company['company_id'] }}" method="POST"></form>
+                    
+                    <td>
+                        <input type="text" name="company_name" form="edit-form-{{ company['company_id'] }}" value="{{ company['company_name'] or '' }}" required>
+                    </td>
+                    <td>
+                        <input type="text" name="industry" form="edit-form-{{ company['company_id'] }}" value="{{ company['industry'] or '' }}">
+                    </td>
 
-                <td><form action="/companies/delete" method = "POST">
-                    <input type="hidden" name="company_id" value = "{{company['company_id']}}">
-                    <button type ="submit" onclick="return confirm('Are you sure?')"> Delete</button>
-                    </form>
-                </td>
+                    <td>
+                        <input type="text" name="website" form="edit-form-{{ company['company_id'] }}" value="{{ company['website'] or '' }}">
+                    </td>
 
+                    <td>
+                        <input type="text" name="city" form="edit-form-{{ company['company_id'] }}" value="{{ company['city'] or ''}}">
+                    </td> 
+                    
+                    <td>
+                        <input type="text" name="state" form="edit-form-{{ company['company_id'] }}" value="{{ company['state'] or '' }}">
+                    </td>
+
+                    <td>
+                        <input type="text" name="notes" form="edit-form-{{ company['company_id'] }}" value="{{ company['notes'] or '' }}">
+                    </td>
+
+                    <td>
+                        <button type="submit" form="edit-form-{{ company['company_id'] }}">Save</button>
+                        <a href="/companies">Cancel</a>
+                    </td>
+
+                {% else %}
+                    <td>{{ company['company_name'] or ''}}</td>
+                    <td>{{ company['industry'] or ''}}</td>
+                    <td>{{ company['website'] or ''}}</td>
+                    <td>{{ company['city'] or ''}} </td>
+                    <td>{{ company['state'] or ''}}</td>
+                    <td>{{ company['notes'] or ''}}</td>
+                    <td>
+                        <a href="/companies?edit={{ company['company_id'] }}">Edit</a>
+                        
+                        <form action="/companies/delete" method="POST">
+                            <input type="hidden" name="company_id" value="{{company['company_id']}}">
+                            <button type="submit" onclick="return confirm('Are you sure?')">Delete</button>
+                        </form>
+
+
+                    </td>
+                {% endif %}
             </tr>
-            {%endfor%}
-            
-        </table>
-<!--
-        <h2>Delete Company</h2>
-        <form action="/companies/delete" method = "POST">
+            {% endfor %}
+        </tbody>
+    </table>
 
-            <input type="text" name="Company" placeholder = "Company A">
-            <button type ="submit"> Delete</button>
-        </form>
-    -->
-      
-        <h2>Update Company</h2>
-        <form action="/companies/update" method = "POST">
-            <label for="companies">Select company: </label>
-            <select id="companies" name="companyName">
-                {% for company in companies %}
-                <option value = "{{company['company_name']}}" >{{company['company_name']}}</option>
-                {%endfor%}
-            </select>
-
-            <input type="text" name = "CompanyNotes" placeholder="Notes...">
-            <button type ="submit">Update</button>
-        </form>
 
         <h2>Insert Company</h2>
         <form action ="/companies/insert" method = "POST">
-            <input type="text" name="company_name" placeholder = "Company A">
+            <input type="text" name="company_name" placeholder = "Company A" required>
             <input type="text" name = "industry", placeholder="Software">
             <input type="text" name="website" placeholder="www.website.com">
             <input type="text" name="city" placeholder="Miami">

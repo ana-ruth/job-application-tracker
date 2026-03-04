@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, url_for
 import mysql.connector
 
 from database import *
@@ -22,8 +22,33 @@ def dashboard():
 
 @app.route('/companies')
 def companies():
+
+    edit_id = request.args.get('edit', type=int)    
+    conn = get_db() 
+    cursor = conn.cursor(dictionary=True) 
+    cursor.close
     companies = read_all_companies()
-    return render_template('companies.html', companies=companies)
+
+    return render_template('companies.html', companies=companies, edit_id=edit_id)
+
+
+@app.route('/companies/update/<int:company_id>', methods = ['POST'])
+def updateCompany(company_id):
+   
+    # if user input is empty set it to None (Null)
+    company_name = request.form.get('company_name') 
+    industry = request.form.get('industry','').strip() or None
+    website = request.form.get('website','').strip() or None
+    city = request.form.get('city','').strip() or None
+    state = request.form.get('state','').strip() or None
+    notes = request.form.get('notes','').strip() or None
+
+    update_company(company_id, company_name, industry, website, city, state, notes)
+      
+    return redirect(url_for('companies'))
+
+
+
 
 @app.route('/companies/delete', methods=['POST'])
 def deleteCompany():
@@ -32,20 +57,13 @@ def deleteCompany():
         delete_company(companyID) 
     return redirect('/companies')
 
-@app.route('/companies/update', methods=['POST'])
-def updateCompany():
-    if request.method == 'POST':
-        company = request.form['companyName']
-        notes = request.form['CompanyNotes']
-        update_company(company, notes)
-
-    return redirect('/companies')
 
 @app.route('/companies/insert', methods=['POST'])
 def createCompany():
     if request.method == 'POST':
+
         company = request.form['company_name'] 
-        industry = request.form['industry']
+        industry = request.form['industry'] 
         website =  request.form['website']
         city = request.form['city']
         state = request.form['state']

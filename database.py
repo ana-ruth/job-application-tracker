@@ -83,3 +83,19 @@ def read_all_contacts():
     conn.close()
 
     return contacts
+
+def create_contact(company_id, first_name, last_name, email, phone, job_title, linkedin_url, notes):
+    try:
+        conn = get_db()
+        cursor = conn.cursor(dictionary=True)   
+        insert_query = '''INSERT INTO contacts (company_id, first_name, last_name, email, phone, job_title, linkedin_url, notes) 
+                           VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                       '''
+        values = (company_id, first_name, last_name, email, phone, job_title, linkedin_url, notes)
+        cursor.execute(insert_query, values)
+        conn.commit()
+        conn.close()
+        
+    except mysql.connector.Error as error:
+        print(f'Error Inserting Company: {error}')
+        conn.rollback()

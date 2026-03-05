@@ -59,6 +59,33 @@
 
     </table>
 
+
+
+        <h2>Insert Contact</h2>
+        <form action ="/contacts/insert" method = "POST">
+
+           
+            <select name="company_id" id="company" required>
+
+                {% for company in companies %}
+                <option value="{{company['company_id']}}">{{company['company_name']}}</option>
+                
+                {% endfor %}
+
+            </select>
+            
+
+            <input type="text" name = "first_name" placeholder="Jane">
+            <input type="text" name="last_name" placeholder="Doe">
+            <input type="text" name="email" placeholder="jane.doe@email.com">
+            <input type="text" name="phone" placeholder="123-456-7890">
+            <input type="text" name="job_title" placeholder="Manager" >
+            <input type="text" name="linkedin_url" placeholder="www.linkedin.com" >
+            <input type="text" name="notes" placeholder="Notes..." >
+
+            <button type="submit">Insert</button>
+        </form>
+
 </body>
 
 

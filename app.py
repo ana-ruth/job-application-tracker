@@ -87,10 +87,37 @@ def contacts():
     edit_id = request.args.get('edit', type=int)    
     conn = get_db() 
     cursor = conn.cursor(dictionary=True) 
-    cursor.close
+    
     contacts = read_all_contacts()
 
-    return render_template('contacts.html', contacts=contacts, edit_id=edit_id)
+    #GET companies for companies dropdown in insert contact form
+    cursor.execute('SELECT company_id, company_name FROM companies')
+    companies = cursor.fetchall()
+    
+    cursor.close
+    conn.close()
+
+
+    return render_template('contacts.html', contacts=contacts, companies=companies, edit_id=edit_id)
+
+
+@app.route('/contacts/insert', methods=['GET','POST'])
+def createContacts():
+ 
+    # if user input is empty set it to None (Null)
+    company_id = request.form['company_id'] or None
+    first_name = request.form['first_name'].strip() or None
+    last_name =  request.form['last_name'].strip() or None
+    email = request.form['email'].strip() or None
+    phone = request.form['phone'].strip() or None
+    job_title = request.form['job_title'].strip() or None
+    linkedin_url = request.form['linkedin_url'].strip() or None
+    notes = request.form['notes'].strip() or None
+
+    create_contact(company_id, first_name, last_name,email, phone, job_title, linkedin_url, notes)
+
+    return redirect('/contacts')
+
 
 
 if __name__ == '__main__':

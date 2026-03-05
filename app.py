@@ -118,6 +118,13 @@ def createContacts():
 
     return redirect('/contacts')
 
+@app.route('/contacts/delete', methods=['POST'])
+def deleteContact():
+    if request.method == 'POST':
+        contactID = request.form['contact_id'] 
+        delete_contact(contactID) 
+    return redirect('/contacts')
+
 
 
 if __name__ == '__main__':

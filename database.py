@@ -97,5 +97,19 @@ def create_contact(company_id, first_name, last_name, email, phone, job_title, l
         conn.close()
         
     except mysql.connector.Error as error:
-        print(f'Error Inserting Company: {error}')
+        print(f'Error Inserting Contact: {error}')
+        conn.rollback()
+
+def delete_contact(contactID):
+    try:
+        conn = get_db()
+        cursor = conn.cursor(dictionary=True)
+        delete_query = 'DELETE FROM contacts WHERE contact_id = %s'
+        cursor.execute(delete_query, (contactID,))
+        conn.commit()
+        conn.close()
+
+        
+    except mysql.connector.Error as error:
+        print(f'Error Deleting Contact: {error}')
         conn.rollback()

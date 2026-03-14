@@ -126,6 +126,23 @@ def deleteContact():
     return redirect('/contacts')
 
 
+@app.route('/contacts/update/<int:contact_id>', methods = ['POST'])
+def updateContact(contact_id):
+   
+    # if user input is empty set it to None (Null)
+    
+    company_id = request.form.get('company_id') 
+    first_name = request.form.get('first_name','').strip() or None
+    last_name = request.form.get('last_name','').strip() or None
+    email = request.form.get('email','').strip() or None
+    phone = request.form.get('phone','').strip() or None
+    job_title = request.form.get('job_title','').strip() or None
+    linkedin_url = request.form.get('linkedin_url','').strip() or None
+    notes = request.form.get('notes','').strip() or None
+
+    update_contact(contact_id, company_id, first_name, last_name, email, phone, job_title, linkedin_url, notes)
+      
+    return redirect(url_for('contacts'))
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -27,6 +27,58 @@
              {% for contact in contacts %}
             <tr>
                  {% if edit_id == contact['contact_id'] %}
+                <!---->
+                 <form id="edit-form-{{ contact['contact_id'] }}" action="/contacts/update/{{ contact['contact_id'] }}" method="POST"></form>
+
+                   <td>                    
+                        <select name="company_id" id="company" form ="edit-form-{{ contact['contact_id'] }}" required>
+
+                            {% for company in companies %}
+                            <option value="{{company['company_id']}}"
+                            {% if company['company_id'] == contact['company_id'] %} selected {% endif %}>
+                            {{company['company_name']}}</option>
+                            
+                            {% endfor %}
+
+                        </select>
+                    
+                    </td>
+
+
+                    <td>
+                        <input type="text" name="first_name" form="edit-form-{{ contact['contact_id'] }}" value="{{ contact['first_name'] or '' }}">
+                    </td>
+
+                    <td>
+                        <input type="text" name="last_name" form="edit-form-{{ contact['contact_id'] }}" value="{{ contact['last_name'] or '' }}">
+                    </td>
+
+                    <td>
+                        <input type="text" name="email" form="edit-form-{{ contact['contact_id'] }}" value="{{ contact['email'] or '' }}">
+                    </td>
+
+                    <td>
+                        <input type="text" name="phone" form="edit-form-{{ contact['contact_id'] }}" value="{{ contact['phone'] or '' }}">
+                    </td>
+
+                    <td>
+                        <input type="text" name="job_title" form="edit-form-{{ contact['contact_id'] }}" value="{{ contact['job_title'] or '' }}">
+                    </td>
+
+                    <td>
+                        <input type="text" name="linkedin_url" form="edit-form-{{ contact['contact_id'] }}" value="{{ contact['linkedin_url'] or '' }}">
+                    </td>
+
+                    <td>
+                        <input type="text" name="notes" form="edit-form-{{ contact['contact_id'] }}" value="{{ contact['notes'] or '' }}">
+                    </td>
+
+                    <td>
+                        <button type="submit" form="edit-form-{{ contact['contact_id'] }}">Save</button>
+                        <a href="/contacts">Cancel</a>
+                    </td>
+
+                    <!---->
 
 
                  {% else %}

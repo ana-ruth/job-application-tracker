@@ -113,3 +113,17 @@ def delete_contact(contactID):
     except mysql.connector.Error as error:
         print(f'Error Deleting Contact: {error}')
         conn.rollback()
+
+def update_contact(contact_id, company_id, first_name, last_name, email, phone, job_title, linkedin_url, notes):
+    try:
+        conn = get_db()
+        cursor = conn.cursor(dictionary=True)   
+        update_query = 'UPDATE contacts SET company_id = %s, first_name = %s, last_name = %s, email = %s, phone = %s, job_title = %s, linkedin_url = %s, notes = %s WHERE contact_id = %s'
+        
+        cursor.execute(update_query, (company_id, first_name, last_name, email, phone, job_title, linkedin_url, notes, contact_id))
+        conn.commit()
+        conn.close()
+
+    except mysql.connector.Error as error:
+        print(f'Error Updating Contact: {error}')
+        conn.rollback()

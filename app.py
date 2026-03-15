@@ -144,5 +144,29 @@ def updateContact(contact_id):
       
     return redirect(url_for('contacts'))
 
+
+'''
+    Jobs Table
+'''
+@app.route('/jobs')
+def jobs():
+
+    edit_id = request.args.get('edit', type=int)    
+    conn = get_db() 
+    cursor = conn.cursor(dictionary=True) 
+    
+    jobs = read_all_jobs()
+
+    #GET companies for companies dropdown in insert job form
+    cursor.execute('SELECT company_id, company_name FROM companies')
+    companies = cursor.fetchall()
+    
+    cursor.close
+    conn.close()
+
+
+    return render_template('jobs.html', jobs=jobs, companies=companies, edit_id=edit_id)
+
+
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Jobs</title>
+    </head>
+
+    <body>
+        <h1>Jobs</h1>
+
+        <table>
+            <thead>
+            <tr>
+                <th>Company</th>
+                <th>Job Title</th>
+                <th>Job Description</th>
+                <th>Salary min</th>
+                <th>Salary Max</th>
+                <th>Job Type</th>
+                <th>Posting url</th>
+                <th>Date Posted</th>
+                <th>Is Active</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+             {% for job in jobs %}
+            <tr>
+                 {% if edit_id == job['job_id'] %}
+
+
+                 {% else %}
+
+
+                 <td>{{job['company_name'] or ''}}</td>
+                    <td>{{job['job_title'] or ''}}</td>
+                    <td>{{job['job_description'] or ''}}</td>
+                    <td>{{job['salary_min'] or ''}}</td>
+                    <td>{{job['salary_max'] or ''}}</td>
+                    <td>{{job['job_type'] or ''}}</td>
+                    <td>{{job['posting_url'] or ''}}</td>
+                    <td>{{job['date_posted'] or ''}}</td>
+                    <td>{{job['is_active'] or ''}}</td>
+ 
+                     <td>
+                        <a href="/jobs?edit={{ job['job_id'] }}">Edit</a>
+                        
+                        <form action="/jobs/delete" method="POST">
+                            <input type="hidden" name="job_id" value="{{job['job_id']}}">
+                            <button type="submit" onclick="return confirm('Are you sure?')">Delete</button>
+                        </form>
+
+
+                    </td>
+
+
+                 {% endif %}
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+        </table>
+
+    </body>
+</html>

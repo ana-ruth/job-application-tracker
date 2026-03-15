@@ -127,3 +127,23 @@ def update_contact(contact_id, company_id, first_name, last_name, email, phone, 
     except mysql.connector.Error as error:
         print(f'Error Updating Contact: {error}')
         conn.rollback()
+
+
+'''
+    Contacts Table
+'''
+
+def read_all_jobs():
+    conn = get_db()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("""
+                   SELECT j.*, co.company_name 
+                   FROM jobs j 
+                   LEFT JOIN companies co ON j.company_id = co.company_id
+        """)
+    
+    
+    jobs = cursor.fetchall()
+    conn.close()
+
+    return jobs

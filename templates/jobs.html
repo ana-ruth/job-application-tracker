@@ -63,5 +63,33 @@
 
         </table>
 
+
+        <h2>Insert Job</h2>
+         <form action ="/jobs/insert" method = "POST">
+
+           
+            <select name="company_id" id="company" required>
+
+                {% for company in companies %}
+                <option value="{{company['company_id']}}">{{company['company_name']}}</option>
+                
+                {% endfor %}
+
+            </select>
+            
+
+            <input type="text" name = "job_title" placeholder="Software Developer">
+            <input type="text" name="job_description" placeholder="Requires Java experience">
+            <input type="text" name="salary_min" placeholder="50000">
+            <input type="text" name="salary_max" placeholder="80000">
+            <input type="text" name="job_type" placeholder="Manager" >
+            <input type="text" name="posting_url" placeholder="www.company.com" >
+            <input type="date" name="date_posted" >
+            <input type="text" name="is_active">
+
+            <button type="submit">Insert</button>
+        </form>       
+
+
     </body>
 </html>

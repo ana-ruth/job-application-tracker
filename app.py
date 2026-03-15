@@ -168,5 +168,32 @@ def jobs():
     return render_template('jobs.html', jobs=jobs, companies=companies, edit_id=edit_id)
 
 
+@app.route('/jobs/delete', methods=['POST'])
+def deleteJob():
+    if request.method == 'POST':
+        jobID = request.form['job_id'] 
+        delete_job(jobID) 
+    return redirect('/jobs')
+
+
+@app.route('/jobs/insert', methods=['GET','POST'])
+def createJob():
+ 
+    # if user input is empty set it to None (Null)
+    company_id = request.form['company_id'] or None
+    job_title = request.form['job_title'].strip() or None
+    job_description =  request.form['job_description'].strip() or None
+    salary_min = request.form['salary_min'].strip() or None
+    salary_max = request.form['salary_max'].strip() or None
+    job_type = request.form['job_type'].strip() or None
+    posting_url = request.form['posting_url'].strip() or None
+    date_posted = request.form['date_posted'].strip() or None
+    is_active = request.form['is_active'].strip() or None
+
+    create_job(company_id, job_title, job_description, salary_min, salary_max, job_type, posting_url, date_posted, is_active)
+
+    return redirect('/jobs')
+
+
 if __name__ == '__main__':
     app.run(debug=True)

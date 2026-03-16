@@ -130,7 +130,7 @@ def update_contact(contact_id, company_id, first_name, last_name, email, phone, 
 
 
 '''
-    Contacts Table
+    Jobs Table
 '''
 
 def read_all_jobs():
@@ -175,4 +175,20 @@ def create_job(company_id, job_title, job_description, salary_min, salary_max, j
         
     except mysql.connector.Error as error:
         print(f'Error Inserting Job: {error}')
+        conn.rollback()
+
+
+
+def update_job(job_id, company_id, job_title, job_description, salary_min, salary_max, job_type, posting_url, date_posted, is_active):
+    try:
+        conn = get_db()
+        cursor = conn.cursor(dictionary=True)   
+        update_query = 'UPDATE jobs SET company_id = %s, job_title = %s, job_description = %s, salary_min = %s, salary_max = %s, job_type = %s, posting_url = %s, date_posted = %s, is_active = %s WHERE job_id = %s'
+        
+        cursor.execute(update_query, (company_id, job_title, job_description, salary_min, salary_max, job_type, posting_url, date_posted, is_active, job_id))
+        conn.commit()
+        conn.close()
+
+    except mysql.connector.Error as error:
+        print(f'Error Updating Job: {error}')
         conn.rollback()

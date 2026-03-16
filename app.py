@@ -194,6 +194,25 @@ def createJob():
 
     return redirect('/jobs')
 
+@app.route('/jobs/update/<int:job_id>', methods = ['POST'])
+def updateJob(job_id):
+   
+    # if user input is empty set it to None (Null)
+    
+    company_id = request.form.get('company_id') 
+    job_title = request.form.get('job_title','').strip() or None
+    job_description = request.form.get('job_description','').strip() or None
+    salary_min = request.form.get('salary_min','').strip() or None
+    salary_max = request.form.get('salary_max','').strip() or None
+    job_type = request.form.get('job_type','').strip() or None
+    posting_url = request.form.get('posting_url','').strip() or None
+    date_posted = request.form.get('date_posted','').strip() or None
+    is_active = request.form.get('is_active','').strip() or None
+
+    update_job(job_id, company_id, job_title, job_description, salary_min, salary_max, job_type, posting_url, date_posted, is_active)
+      
+    return redirect(url_for('jobs'))
+
 
 if __name__ == '__main__':
     app.run(debug=True)

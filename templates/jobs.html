@@ -27,7 +27,59 @@
              {% for job in jobs %}
             <tr>
                  {% if edit_id == job['job_id'] %}
+                <form id="edit-form-{{ job['job_id'] }}" action="/jobs/update/{{ job['job_id'] }}" method="POST"></form>
 
+                   <td>                    
+                        <select name="company_id" id="company" form ="edit-form-{{ job['job_id'] }}" required>
+
+                            {% for company in companies %}
+                            <option value="{{company['company_id']}}"
+                            {% if company['company_id'] == job['company_id'] %} selected {% endif %}>
+                            {{company['company_name']}}</option>
+                            
+                            {% endfor %}
+
+                        </select>
+                      
+                    </td>
+
+                    <td>
+                        <input type="text" name="job_title" form="edit-form-{{ job['job_id'] }}" value="{{ job['job_title'] or '' }}">
+                    </td>
+                    
+                    <td>
+                        <input type="text" name="job_description" form="edit-form-{{ job['job_id'] }}" value="{{ job['job_description'] or '' }}">
+                    </td>
+
+                    ---------
+                    <td>
+                        <input type="text" name="salary_min" form="edit-form-{{ job['job_id'] }}" value="{{ job['salary_min'] or '' }}">
+                    </td>
+
+                    <td>
+                        <input type="text" name="salary_max" form="edit-form-{{ job['job_id'] }}" value="{{ job['salary_max'] or '' }}">
+                    </td>
+
+                    <td>
+                        <input type="text" name="job_type" form="edit-form-{{ job['job_id'] }}" value="{{ job['job_type'] or '' }}">
+                    </td>
+
+                    <td>
+                        <input type="text" name="posting_url" form="edit-form-{{ job['job_id'] }}" value="{{ job['posting_url'] or '' }}">
+                    </td>
+
+                    <td>
+                        <input type="date" name="date_posted" form="edit-form-{{ job['job_id'] }}" value="{{ job['date_posted'] or '' }}">
+                    </td>
+
+                    <td>
+                        <input type="text" name="is_active" form="edit-form-{{ job['job_id'] }}" value="{{ job['is_active'] or '' }}">
+                    </td>
+
+                    <td>
+                        <button type="submit" form="edit-form-{{ job['job_id'] }}">Save</button>
+                        <a href="/jobs">Cancel</a>
+                    </td>
 
                  {% else %}
 

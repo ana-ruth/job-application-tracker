@@ -227,3 +227,17 @@ def create_application(job_id, application_date, status, resume_version, cover_l
     except mysql.connector.Error as error:
         print(f'Error Inserting Application: {error}')
         conn.rollback()
+
+def delete_application(applicationID):
+    try:
+        conn = get_db()
+        cursor = conn.cursor(dictionary=True)
+        delete_query = 'DELETE FROM applications WHERE application_id = %s'
+        cursor.execute(delete_query, (applicationID,))
+        conn.commit()
+        conn.close()
+
+        
+    except mysql.connector.Error as error:
+        print(f'Error Deleting Applications: {error}')
+        conn.rollback()

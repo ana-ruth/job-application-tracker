@@ -260,5 +260,13 @@ def createApplication():
 
     return redirect('/applications')
 
+
+@app.route('/applications/delete', methods=['POST'])
+def deleteApplication():
+    if request.method == 'POST':
+        applicationID = request.form['application_id'] 
+        delete_application(applicationID) 
+    return redirect('/applications')
+
 if __name__ == '__main__':
     app.run(debug=True)

@@ -29,6 +29,70 @@
                 <tr>
                     {% if edit_id == application['application_id'] %}
 
+                    <form id="edit-form-{{ application['application_id'] }}" action="/applications/update/{{ application['application_id'] }}" method="POST"></form>
+                    <td>       
+                                   
+                            <select name="company_id" id="company" form ="edit-form-{{ application['application_id'] }}" required>
+                                    {% for company in companies %}
+                                    
+                                    <option value="{{company['company_id']}}"
+                                    {% if company['company_id'] == application['company_id'] %} selected {% endif %}>
+                                    {{company['company_name']}}</option>
+                                    
+                                    {% endfor %}
+
+                            </select>
+                    </td>
+
+                    <td>
+                            <select name="job_id" id="job" form ="edit-form-{{ application['application_id'] }}" required>
+                                    
+                                 {% for job in jobs %}
+                                    <option value="{{job['job_id']}}"
+                                    {% if job['job_id'] == application['job_id'] %} selected {% endif %}>
+                                    {{job['job_title']}}</option>
+
+                                    {% endfor %}
+                                    
+                            </select>
+                
+                    </td>
+
+                 
+
+                    <td>
+                        <input type="date" name="application_date" form="edit-form-{{ application['application_id'] }}" value="{{ application['application_date'] or '' }}">
+                    </td>
+
+                    <td>
+                        <input type="text" name="status" form="edit-form-{{ application['application_id'] }}" value="{{ application['status'] or '' }}">
+                    </td>
+
+                    <td>
+                        <input type="text" name="resume_version" form="edit-form-{{ application['application_id'] }}" value="{{ application['resume_version'] or '' }}">
+                    </td>
+
+                    <td>
+                        <input type="text" name="cover_letter_sent" form="edit-form-{{ application['application_id'] }}" value="{{ application['cover_letter_sent'] or '' }}">
+                    </td>
+
+                    <td>
+                        <input type="date" name="response_date" form="edit-form-{{ application['application_id'] }}" value="{{ application['response_date'] or '' }}">
+                    </td>
+
+                    <td>
+                        <input type="date" name="interview_date" form="edit-form-{{ application['application_id'] }}" value="{{ application['interview_date'] or '' }}">
+                    </td>
+
+                    <td>
+                        <input type="text" name="notes" form="edit-form-{{ application['application_id'] }}" value="{{ application['notes'] or '' }}">
+                    </td>
+
+                    <td>
+                        <button type="submit" form="edit-form-{{ application['application_id'] }}">Save</button>
+                        <a href="/applications">Cancel</a>
+                    </td>
+
 
                     {% else %}
                             <td>{{application['company_name'] or ''}}</td>
@@ -86,7 +150,7 @@
             </select>
             
 
-            <input type="date" name = "application_date" placeholder="">
+            <input type="date" name = "application_date" placeholder="" required>
             <input type="text" name="status" placeholder="Applied">
             <input type="text" name="resume_version" placeholder="">
             <input type="text" name="cover_letter_sent" placeholder="">

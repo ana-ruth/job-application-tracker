@@ -268,5 +268,26 @@ def deleteApplication():
         delete_application(applicationID) 
     return redirect('/applications')
 
+@app.route('/applications/update/<int:application_id>', methods = ['POST'])
+def updateApplication(application_id):
+   
+    # if user input is empty set it to None (Null)
+    
+    company_id = request.form.get('company_id') 
+    job_id = request.form.get('job_id','')
+
+    application_date = request.form.get('application_date','').strip() or None
+    status = request.form.get('status','').strip() or None
+    resume_version = request.form.get('resume_version','').strip() or None
+    cover_letter_sent = request.form.get('cover_letter_sent','').strip() or None
+    response_date = request.form.get('response_date','').strip() or None
+    interview_date = request.form.get('interview_date','').strip() or None
+    notes = request.form.get('notes','').strip() or None
+
+    update_application(application_id, job_id, application_date, status, resume_version, cover_letter_sent, response_date, interview_date, notes)
+      
+    return redirect(url_for('applications'))
+
+
 if __name__ == '__main__':
     app.run(debug=True)

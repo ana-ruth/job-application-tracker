@@ -241,3 +241,18 @@ def delete_application(applicationID):
     except mysql.connector.Error as error:
         print(f'Error Deleting Applications: {error}')
         conn.rollback()
+
+
+def update_application(application_id, job_id, application_date, status, resume_version, cover_letter_sent, response_date, interview_date, notes):
+    try:
+        conn = get_db()
+        cursor = conn.cursor(dictionary=True)   
+        update_query = 'UPDATE applications SET job_id = %s, application_date = %s, status = %s, resume_version = %s, cover_letter_sent = %s, response_date = %s, interview_date = %s, notes = %s WHERE application_id = %s'
+        
+        cursor.execute(update_query, (job_id, application_date, status, resume_version, cover_letter_sent, response_date, interview_date, notes, application_id))
+        conn.commit()
+        conn.close()
+
+    except mysql.connector.Error as error:
+        print(f'Error Updating Application: {error}')
+        conn.rollback()

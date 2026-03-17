@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Applications</title>
+    </head>
+
+    <body>
+        <h1>Applications</h1>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Company</th>
+                    <th>Job Title</th>
+
+                    <th>Application Date</th>
+                    <th>Status</th>
+                    <th>Resume version</th>
+                    <th>Cover Letter Sent</th>
+                    <th>Response Date</th>
+                    <th>Interview Date</th>
+                    <th>Notes</th>
+
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for application in applications %}
+                <tr>
+                    {% if edit_id == application['application_id'] %}
+
+
+                    {% else %}
+                            <td>{{application['company_name'] or ''}}</td>
+                            <td>{{application['job_title'] or ''}}</td>
+                            <td>{{application['application_date'] or ''}}</td>
+                            <td>{{application['status'] or ''}}</td>
+                            <td>{{application['resume_version'] or ''}}</td>
+                            <td>{{application['cover_letter_sent'] or ''}}</td>
+                            <td>{{application['response_date'] or ''}}</td>
+                            <td>{{application['interview_date'] or ''}}</td>
+                            <td>{{application['notes'] or ''}}</td>
+        
+                            <td>
+                                <a href="/applications?edit={{ application['application_id'] }}">Edit</a>
+                                
+                                <form action="/applications/delete" method="POST">
+                                    <input type="hidden" name="application_id" value="{{application['application_id']}}">
+                                    <button type="submit" onclick="return confirm('Are you sure?')">Delete</button>
+                                </form>
+
+
+                            </td>
+
+                     {% endif %}
+                </tr>
+
+                 {% endfor %}
+
+            </tbody>
+
+
+        </table>
+
+
+
+
+
+    </body>
+</html>

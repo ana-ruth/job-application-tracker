@@ -192,3 +192,22 @@ def update_job(job_id, company_id, job_title, job_description, salary_min, salar
     except mysql.connector.Error as error:
         print(f'Error Updating Job: {error}')
         conn.rollback()
+
+
+'''
+    Applications Table
+'''
+def read_all_applications():
+    conn = get_db()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("""
+                   SELECT a.*, c.company_name, j.job_title 
+                   FROM applications a 
+                   LEFT JOIN jobs j ON j.job_id = a.job_id
+                   LEFT JOIN companies c ON j.company_id = c.company_id
+        """)
+    
+    applications = cursor.fetchall()
+    conn.close()
+
+    return applications

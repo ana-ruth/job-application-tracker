@@ -214,5 +214,34 @@ def updateJob(job_id):
     return redirect(url_for('jobs'))
 
 
+'''
+    Applications Table
+'''
+
+@app.route('/applications')
+def applications():
+
+    edit_id = request.args.get('edit', type=int)    
+    conn = get_db() 
+    cursor = conn.cursor(dictionary=True) 
+    
+    applications = read_all_applications()
+
+    #GET companies for companies dropdown in insert application form
+    cursor.execute('SELECT company_id, company_name FROM companies')
+    companies = cursor.fetchall()
+
+    #GET jobs for jobs dropdown in insert application form
+    cursor.execute('SELECT job_id, job_title FROM jobs')
+    jobs = cursor.fetchall()
+    
+    cursor.close
+    conn.close()
+
+
+    return render_template('applications.html', applications=applications, companies=companies, jobs=jobs, edit_id=edit_id)
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)

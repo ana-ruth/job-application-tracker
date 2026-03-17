@@ -242,6 +242,23 @@ def applications():
     return render_template('applications.html', applications=applications, companies=companies, jobs=jobs, edit_id=edit_id)
 
 
+@app.route('/applications/insert', methods=['GET','POST'])
+def createApplication():
+ 
+    # if user input is empty set it to None (Null)
+    job_id = request.form['job_id'] or None
+
+    application_date =  request.form['application_date'].strip() or None
+    status = request.form['status'].strip() or None
+    resume_version = request.form['resume_version'].strip() or None
+    cover_letter_sent = request.form['cover_letter_sent'].strip() or None
+    response_date = request.form['response_date'].strip() or None
+    interview_date = request.form['interview_date'].strip() or None
+    notes = request.form['notes'].strip() or None
+
+    create_application(job_id, application_date, status, resume_version, cover_letter_sent, response_date, interview_date, notes)
+
+    return redirect('/applications')
 
 if __name__ == '__main__':
     app.run(debug=True)

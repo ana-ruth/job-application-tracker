@@ -211,3 +211,19 @@ def read_all_applications():
     conn.close()
 
     return applications
+
+def create_application(job_id, application_date, status, resume_version, cover_letter_sent, response_date, interview_date, notes):
+    try:
+        conn = get_db()
+        cursor = conn.cursor(dictionary=True)   
+        insert_query = '''INSERT INTO applications (job_id, application_date, status, resume_version, cover_letter_sent, response_date, interview_date, notes) 
+                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                    '''
+        values = (job_id, application_date, status, resume_version, cover_letter_sent, response_date, interview_date, notes)
+        cursor.execute(insert_query, values)
+        conn.commit()
+        conn.close()
+        
+    except mysql.connector.Error as error:
+        print(f'Error Inserting Application: {error}')
+        conn.rollback()

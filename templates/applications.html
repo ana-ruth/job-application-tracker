@@ -62,7 +62,40 @@
 
         </table>
 
+        <h2>Insert Application</h2>
+        <form action ="/applications/insert" method = "POST">
 
+           
+            <select name="company_id" id="company" required>
+
+                {% for company in companies %}
+                <option value="{{company['company_id']}}">{{company['company_name']}}</option>
+                
+                {% endfor %}
+
+            </select>
+
+
+            <select name="job_id" id="job" required>
+
+                {% for job in jobs %}
+                <option value="{{job['job_id']}}">{{job['job_title']}}</option>
+                
+                {% endfor %}
+
+            </select>
+            
+
+            <input type="date" name = "application_date" placeholder="">
+            <input type="text" name="status" placeholder="Applied">
+            <input type="text" name="resume_version" placeholder="">
+            <input type="text" name="cover_letter_sent" placeholder="">
+            <input type="date" name="response_date" placeholder="" >
+            <input type="date" name="interview_date" >
+            <input type="text" name="notes">
+
+            <button type="submit">Insert</button>
+        </form>
 
 
 

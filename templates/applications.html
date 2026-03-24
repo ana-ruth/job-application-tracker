@@ -65,7 +65,20 @@
                     </td>
 
                     <td>
-                        <input type="text" name="status" form="edit-form-{{ application['application_id'] }}" value="{{ application['status'] or '' }}">
+                    
+                        <select name="status"form="edit-form-{{ application['application_id'] }}">
+                            <option value="Applied" {{ 'selected' if application['status'] == 'Applied' else '' }}>Applied</option>
+                            <option value="Screening" {{ 'selected' if application['status'] == 'Screening' else '' }}>Screening</option>
+                            <option value="Phone Screen" {{ 'selected' if application['status'] == 'Phone Screen' else '' }}>Phone Screen</option>
+                            <option value="Interview" {{ 'selected' if application['status'] == 'Interview' else '' }}>Interview</option>
+                            <option value="Interview Completed" {{ 'selected' if application['status'] == 'Interview Completed' else '' }}>Interview Completed</option>
+                            <option value="Offer" {{ 'selected' if application['status'] == 'Offer' else '' }}>Offer</option>
+                            <option value="Offer Accepted" {{ 'selected' if application['status'] == 'Offer Accepted' else '' }}>Offer Accepted</option>
+                            <option value="Rejected" {{ 'selected' if application['status'] == 'Rejected' else '' }}>Rejected</option>
+                            <option value="Withdrawn" {{ 'selected' if application['status'] == 'Withdrawn' else '' }}>Withdrawn</option>
+
+                        </select>
+                    
                     </td>
 
                     <td>
@@ -151,7 +164,19 @@
             
 
             <input type="date" name = "application_date" placeholder="" required>
-            <input type="text" name="status" placeholder="Applied">
+
+            <select name="status">
+                    <option value="Applied">Applied</option>
+                    <option value="Screening">Screening</option>
+                    <option value="Phone">Screen</option>
+                    <option value="Interview">Interview</option>
+                    <option value="Interview Completed">Interview Completed</option>
+                    <option value="Offer">Offer</option>
+                    <option value="Offer Accepted">Offer Accepted</option>
+                    <option value="Rejected">Rejected</option>
+                    <option value="Withdrawn">Withdrawn</option>
+            </select>
+
             <input type="text" name="resume_version" placeholder="">
             <input type="text" name="cover_letter_sent" placeholder="">
             <input type="date" name="response_date" placeholder="" >

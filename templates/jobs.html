@@ -19,6 +19,7 @@
                 <th>Job url</th>
                 <th>Date Posted</th>
                 <th>Is Active</th>
+                <th>Requirements</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -83,6 +84,32 @@
                         <input type="text" name="is_active" form="edit-form-{{ job['job_id'] }}" value="{{ job['is_active'] or '' }}">
                     </td>
 
+                  <td>
+                        <div>
+                            <input type="text" name="req_education" placeholder="Education" 
+                                form="edit-form-{{ job['job_id'] }}" 
+                                value="{{ job['requirements'].get('education', '') }}">
+                            
+                            <input type="number" name="req_experience" placeholder="Years Exp" 
+                                form="edit-form-{{ job['job_id'] }}" 
+                                value="{{ job['requirements'].get('experience_years', 0) }}">
+                            
+                            <input type="text" name="req_skills" placeholder="Skills (comma separated)" 
+                                form="edit-form-{{ job['job_id'] }}" 
+                                value="{{ job['requirements'].get('required_skills', []) | join(', ') }}">
+                            
+                            <label style="font-size: 0.8em;">
+                                <input type="checkbox" name="req_remote" value="true" 
+                                    form="edit-form-{{ job['job_id'] }}" 
+                                    {{ 'checked' if job['requirements'].get('remote_option') else '' }}>
+                                Remote
+                            </label>
+                        </div>
+                    </td>  
+
+
+
+
                     <td>
                         <button type="submit" form="edit-form-{{ job['job_id'] }}">Save</button>
                         <a href="/jobs">Cancel</a>
@@ -100,7 +127,22 @@
                     <td>{{job['job_url'] or ''}}</td>
                     <td>{{job['date_posted'] or ''}}</td>
                     <td>{{job['is_active'] or ''}}</td>
- 
+                
+
+                    <td>
+                        {% if job['requirements'] %}
+                            <small>
+                                <strong>Edu:</strong> {{ job['requirements'].get('education', 'N/A') }}<br>
+                                <strong>Exp:</strong> {{ job['requirements'].get('experience_years', 0) }} yrs<br>
+                                <strong>Skills:</strong> {{ job['requirements'].get('required_skills', []) | join(', ') }}<br>
+                                <strong>Remote:</strong> {{ 'Yes' if job['requirements'].get('remote_option') else 'No' }}
+                            </small>
+                        {% else %}
+                            <span>No requirements</span>
+                        {% endif %}
+                    </td>
+
+
                      <td>
                         <a href="/jobs?edit={{ job['job_id'] }}">Edit</a>
                         
@@ -151,7 +193,14 @@
 
             <input type="text" name="job_url" placeholder="www.company.com" >
             <input type="date" name="date_posted" >
-            <input type="text" name="is_active">
+            <input type="text" name="is_active" placeholder="">
+
+
+            <!--Requirements JSON Column-->
+            <input type="text" name="req_education" placeholder="Education (e.g. BS in CS)">
+            <input type="number" name="req_experience" placeholder="Years of Experience">
+            <input type="text" name="req_skills" placeholder="Skills (Python, SQL, etc.)">
+            <label><input type="checkbox" name="req_remote" value="true"> Remote Friendly</label>
 
             <button type="submit">Insert</button>
         </form>       

@@ -1,6 +1,8 @@
 import mysql.connector
 from app import get_db
 
+import json
+
 config = {
     'host': 'localhost',
     'user': 'root',
@@ -145,6 +147,16 @@ def read_all_jobs():
     jobs = cursor.fetchall()
     conn.close()
 
+    for job in jobs:
+        if job['requirements']:
+            try:
+                if isinstance(job['requirements'], str):
+                    job['requirements'] = json.loads(job['requirements'])
+            except (ValueError, TypeError):
+                job['requirements'] = {}
+        else:
+            job['requirements'] = {}
+
     return jobs
 
 def read_all_active_jobs():
@@ -159,6 +171,16 @@ def read_all_active_jobs():
     
     jobs = cursor.fetchall()
     conn.close()
+
+    for job in jobs:
+        if job['requirements']:
+            try:
+                if isinstance(job['requirements'], str):
+                    job['requirements'] = json.loads(job['requirements'])
+            except (ValueError, TypeError):
+                job['requirements'] = {}
+        else:
+            job['requirements'] = {}
 
     return jobs
 
@@ -176,14 +198,14 @@ def delete_job(jobID):
         print(f'Error Deleting Job: {error}')
         conn.rollback()
 
-def create_job(company_id, job_title, job_description, salary_min, salary_max, job_type, job_url, date_posted, is_active):
+def create_job(company_id, job_title, job_description, salary_min, salary_max, job_type, job_url, date_posted, is_active, requirements):
     try:
         conn = get_db()
         cursor = conn.cursor(dictionary=True)   
-        insert_query = '''INSERT INTO jobs (company_id, job_title, job_description, salary_min, salary_max, job_type, job_url, date_posted, is_active) 
-                           VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+        insert_query = '''INSERT INTO jobs (company_id, job_title, job_description, salary_min, salary_max, job_type, job_url, date_posted, is_active, requirements) 
+                           VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                        '''
-        values = (company_id, job_title, job_description, salary_min, salary_max, job_type, job_url, date_posted, is_active)
+        values = (company_id, job_title, job_description, salary_min, salary_max, job_type, job_url, date_posted, is_active, requirements)
         cursor.execute(insert_query, values)
         conn.commit()
         conn.close()
@@ -194,13 +216,13 @@ def create_job(company_id, job_title, job_description, salary_min, salary_max, j
 
 
 
-def update_job(job_id, company_id, job_title, job_description, salary_min, salary_max, job_type, job_url, date_posted, is_active):
+def update_job(job_id, company_id, job_title, job_description, salary_min, salary_max, job_type, job_url, date_posted, is_active, requirements):
     try:
         conn = get_db()
         cursor = conn.cursor(dictionary=True)   
-        update_query = 'UPDATE jobs SET company_id = %s, job_title = %s, job_description = %s, salary_min = %s, salary_max = %s, job_type = %s, job_url = %s, date_posted = %s, is_active = %s WHERE job_id = %s'
+        update_query = 'UPDATE jobs SET company_id = %s, job_title = %s, job_description = %s, salary_min = %s, salary_max = %s, job_type = %s, job_url = %s, date_posted = %s, is_active = %s, requirements = %s WHERE job_id = %s'
         
-        cursor.execute(update_query, (company_id, job_title, job_description, salary_min, salary_max, job_type, job_url, date_posted, is_active, job_id))
+        cursor.execute(update_query, (company_id, job_title, job_description, salary_min, salary_max, job_type, job_url, date_posted, is_active, requirements, job_id))
         conn.commit()
         conn.close()
 

@@ -4,6 +4,7 @@ import mysql.connector
 from database import *
 
 import re
+import json
 
 app = Flask(__name__)
 
@@ -192,7 +193,27 @@ def createJob():
     date_posted = request.form['date_posted'].strip() or None
     is_active = request.form['is_active'].strip() or None
 
-    create_job(company_id, job_title, job_description, salary_min, salary_max, job_type, job_url, date_posted, is_active)
+    # Requirements JSON
+    req_education = request.form['req_education'].strip()  or None
+    req_experience = request.form['req_experience'].strip()  or None
+
+    input_skills = request.form['req_skills']
+    req_skills = [s.strip() for s in input_skills.split(',') if s.strip()]
+
+    req_remote = True if request.form['req_remote'] == 'true' else False
+    
+    requirements_dict = {
+        "education": req_education,
+        "experience_years": req_experience,
+        "required_skills": req_skills,
+        "remote_option": req_remote
+    }
+
+    
+    requirements = json.dumps(requirements_dict)
+    
+
+    create_job(company_id, job_title, job_description, salary_min, salary_max, job_type, job_url, date_posted, is_active, requirements)
 
     return redirect('/jobs')
 
@@ -211,7 +232,24 @@ def updateJob(job_id):
     date_posted = request.form.get('date_posted','').strip() or None
     is_active = request.form.get('is_active','').strip() or None
 
-    update_job(job_id, company_id, job_title, job_description, salary_min, salary_max, job_type, job_url, date_posted, is_active)
+    # Requirements JSON
+    req_education = request.form.get('req_education', '').strip() or None
+    req_experience = request.form.get('req_experience', 0)
+    
+    input_skills = request.form.get('req_skills', '')
+    req_skills = [s.strip() for s in input_skills.split(',') if s.strip()]
+    req_remote = True if request.form.get('req_remote') == 'true' else False
+
+    req_dict = {
+        "education": req_education,
+        "experience_years": req_experience,
+        "required_skills": req_skills,
+        "remote_option": req_remote
+    }
+    requirements = json.dumps(req_dict)
+
+
+    update_job(job_id, company_id, job_title, job_description, salary_min, salary_max, job_type, job_url, date_posted, is_active, requirements)
       
     return redirect(url_for('jobs'))
 

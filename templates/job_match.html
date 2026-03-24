@@ -1,10 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Job Match Results</title>
+{% extends "base.html" %}
 
-</head>
-<body>
+{% block title %}Job Match{% endblock %}
+
+{% block content %}
+
     <h1>Job Match Results</h1>
 
     <form action="/job_match" method = "POST">
@@ -40,5 +39,6 @@
     {% else %}
         <p>No jobs found matching those skills. Try expanding your search!</p>
     {% endfor %}
-</body>
-</html>
+
+
+{% endblock %}

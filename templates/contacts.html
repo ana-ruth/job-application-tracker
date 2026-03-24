@@ -1,10 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Contacts</title>
-</head>
+{% extends "base.html" %}
 
-<body>
+{% block title %}Contacts Table{% endblock %}
+
+{% block content %}
+
     <h1>Contacts</h1>
 
     <table>
@@ -138,8 +137,4 @@
             <button type="submit">Insert</button>
         </form>
 
-</body>
-
-
-
-</html>
+{% endblock %}

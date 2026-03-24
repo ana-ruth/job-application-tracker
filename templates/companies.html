@@ -1,10 +1,9 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Companies</title>
-    </head>
+{% extends "base.html" %}
 
-    <body>
+{% block title %}Companies Table{% endblock %}
+
+{% block content %}
+
         <h1>Companies</h1>
 
     <table>
@@ -90,5 +89,4 @@
             <button type="submit">Insert</button>
         </form>
 
-    </body>
-</html>
+{% endblock %}

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{% block title %}Job Tracker{% endblock %}</title>
+        <link rel="stylesheet" href="/static/style.css">
+    </head>
+    <body>
+        <nav>
+            <a href="/companies">Companies</a>
+            <a href="/contacts">Contacts</a>
+            <a href="/jobs">Jobs</a>
+            <a href="/applications">Applications</a>
+            <a href="/job_match">Job Match</a>
+            <a href="/">Dashboard</a>
+        </nav>
+
+        <main class="container">
+            {% block content %}{% endblock %}
+        </main>
+
+    </body>
+
+</html>

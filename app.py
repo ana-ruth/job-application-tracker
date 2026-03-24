@@ -3,6 +3,8 @@ import mysql.connector
 
 from database import *
 
+import re
+
 app = Flask(__name__)
 
 def get_db():
@@ -186,11 +188,11 @@ def createJob():
     salary_min = request.form['salary_min'].strip() or None
     salary_max = request.form['salary_max'].strip() or None
     job_type = request.form['job_type'].strip() or None
-    posting_url = request.form['posting_url'].strip() or None
+    job_url = request.form['job_url'].strip() or None
     date_posted = request.form['date_posted'].strip() or None
     is_active = request.form['is_active'].strip() or None
 
-    create_job(company_id, job_title, job_description, salary_min, salary_max, job_type, posting_url, date_posted, is_active)
+    create_job(company_id, job_title, job_description, salary_min, salary_max, job_type, job_url, date_posted, is_active)
 
     return redirect('/jobs')
 
@@ -205,11 +207,11 @@ def updateJob(job_id):
     salary_min = request.form.get('salary_min','').strip() or None
     salary_max = request.form.get('salary_max','').strip() or None
     job_type = request.form.get('job_type','').strip() or None
-    posting_url = request.form.get('posting_url','').strip() or None
+    job_url = request.form.get('job_url','').strip() or None
     date_posted = request.form.get('date_posted','').strip() or None
     is_active = request.form.get('is_active','').strip() or None
 
-    update_job(job_id, company_id, job_title, job_description, salary_min, salary_max, job_type, posting_url, date_posted, is_active)
+    update_job(job_id, company_id, job_title, job_description, salary_min, salary_max, job_type, job_url, date_posted, is_active)
       
     return redirect(url_for('jobs'))
 
@@ -287,6 +289,61 @@ def updateApplication(application_id):
     update_application(application_id, job_id, application_date, status, resume_version, cover_letter_sent, response_date, interview_date, notes)
       
     return redirect(url_for('applications'))
+
+
+@app.route('/job_match', methods=['GET','POST'])
+def find_jobs():
+    raw_input = request.form.get('skills', '')
+    raw_input = "SQL, Python"
+    user_skills = [s.strip() for s in raw_input.split(',') if s.strip()]
+
+
+    jobs = read_all_active_jobs()
+
+    results = []
+    for job in jobs:
+        score, missing = job_match(user_skills, job['job_description'])
+
+        if score > 0:
+            results.append({
+                'title': job['job_title'],
+                'company_name': job['company_name'],
+                'match_percent': score,
+                'missing': missing 
+                })
+
+    jobs = sorted(results, key=lambda x: x['match_percent'], reverse=True)
+
+    return render_template('job_match.html', jobs=jobs, user_skills = user_skills)
+
+
+def job_match(user_skills, job_description):
+    print("Missing: ")
+    print(job_description)
+
+    if not job_description:
+        return 0, []
+    
+    matched_skills = []
+    missing_skills = []
+
+    for skill in user_skills:
+        pattern = rf'\b{re.escape(skill.strip())}\b'
+
+        if re.search(pattern, job_description, re.IGNORECASE):
+            matched_skills.append(skill)
+        else:
+            missing_skills.append(skill)
+
+    #Calculate percentage of matched skills
+    total_user_skills = len(user_skills)
+    score = int((len(matched_skills) / total_user_skills) * 100) if total_user_skills > 0 else 0
+
+
+    print("Missing: ")
+    print(missing_skills)
+    
+    return score, missing_skills
 
 
 if __name__ == '__main__':

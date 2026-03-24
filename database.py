@@ -147,6 +147,21 @@ def read_all_jobs():
 
     return jobs
 
+def read_all_active_jobs():
+    conn = get_db()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("""
+                   SELECT j.*, co.company_name 
+                   FROM jobs j 
+                   LEFT JOIN companies co ON j.company_id = co.company_id
+                   WHERE is_active = 1
+        """)
+    
+    jobs = cursor.fetchall()
+    conn.close()
+
+    return jobs
+
 def delete_job(jobID):
     try:
         conn = get_db()
@@ -161,14 +176,14 @@ def delete_job(jobID):
         print(f'Error Deleting Job: {error}')
         conn.rollback()
 
-def create_job(company_id, job_title, job_description, salary_min, salary_max, job_type, posting_url, date_posted, is_active):
+def create_job(company_id, job_title, job_description, salary_min, salary_max, job_type, job_url, date_posted, is_active):
     try:
         conn = get_db()
         cursor = conn.cursor(dictionary=True)   
-        insert_query = '''INSERT INTO jobs (company_id, job_title, job_description, salary_min, salary_max, job_type, posting_url, date_posted, is_active) 
+        insert_query = '''INSERT INTO jobs (company_id, job_title, job_description, salary_min, salary_max, job_type, job_url, date_posted, is_active) 
                            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
                        '''
-        values = (company_id, job_title, job_description, salary_min, salary_max, job_type, posting_url, date_posted, is_active)
+        values = (company_id, job_title, job_description, salary_min, salary_max, job_type, job_url, date_posted, is_active)
         cursor.execute(insert_query, values)
         conn.commit()
         conn.close()
@@ -179,13 +194,13 @@ def create_job(company_id, job_title, job_description, salary_min, salary_max, j
 
 
 
-def update_job(job_id, company_id, job_title, job_description, salary_min, salary_max, job_type, posting_url, date_posted, is_active):
+def update_job(job_id, company_id, job_title, job_description, salary_min, salary_max, job_type, job_url, date_posted, is_active):
     try:
         conn = get_db()
         cursor = conn.cursor(dictionary=True)   
-        update_query = 'UPDATE jobs SET company_id = %s, job_title = %s, job_description = %s, salary_min = %s, salary_max = %s, job_type = %s, posting_url = %s, date_posted = %s, is_active = %s WHERE job_id = %s'
+        update_query = 'UPDATE jobs SET company_id = %s, job_title = %s, job_description = %s, salary_min = %s, salary_max = %s, job_type = %s, job_url = %s, date_posted = %s, is_active = %s WHERE job_id = %s'
         
-        cursor.execute(update_query, (company_id, job_title, job_description, salary_min, salary_max, job_type, posting_url, date_posted, is_active, job_id))
+        cursor.execute(update_query, (company_id, job_title, job_description, salary_min, salary_max, job_type, job_url, date_posted, is_active, job_id))
         conn.commit()
         conn.close()
 

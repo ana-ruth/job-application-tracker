@@ -16,7 +16,7 @@
                 <th>Salary min</th>
                 <th>Salary Max</th>
                 <th>Job Type</th>
-                <th>Posting url</th>
+                <th>Job url</th>
                 <th>Date Posted</th>
                 <th>Is Active</th>
                 <th>Actions</th>
@@ -51,7 +51,7 @@
                         <input type="text" name="job_description" form="edit-form-{{ job['job_id'] }}" value="{{ job['job_description'] or '' }}">
                     </td>
 
-                    ---------
+                    
                     <td>
                         <input type="text" name="salary_min" form="edit-form-{{ job['job_id'] }}" value="{{ job['salary_min'] or '' }}">
                     </td>
@@ -60,12 +60,19 @@
                         <input type="text" name="salary_max" form="edit-form-{{ job['job_id'] }}" value="{{ job['salary_max'] or '' }}">
                     </td>
 
-                    <td>
-                        <input type="text" name="job_type" form="edit-form-{{ job['job_id'] }}" value="{{ job['job_type'] or '' }}">
+                    <td>                    
+                        
+                        <select name="job_type" id="job_type" form="edit-form-{{ job['job_id'] }}">
+                            <option value="Full-time" {{ 'selected' if job['job_type'] == 'Full-time' else '' }}>Full-time</option>
+                            <option value="Part-time" {{ 'selected' if job['job_type'] == 'Part-time' else '' }}>Part-time</option>
+                            <option value="Contract" {{ 'selected' if job['job_type'] == 'Contract' else '' }}>Contract</option>
+                            <option value="Internship" {{ 'selected' if job['job_type'] == 'Internship' else '' }}>Internship</option>
+                        </select>
+ 
                     </td>
 
                     <td>
-                        <input type="text" name="posting_url" form="edit-form-{{ job['job_id'] }}" value="{{ job['posting_url'] or '' }}">
+                        <input type="text" name="job_url" form="edit-form-{{ job['job_id'] }}" value="{{ job['job_url'] or '' }}">
                     </td>
 
                     <td>
@@ -90,7 +97,7 @@
                     <td>{{job['salary_min'] or ''}}</td>
                     <td>{{job['salary_max'] or ''}}</td>
                     <td>{{job['job_type'] or ''}}</td>
-                    <td>{{job['posting_url'] or ''}}</td>
+                    <td>{{job['job_url'] or ''}}</td>
                     <td>{{job['date_posted'] or ''}}</td>
                     <td>{{job['is_active'] or ''}}</td>
  
@@ -134,8 +141,15 @@
             <input type="text" name="job_description" placeholder="Requires Java experience">
             <input type="text" name="salary_min" placeholder="50000">
             <input type="text" name="salary_max" placeholder="80000">
-            <input type="text" name="job_type" placeholder="Manager" >
-            <input type="text" name="posting_url" placeholder="www.company.com" >
+
+            <select name="job_type" id="job_type">
+                    <option value="Full-time">Full-time</option>
+                    <option value="Part-time">Part-time</option>
+                    <option value="Contract">Contract</option>
+                    <option value="Internship">Internship</option>
+            </select>
+
+            <input type="text" name="job_url" placeholder="www.company.com" >
             <input type="date" name="date_posted" >
             <input type="text" name="is_active">
 

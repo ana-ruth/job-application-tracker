@@ -163,7 +163,7 @@ def read_all_active_jobs():
     conn = get_db()
     cursor = conn.cursor(dictionary=True)
     cursor.execute("""
-                   SELECT j.*, co.company_name 
+                   SELECT j.*, co.company_name, requirements->'$.required_skills' AS required_skills 
                    FROM jobs j 
                    LEFT JOIN companies co ON j.company_id = co.company_id
                    WHERE is_active = 1
@@ -173,14 +173,11 @@ def read_all_active_jobs():
     conn.close()
 
     for job in jobs:
-        if job['requirements']:
-            try:
-                if isinstance(job['requirements'], str):
-                    job['requirements'] = json.loads(job['requirements'])
-            except (ValueError, TypeError):
-                job['requirements'] = {}
-        else:
-            job['requirements'] = {}
+            if job['required_skills']:
+                # Turn the JSON string from MySQL into a Python List
+                job['required_skills'] = json.loads(job['required_skills'])
+            else:
+                job['required_skills'] = []
 
     return jobs
 

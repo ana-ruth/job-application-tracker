@@ -3,7 +3,6 @@ import mysql.connector
 
 from database import *
 
-import re
 import json
 
 app = Flask(__name__)
@@ -374,8 +373,8 @@ def updateApplication(application_id):
 
 @app.route('/job_match', methods=['GET','POST'])
 def find_jobs():
+
     raw_input = request.form.get('skills', '')
-    raw_input = "SQL, Python"
     user_skills = [s.strip() for s in raw_input.split(',') if s.strip()]
 
 
@@ -383,46 +382,50 @@ def find_jobs():
 
     results = []
     for job in jobs:
-        score, missing = job_match(user_skills, job['job_description'])
+        score, missing = job_match(user_skills, job["required_skills"])        
 
+        match_count = len(job["required_skills"]) - len(missing)
+        total_skills = len(job["required_skills"])
+
+        # only include jobs where at least 1 skill is matched
         if score > 0:
             results.append({
                 'title': job['job_title'],
                 'company_name': job['company_name'],
                 'match_percent': score,
+                'match_count': match_count,
+                'total_skills': total_skills,
                 'missing': missing 
                 })
-
+            
     jobs = sorted(results, key=lambda x: x['match_percent'], reverse=True)
 
     return render_template('job_match.html', jobs=jobs, user_skills = user_skills)
 
 
-def job_match(user_skills, job_description):
-    print("Missing: ")
-    print(job_description)
+def job_match(user_skills, required_skills):
 
-    if not job_description:
-        return 0, []
-    
+    if not required_skills:
+        return 0, user_skills
+
     matched_skills = []
     missing_skills = []
 
-    for skill in user_skills:
-        pattern = rf'\b{re.escape(skill.strip())}\b'
+    lower_required_skills = [s.lower() for s in required_skills]
 
-        if re.search(pattern, job_description, re.IGNORECASE):
-            matched_skills.append(skill)
-        else:
+    # matched skills
+    for skill in user_skills:
+            if skill.lower() in lower_required_skills:
+                matched_skills.append(skill.lower())
+ 
+    # get missing skills
+    for skill in required_skills:
+        if skill.lower() not in matched_skills:
             missing_skills.append(skill)
 
+
     #Calculate percentage of matched skills
-    total_user_skills = len(user_skills)
-    score = int((len(matched_skills) / total_user_skills) * 100) if total_user_skills > 0 else 0
-
-
-    print("Missing: ")
-    print(missing_skills)
+    score = int((len(matched_skills) / len(required_skills)) * 100) if len(required_skills) > 0 else 0
     
     return score, missing_skills
 

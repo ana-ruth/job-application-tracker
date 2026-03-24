@@ -1,31 +1,44 @@
 <!DOCTYPE html>
-
 <html>
-    <head>
-        <title>Job_Match</title>
-    </head>
+<head>
+    <title>Job Match Results</title>
 
-    <body>
-        <h1>Job Match</h1>
+</head>
+<body>
+    <h1>Job Match Results</h1>
 
-        {% for job in jobs %}
-        <div class="job-result">
-            <h3>{{ job.title }} <span class="badge">{{ job.match_percent }}% Match</span></h3>
-            
-            <div class="skills-info">
-                {% if job.match_percent == 100 %}
-                    <p class="success">Perfect match!</p>
-                {% else %}
-                    <p class="warning">
-                        <strong>Missing from description:</strong> 
-                        {{ job.missing|join(', ') }}
-                    </p>
-                {% endif %}
-            </div>
-            
-        </div>
-    {% endfor %}
-    </body>
+    <form action="/job_match" method = "POST">
+        <label for="skills">Your Skills:</label>
+        <input type="text" name = "skills" placeholder="SQL, Java, Python">
+        <button type="submit">Match Me</button>
     
-</html>
+    </form>
+    
 
+
+    <p>Search results for: <strong>{{ user_skills | join(', ') }}</strong></p>
+
+
+    {% for job in jobs %}
+    <div class="job-result">
+        <h3>{{ job['title'] }} <span class="badge">{{ job['match_percent'] }}% Match</span></h3>
+        <p><strong>Company:</strong> {{ job['company_name'] }}</p>
+        
+        <div class="skills-info">
+            {% if job['match_percent'] == 100 %}
+                <p class="success">You have all the required skills for this position!</p>
+            {% else %}
+                <div class="warning">
+                    <strong>Missing Skills:</strong> 
+                    {{ job['missing'] | join(', ') }}
+
+                    ({{job['match_count']}} / {{job['total_skills']}}) skills
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    {% else %}
+        <p>No jobs found matching those skills. Try expanding your search!</p>
+    {% endfor %}
+</body>
+</html>

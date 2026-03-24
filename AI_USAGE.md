@@ -11,6 +11,7 @@ Gemini
 5. "What am I missing to make sure the dropdown automatically shows the current company when clicking edit?"
 6. "What do I need to change in jobs page to display and get json data for requirements column?"
 7. "How to get json data in a text area for applications table?"
+8. "Why is the JSON data returning as a string and not as an list?"
 
 ## What Worked Well
 - AI provided possible causes for not displaying flask data in html
@@ -20,6 +21,7 @@ Gemini
 - Gemini showed me how to include if else logic and selected statements in the html dropdown options
 - Gemini showed me needed changes in HTML and Flask code to convert data into json to update jobs table and how to get json data from table to display in the website
 - AI showed me how to get and edit JSON data in a text area
+- It gave me code to convert JSON string to a list in Python
 
 ## What I Modified
 - Applied example to my own code based on the fields my tables have. 
@@ -27,5 +29,6 @@ Gemini
 - I wrote the corresponding HTML form, to the given API route to display companies in the contacts insert form
 - Changed table fields to the corresponding values for my table.
 - Changed fields to match my keys in requirements json columns. Updated SQL queries for jobs table to include requirements column in insert, update, and read. 
+- I included JSON text to list code in corresponding function 
 
 ## Lessons Learned

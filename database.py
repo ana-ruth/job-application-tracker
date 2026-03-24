@@ -247,16 +247,26 @@ def read_all_applications():
     applications = cursor.fetchall()
     conn.close()
 
+    for app in applications:
+        if app.get('interview_data'):
+            try:
+                # Convert JSON to dictionary
+                app['interview_data'] = json.loads(app['interview_data'])
+            except (json.JSONDecodeError, TypeError):
+                app['interview_data'] = {}
+        else:
+            app['interview_data'] = {}
+
     return applications
 
-def create_application(job_id, application_date, status, resume_version, cover_letter_sent, response_date, interview_date, notes):
+def create_application(job_id, application_date, status, resume_version, cover_letter_sent, response_date, interview_date, notes, interview_data):
     try:
         conn = get_db()
         cursor = conn.cursor(dictionary=True)   
-        insert_query = '''INSERT INTO applications (job_id, application_date, status, resume_version, cover_letter_sent, response_date, interview_date, notes) 
-                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+        insert_query = '''INSERT INTO applications (job_id, application_date, status, resume_version, cover_letter_sent, response_date, interview_date, notes, interview_data) 
+                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
                     '''
-        values = (job_id, application_date, status, resume_version, cover_letter_sent, response_date, interview_date, notes)
+        values = (job_id, application_date, status, resume_version, cover_letter_sent, response_date, interview_date, notes, interview_data)
         cursor.execute(insert_query, values)
         conn.commit()
         conn.close()
@@ -280,13 +290,13 @@ def delete_application(applicationID):
         conn.rollback()
 
 
-def update_application(application_id, job_id, application_date, status, resume_version, cover_letter_sent, response_date, interview_date, notes):
+def update_application(application_id, job_id, application_date, status, resume_version, cover_letter_sent, response_date, interview_date, notes, interview_data):
     try:
         conn = get_db()
         cursor = conn.cursor(dictionary=True)   
-        update_query = 'UPDATE applications SET job_id = %s, application_date = %s, status = %s, resume_version = %s, cover_letter_sent = %s, response_date = %s, interview_date = %s, notes = %s WHERE application_id = %s'
+        update_query = 'UPDATE applications SET job_id = %s, application_date = %s, status = %s, resume_version = %s, cover_letter_sent = %s, response_date = %s, interview_date = %s, notes = %s, interview_data = %s WHERE application_id = %s'
         
-        cursor.execute(update_query, (job_id, application_date, status, resume_version, cover_letter_sent, response_date, interview_date, notes, application_id))
+        cursor.execute(update_query, (job_id, application_date, status, resume_version, cover_letter_sent, response_date, interview_date, notes, interview_data, application_id))
         conn.commit()
         conn.close()
 

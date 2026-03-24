@@ -260,7 +260,6 @@ def updateJob(job_id):
 
 @app.route('/applications')
 def applications():
-
     edit_id = request.args.get('edit', type=int)    
     conn = get_db() 
     cursor = conn.cursor(dictionary=True) 
@@ -284,10 +283,30 @@ def applications():
 
 @app.route('/applications/insert', methods=['GET','POST'])
 def createApplication():
- 
-    # if user input is empty set it to None (Null)
-    job_id = request.form['job_id'] or None
+    raw_text = request.form.get('interview_data', '')
+    interview_dict = {}
 
+    # Split the text into individual lines
+    lines = raw_text.strip().split('\n')
+    
+    for line in lines:
+        if ':' in line:
+            # Split the line at the first colon
+            key, value = line.split(':', 1)
+            k = key.strip()
+            v = value.strip()
+            
+            if k and v:
+                if v.isdigit():
+                    interview_dict[k] = int(v)
+                elif k.lower() == 'interviewers' or k.lower() == 'skills' or k.lower() == 'technical_questions':
+                    interview_dict[k] = [i.strip() for i in v.split(',') if i.strip()]
+                else:
+                    interview_dict[k] = v
+
+    interview_data = json.dumps(interview_dict)
+
+    job_id = request.form['job_id'] or None
     application_date =  request.form['application_date'].strip() or None
     status = request.form['status'].strip() or None
     resume_version = request.form['resume_version'].strip() or None
@@ -296,9 +315,12 @@ def createApplication():
     interview_date = request.form['interview_date'].strip() or None
     notes = request.form['notes'].strip() or None
 
-    create_application(job_id, application_date, status, resume_version, cover_letter_sent, response_date, interview_date, notes)
+
+
+    create_application(job_id, application_date, status, resume_version, cover_letter_sent, response_date, interview_date, notes, interview_data)
 
     return redirect('/applications')
+
 
 
 @app.route('/applications/delete', methods=['POST'])
@@ -324,7 +346,28 @@ def updateApplication(application_id):
     interview_date = request.form.get('interview_date','').strip() or None
     notes = request.form.get('notes','').strip() or None
 
-    update_application(application_id, job_id, application_date, status, resume_version, cover_letter_sent, response_date, interview_date, notes)
+    #interview_data JSON column
+    raw_text = request.form.get('interview_raw', '')
+    interview_dict = {}
+    
+    # Split text into lines and process each "Key: Value" pair
+    for line in raw_text.strip().split('\n'):
+        if ':' in line:
+            key, val = line.split(':', 1)
+            k = key.strip()
+            v = val.strip()
+            
+            if k and v:
+                if v.isdigit():
+                    interview_dict[k] = int(v)
+                elif any(word in k.lower() for word in ['interviewer', 'skill', 'member']):
+                    interview_dict[k] = [i.strip() for i in v.split(',') if i.strip()]
+                else:
+                    interview_dict[k] = v
+
+    interview_data = json.dumps(interview_dict)
+
+    update_application(application_id, job_id, application_date, status, resume_version, cover_letter_sent, response_date, interview_date, notes, interview_data)
       
     return redirect(url_for('applications'))
 

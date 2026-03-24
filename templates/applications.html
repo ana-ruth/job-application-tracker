@@ -20,6 +20,7 @@
                     <th>Response Date</th>
                     <th>Interview Date</th>
                     <th>Notes</th>
+                    <th>Interview Data</th>
 
                 </tr>
             </thead>
@@ -101,6 +102,18 @@
                         <input type="text" name="notes" form="edit-form-{{ application['application_id'] }}" value="{{ application['notes'] or '' }}">
                     </td>
 
+
+                    <td>
+                        <textarea name="interview_raw" 
+                                form="edit-form-{{ application['application_id'] }}" 
+                                rows="4" 
+                                placeholder="Rounds: 2&#10;Rating: 5"
+                                style="width: 100%; font-family: monospace; font-size: 0.85em;">{% if application['interview_data'] %}{% for k, v in application['interview_data'].items() %}{{ k }}: {{ v if v is not iterable or v is string else v|join(', ') }}
+                                {% endfor %}{% endif %}
+                        </textarea>
+                    </td>
+
+
                     <td>
                         <button type="submit" form="edit-form-{{ application['application_id'] }}">Save</button>
                         <a href="/applications">Cancel</a>
@@ -117,7 +130,34 @@
                             <td>{{application['response_date'] or ''}}</td>
                             <td>{{application['interview_date'] or ''}}</td>
                             <td>{{application['notes'] or ''}}</td>
-        
+                          
+                          
+                            <td style="min-width: 200px; vertical-align: top;">
+                                <div style="font-size: 0.85em; line-height: 1.4;">
+                                    {% if application['interview_data'] and application['interview_data'] is mapping %}
+                                        <ul style="list-style: none; padding: 0; margin: 0;">
+                                            {% for key, value in application['interview_data'].items() %}
+                                                <li style="margin-bottom: 4px;">
+                                                    <strong style="text-transform: capitalize; color: #555;">
+                                                        {{ key.replace('_', ' ') }}:
+                                                    </strong> 
+                                                    
+                                                    {# Check if value is a list (like interviewers) to join with commas #}
+                                                    {% if value is iterable and value is not string %}
+                                                        <span style="color: #333;">{{ value | join(', ') }}</span>
+                                                    {% else %}
+                                                        <span style="color: #333;">{{ value }}</span>
+                                                    {% endif %}
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% else %}
+                                        <span style="color: #999; font-style: italic;">No interview data</span>
+                                    {% endif %}
+                                </div>
+                            </td>
+
+
                             <td>
                                 <a href="/applications?edit={{ application['application_id'] }}">Edit</a>
                                 
@@ -177,13 +217,17 @@
                     <option value="Withdrawn">Withdrawn</option>
             </select>
 
-            <input type="text" name="resume_version" placeholder="">
-            <input type="text" name="cover_letter_sent" placeholder="">
-            <input type="date" name="response_date" placeholder="" >
-            <input type="date" name="interview_date" >
-            <input type="text" name="notes">
+            <input type="text" name="resume_version" placeholder="v2.1">
+            <input type="text" name="cover_letter_sent" placeholder="1">
+            <input type="date" name="response_date" placeholder="02/12/2025" >
+            <input type="date" name="interview_date" placeholder="03/15/2025">
+            <input type="text" name="notes" placeholder="Notes..." >
 
-            <button type="submit">Insert</button>
+
+            <label for="interview_data">Interview Data</label>
+            <textarea name="interview_data" rows="5" placeholder="Rounds: 2&#10;Rating: 5"></textarea>
+
+            <button type="submit" name="action" value="save">Insert</button>
         </form>
 
 

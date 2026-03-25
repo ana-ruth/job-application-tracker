@@ -11,6 +11,36 @@ config = {
 }
 
 '''
+    Dashboard 
+'''
+
+def statistics():
+    try:
+        stats = {}
+
+        conn = get_db()
+        cursor = conn.cursor(dictionary=True)
+        
+        cursor.execute('SELECT COUNT(*) as total_applications  FROM applications')
+        stats['total_applications'] = cursor.fetchone()['total_applications']
+
+        cursor.execute('SELECT COUNT(*) as interviews FROM applications WHERE status = "Interview"')
+        stats['interviews'] = cursor.fetchone()['interviews']
+
+        cursor.execute('SELECT COUNT(*) as total_jobs FROM jobs')
+        stats['total_jobs'] = cursor.fetchone()['total_jobs']
+
+        conn.close()
+
+        return stats
+        
+    except mysql.connector.Error as error:
+        print(f'Error Fetching Statistics: {error}')
+        conn.rollback()
+
+
+
+'''
     Companies Table
 '''
 def read_all_companies():

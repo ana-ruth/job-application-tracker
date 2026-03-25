@@ -3,6 +3,8 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-        <p>Total Applications: {{stats['count'] }}</p>
+        <p>Total Applications: {{stats['total_applications'] }}</p>
+        <p>Total Interviews: {{stats['interviews']}}</p>
+        <p>Total Jobs: {{stats['total_jobs']}}</p>
 
 {% endblock %}

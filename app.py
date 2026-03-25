@@ -15,11 +15,7 @@ def get_db():
 
 @app.route('/')
 def dashboard():
-    conn = get_db()
-    cursor = conn.cursor(dictionary=True)
-    cursor.execute('SELECT COUNT(*) as count FROM applications')
-    stats = cursor.fetchone()
-    conn.close()
+    stats = statistics()
     return render_template('dashboard.html', stats=stats)
 
 '''

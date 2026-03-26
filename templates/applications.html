@@ -6,229 +6,262 @@
 
         <h1>Applications</h1>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Company</th>
-                    <th>Job Title</th>
+        <div class="main-content">
 
-                    <th>Application Date</th>
-                    <th>Status</th>
-                    <th>Resume version</th>
-                    <th>Cover Letter Sent</th>
-                    <th>Response Date</th>
-                    <th>Interview Date</th>
-                    <th>Notes</th>
-                    <th>Interview Data</th>
-                    <th>Actions</th>
+        <section class ="table_section">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Company</th>
+                        <th>Job Title</th>
 
-                </tr>
-            </thead>
+                        <th>Application Date</th>
+                        <th>Status</th>
+                        <th>Resume version</th>
+                        <th>Cover Letter Sent</th>
+                        <th>Response Date</th>
+                        <th>Interview Date</th>
+                        <th>Notes</th>
+                        <th>Interview Data</th>
+                        <th>Actions</th>
 
-            <tbody>
-                {% for application in applications %}
-                <tr>
-                    {% if edit_id == application['application_id'] %}
+                    </tr>
+                </thead>
 
-                    <form id="edit-form-{{ application['application_id'] }}" action="/applications/update/{{ application['application_id'] }}" method="POST"></form>
-                    <td>       
-                                   
-                            <select name="company_id" id="company" form ="edit-form-{{ application['application_id'] }}" required>
-                                    {% for company in companies %}
+                <tbody>
+                    {% for application in applications %}
+                    <tr>
+                        {% if edit_id == application['application_id'] %}
+
+                        <form id="edit-form-{{ application['application_id'] }}" action="/applications/update/{{ application['application_id'] }}" method="POST"></form>
+                        <td>       
                                     
-                                    <option value="{{company['company_id']}}"
-                                    {% if company['company_id'] == application['company_id'] %} selected {% endif %}>
-                                    {{company['company_name']}}</option>
-                                    
-                                    {% endfor %}
+                                <select name="company_id" id="company" form ="edit-form-{{ application['application_id'] }}" required>
+                                        {% for company in companies %}
+                                        
+                                        <option value="{{company['company_id']}}"
+                                        {% if company['company_id'] == application['company_id'] %} selected {% endif %}>
+                                        {{company['company_name']}}</option>
+                                        
+                                        {% endfor %}
+
+                                </select>
+                        </td>
+
+                        <td>
+                                <select name="job_id" id="job" form ="edit-form-{{ application['application_id'] }}" required>
+                                        
+                                    {% for job in jobs %}
+                                        <option value="{{job['job_id']}}"
+                                        {% if job['job_id'] == application['job_id'] %} selected {% endif %}>
+                                        {{job['job_title']}}</option>
+
+                                        {% endfor %}
+                                        
+                                </select>
+                    
+                        </td>
+
+                    
+
+                        <td>
+                            <input type="date" name="application_date" form="edit-form-{{ application['application_id'] }}" value="{{ application['application_date'] or '' }}">
+                        </td>
+
+                        <td>
+                        
+                            <select name="status"form="edit-form-{{ application['application_id'] }}">
+                                <option value="Applied" {{ 'selected' if application['status'] == 'Applied' else '' }}>Applied</option>
+                                <option value="Screening" {{ 'selected' if application['status'] == 'Screening' else '' }}>Screening</option>
+                                <option value="Phone Screen" {{ 'selected' if application['status'] == 'Phone Screen' else '' }}>Phone Screen</option>
+                                <option value="Interview" {{ 'selected' if application['status'] == 'Interview' else '' }}>Interview</option>
+                                <option value="Interview Completed" {{ 'selected' if application['status'] == 'Interview Completed' else '' }}>Interview Completed</option>
+                                <option value="Offer" {{ 'selected' if application['status'] == 'Offer' else '' }}>Offer</option>
+                                <option value="Offer Accepted" {{ 'selected' if application['status'] == 'Offer Accepted' else '' }}>Offer Accepted</option>
+                                <option value="Rejected" {{ 'selected' if application['status'] == 'Rejected' else '' }}>Rejected</option>
+                                <option value="Withdrawn" {{ 'selected' if application['status'] == 'Withdrawn' else '' }}>Withdrawn</option>
 
                             </select>
-                    </td>
+                        
+                        </td>
 
-                    <td>
-                            <select name="job_id" id="job" form ="edit-form-{{ application['application_id'] }}" required>
+                        <td>
+                            <input type="text" name="resume_version" form="edit-form-{{ application['application_id'] }}" value="{{ application['resume_version'] or '' }}">
+                        </td>
+
+                        <td>
+                            <input type="text" name="cover_letter_sent" form="edit-form-{{ application['application_id'] }}" value="{{ application['cover_letter_sent'] or '' }}">
+                        </td>
+
+                        <td>
+                            <input type="date" name="response_date" form="edit-form-{{ application['application_id'] }}" value="{{ application['response_date'] or '' }}">
+                        </td>
+
+                        <td>
+                            <input type="date" name="interview_date" form="edit-form-{{ application['application_id'] }}" value="{{ application['interview_date'] or '' }}">
+                        </td>
+
+                        <td>
+                            <input type="text" name="notes" form="edit-form-{{ application['application_id'] }}" value="{{ application['notes'] or '' }}">
+                        </td>
+
+
+                        <td>
+                            <textarea name="interview_raw" 
+                                    form="edit-form-{{ application['application_id'] }}" 
+                                    rows="4" 
+                                    placeholder="Rounds: 2&#10;Rating: 5"
+                                    style="width: 100%; font-family: monospace; font-size: 0.85em;">{% if application['interview_data'] %}{% for k, v in application['interview_data'].items() %}{{ k }}: {{ v if v is not iterable or v is string else v|join(', ') }}
+                                    {% endfor %}{% endif %}
+                            </textarea>
+                        </td>
+
+
+                        <td>
+                            <button type="submit" form="edit-form-{{ application['application_id'] }}">Save</button>
+                            <a href="/applications">Cancel</a>
+                        </td>
+
+
+                        {% else %}
+                                <td>{{application['company_name'] or ''}}</td>
+                                <td>{{application['job_title'] or ''}}</td>
+                                <td>{{application['application_date'] or ''}}</td>
+                                <td>{{application['status'] or ''}}</td>
+                                <td>{{application['resume_version'] or ''}}</td>
+                                <td>{{application['cover_letter_sent'] or ''}}</td>
+                                <td>{{application['response_date'] or ''}}</td>
+                                <td>{{application['interview_date'] or ''}}</td>
+                                <td>{{application['notes'] or ''}}</td>
+                            
+                            
+                                <td style="min-width: 200px; vertical-align: top;">
+                                    <div style="font-size: 0.85em; line-height: 1.4;">
+                                        {% if application['interview_data'] and application['interview_data'] is mapping %}
+                                            <ul style="list-style: none; padding: 0; margin: 0;">
+                                                {% for key, value in application['interview_data'].items() %}
+                                                    <li style="margin-bottom: 4px;">
+                                                        <strong style="text-transform: capitalize; color: #555;">
+                                                            {{ key.replace('_', ' ') }}:
+                                                        </strong> 
+                                                        
+                                                        {# Check if value is a list (like interviewers) to join with commas #}
+                                                        {% if value is iterable and value is not string %}
+                                                            <span style="color: #333;">{{ value | join(', ') }}</span>
+                                                        {% else %}
+                                                            <span style="color: #333;">{{ value }}</span>
+                                                        {% endif %}
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% else %}
+                                            <span style="color: #999; font-style: italic;">No interview data</span>
+                                        {% endif %}
+                                    </div>
+                                </td>
+
+
+                                <td class="actions">
+
+                                     <!--Redirect to Edit Application Page-->
+                                    <a href="/applications?edit={{ application['application_id'] }}"  aria-label="Edit Application" class="edit_link">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                                        </svg>                                        
+                                    </a>
                                     
-                                 {% for job in jobs %}
-                                    <option value="{{job['job_id']}}"
-                                    {% if job['job_id'] == application['job_id'] %} selected {% endif %}>
-                                    {{job['job_title']}}</option>
+                                     <!--DELETE Application-->
+                                    <form action="/applications/delete" method="POST">
+                                        <input type="hidden" name="application_id" value="{{application['application_id']}}">
+                                        <button type="submit" onclick="return confirm('Are you sure?')" aria-label="Delete Application" class="delete_button">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                            <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                                            </svg>
+                                        </button>
+                                    </form>
 
-                                    {% endfor %}
-                                    
-                            </select>
-                
-                    </td>
 
-                 
+                                </td>
 
-                    <td>
-                        <input type="date" name="application_date" form="edit-form-{{ application['application_id'] }}" value="{{ application['application_date'] or '' }}">
-                    </td>
+                        {% endif %}
+                    </tr>
 
-                    <td>
+                    {% endfor %}
+
+                </tbody>
+
+
+            </table>
+        </section>
+
+
+        <section class = "form_insert_section">
+            <h2>Insert Application</h2>
+            <form action ="/applications/insert" method = "POST" class="form-insert">
+
+                <label for="company_id">Company</label>
+                <select name="company_id" id="company" required>
+
+                    {% for company in companies %}
+                    <option value="{{company['company_id']}}">{{company['company_name']}}</option>
                     
-                        <select name="status"form="edit-form-{{ application['application_id'] }}">
-                            <option value="Applied" {{ 'selected' if application['status'] == 'Applied' else '' }}>Applied</option>
-                            <option value="Screening" {{ 'selected' if application['status'] == 'Screening' else '' }}>Screening</option>
-                            <option value="Phone Screen" {{ 'selected' if application['status'] == 'Phone Screen' else '' }}>Phone Screen</option>
-                            <option value="Interview" {{ 'selected' if application['status'] == 'Interview' else '' }}>Interview</option>
-                            <option value="Interview Completed" {{ 'selected' if application['status'] == 'Interview Completed' else '' }}>Interview Completed</option>
-                            <option value="Offer" {{ 'selected' if application['status'] == 'Offer' else '' }}>Offer</option>
-                            <option value="Offer Accepted" {{ 'selected' if application['status'] == 'Offer Accepted' else '' }}>Offer Accepted</option>
-                            <option value="Rejected" {{ 'selected' if application['status'] == 'Rejected' else '' }}>Rejected</option>
-                            <option value="Withdrawn" {{ 'selected' if application['status'] == 'Withdrawn' else '' }}>Withdrawn</option>
+                    {% endfor %}
 
-                        </select>
+                </select>
+
+
+                <label for="job_id">Job Title</label>
+                <select name="job_id" id="job" required>
+
+                    {% for job in jobs %}
+                    <option value="{{job['job_id']}}">{{job['job_title']}}</option>
                     
-                    </td>
+                    {% endfor %}
 
-                    <td>
-                        <input type="text" name="resume_version" form="edit-form-{{ application['application_id'] }}" value="{{ application['resume_version'] or '' }}">
-                    </td>
-
-                    <td>
-                        <input type="text" name="cover_letter_sent" form="edit-form-{{ application['application_id'] }}" value="{{ application['cover_letter_sent'] or '' }}">
-                    </td>
-
-                    <td>
-                        <input type="date" name="response_date" form="edit-form-{{ application['application_id'] }}" value="{{ application['response_date'] or '' }}">
-                    </td>
-
-                    <td>
-                        <input type="date" name="interview_date" form="edit-form-{{ application['application_id'] }}" value="{{ application['interview_date'] or '' }}">
-                    </td>
-
-                    <td>
-                        <input type="text" name="notes" form="edit-form-{{ application['application_id'] }}" value="{{ application['notes'] or '' }}">
-                    </td>
-
-
-                    <td>
-                        <textarea name="interview_raw" 
-                                form="edit-form-{{ application['application_id'] }}" 
-                                rows="4" 
-                                placeholder="Rounds: 2&#10;Rating: 5"
-                                style="width: 100%; font-family: monospace; font-size: 0.85em;">{% if application['interview_data'] %}{% for k, v in application['interview_data'].items() %}{{ k }}: {{ v if v is not iterable or v is string else v|join(', ') }}
-                                {% endfor %}{% endif %}
-                        </textarea>
-                    </td>
-
-
-                    <td>
-                        <button type="submit" form="edit-form-{{ application['application_id'] }}">Save</button>
-                        <a href="/applications">Cancel</a>
-                    </td>
-
-
-                    {% else %}
-                            <td>{{application['company_name'] or ''}}</td>
-                            <td>{{application['job_title'] or ''}}</td>
-                            <td>{{application['application_date'] or ''}}</td>
-                            <td>{{application['status'] or ''}}</td>
-                            <td>{{application['resume_version'] or ''}}</td>
-                            <td>{{application['cover_letter_sent'] or ''}}</td>
-                            <td>{{application['response_date'] or ''}}</td>
-                            <td>{{application['interview_date'] or ''}}</td>
-                            <td>{{application['notes'] or ''}}</td>
-                          
-                          
-                            <td style="min-width: 200px; vertical-align: top;">
-                                <div style="font-size: 0.85em; line-height: 1.4;">
-                                    {% if application['interview_data'] and application['interview_data'] is mapping %}
-                                        <ul style="list-style: none; padding: 0; margin: 0;">
-                                            {% for key, value in application['interview_data'].items() %}
-                                                <li style="margin-bottom: 4px;">
-                                                    <strong style="text-transform: capitalize; color: #555;">
-                                                        {{ key.replace('_', ' ') }}:
-                                                    </strong> 
-                                                    
-                                                    {# Check if value is a list (like interviewers) to join with commas #}
-                                                    {% if value is iterable and value is not string %}
-                                                        <span style="color: #333;">{{ value | join(', ') }}</span>
-                                                    {% else %}
-                                                        <span style="color: #333;">{{ value }}</span>
-                                                    {% endif %}
-                                                </li>
-                                            {% endfor %}
-                                        </ul>
-                                    {% else %}
-                                        <span style="color: #999; font-style: italic;">No interview data</span>
-                                    {% endif %}
-                                </div>
-                            </td>
-
-
-                            <td>
-                                <a href="/applications?edit={{ application['application_id'] }}">Edit</a>
-                                
-                                <form action="/applications/delete" method="POST">
-                                    <input type="hidden" name="application_id" value="{{application['application_id']}}">
-                                    <button type="submit" onclick="return confirm('Are you sure?')">Delete</button>
-                                </form>
-
-
-                            </td>
-
-                     {% endif %}
-                </tr>
-
-                 {% endfor %}
-
-            </tbody>
-
-
-        </table>
-
-        <h2>Insert Application</h2>
-        <form action ="/applications/insert" method = "POST">
-
-           
-            <select name="company_id" id="company" required>
-
-                {% for company in companies %}
-                <option value="{{company['company_id']}}">{{company['company_name']}}</option>
+                </select>
                 
-                {% endfor %}
 
-            </select>
+                <label for="application_date">Application Date</label>
+                <input type="date" name = "application_date" placeholder="" required>
 
+                <label for="status">Status</label>
+                <select name="status">
+                        <option value="Applied">Applied</option>
+                        <option value="Screening">Screening</option>
+                        <option value="Phone">Screen</option>
+                        <option value="Interview">Interview</option>
+                        <option value="Interview Completed">Interview Completed</option>
+                        <option value="Offer">Offer</option>
+                        <option value="Offer Accepted">Offer Accepted</option>
+                        <option value="Rejected">Rejected</option>
+                        <option value="Withdrawn">Withdrawn</option>
+                </select>
 
-            <select name="job_id" id="job" required>
+                <label for="resume_version">Resume Version</label>
+                <input type="text" name="resume_version" placeholder="v2.1">
 
-                {% for job in jobs %}
-                <option value="{{job['job_id']}}">{{job['job_title']}}</option>
-                
-                {% endfor %}
+                <label for="cover_letter_sent">Cover Letter Sent</label>
+                <input type="text" name="cover_letter_sent" placeholder="1">
 
-            </select>
-            
+                <label for="response_date">Response Date</label>
+                <input type="date" name="response_date" placeholder="02/12/2025" >
 
-            <input type="date" name = "application_date" placeholder="" required>
+                <label for="interview_date">Interview Date</label>
+                <input type="date" name="interview_date" placeholder="03/15/2025">
 
-            <select name="status">
-                    <option value="Applied">Applied</option>
-                    <option value="Screening">Screening</option>
-                    <option value="Phone">Screen</option>
-                    <option value="Interview">Interview</option>
-                    <option value="Interview Completed">Interview Completed</option>
-                    <option value="Offer">Offer</option>
-                    <option value="Offer Accepted">Offer Accepted</option>
-                    <option value="Rejected">Rejected</option>
-                    <option value="Withdrawn">Withdrawn</option>
-            </select>
-
-            <input type="text" name="resume_version" placeholder="v2.1">
-            <input type="text" name="cover_letter_sent" placeholder="1">
-            <input type="date" name="response_date" placeholder="02/12/2025" >
-            <input type="date" name="interview_date" placeholder="03/15/2025">
-            <input type="text" name="notes" placeholder="Notes..." >
+                <label for="notes">Notes</label>
+                <input type="text" name="notes" placeholder="Notes..." >
 
 
-            <label for="interview_data">Interview Data</label>
-            <textarea name="interview_data" rows="5" placeholder="Rounds: 2&#10;Rating: 5"></textarea>
+                <label for="interview_data">Interview Data</label>
+                <textarea name="interview_data" rows="5" placeholder="Rounds: 2&#10;Rating: 5"></textarea>
 
-            <button type="submit" name="action" value="save">Insert</button>
-        </form>
+                <button type="submit" name="action" value="save">Insert</button>
+            </form>
+        
+        </section>
 
-
+    </div>
 {% endblock %}

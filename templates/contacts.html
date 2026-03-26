@@ -6,135 +6,167 @@
 
     <h1>Contacts</h1>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Company</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Job Title</th>
-                <th>Linkedin</th>
-                <th>Notes</th>
-                <th>Actions</th>
+    <div class="main-content">
 
-            </tr>
-        </thead>
+        <section class ="table_section">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Company</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Job Title</th>
+                        <th>Linkedin</th>
+                        <th>Notes</th>
+                        <th>Actions</th>
 
-        <tbody>
-             {% for contact in contacts %}
-            <tr>
-                 {% if edit_id == contact['contact_id'] %}
-                <!---->
-                 <form id="edit-form-{{ contact['contact_id'] }}" action="/contacts/update/{{ contact['contact_id'] }}" method="POST"></form>
+                    </tr>
+                </thead>
 
-                   <td>                    
-                        <select name="company_id" id="company" form ="edit-form-{{ contact['contact_id'] }}" required>
+                <tbody>
+                    {% for contact in contacts %}
+                    <tr>
+                        {% if edit_id == contact['contact_id'] %}
+                        <!---->
+                        <form id="edit-form-{{ contact['contact_id'] }}" action="/contacts/update/{{ contact['contact_id'] }}" method="POST"></form>
 
-                            {% for company in companies %}
-                            <option value="{{company['company_id']}}"
-                            {% if company['company_id'] == contact['company_id'] %} selected {% endif %}>
-                            {{company['company_name']}}</option>
+                        <td>                    
+                                <select name="company_id" id="company" form ="edit-form-{{ contact['contact_id'] }}" required>
+
+                                    {% for company in companies %}
+                                    <option value="{{company['company_id']}}"
+                                    {% if company['company_id'] == contact['company_id'] %} selected {% endif %}>
+                                    {{company['company_name']}}</option>
+                                    
+                                    {% endfor %}
+
+                                </select>
                             
-                            {% endfor %}
-
-                        </select>
-                    
-                    </td>
+                            </td>
 
 
-                    <td>
-                        <input type="text" name="first_name" form="edit-form-{{ contact['contact_id'] }}" value="{{ contact['first_name'] or '' }}">
-                    </td>
+                            <td>
+                                <input type="text" name="first_name" form="edit-form-{{ contact['contact_id'] }}" value="{{ contact['first_name'] or '' }}">
+                            </td>
 
-                    <td>
-                        <input type="text" name="last_name" form="edit-form-{{ contact['contact_id'] }}" value="{{ contact['last_name'] or '' }}">
-                    </td>
+                            <td>
+                                <input type="text" name="last_name" form="edit-form-{{ contact['contact_id'] }}" value="{{ contact['last_name'] or '' }}">
+                            </td>
 
-                    <td>
-                        <input type="text" name="email" form="edit-form-{{ contact['contact_id'] }}" value="{{ contact['email'] or '' }}">
-                    </td>
+                            <td>
+                                <input type="text" name="email" form="edit-form-{{ contact['contact_id'] }}" value="{{ contact['email'] or '' }}">
+                            </td>
 
-                    <td>
-                        <input type="text" name="phone" form="edit-form-{{ contact['contact_id'] }}" value="{{ contact['phone'] or '' }}">
-                    </td>
+                            <td>
+                                <input type="text" name="phone" form="edit-form-{{ contact['contact_id'] }}" value="{{ contact['phone'] or '' }}">
+                            </td>
 
-                    <td>
-                        <input type="text" name="job_title" form="edit-form-{{ contact['contact_id'] }}" value="{{ contact['job_title'] or '' }}">
-                    </td>
+                            <td>
+                                <input type="text" name="job_title" form="edit-form-{{ contact['contact_id'] }}" value="{{ contact['job_title'] or '' }}">
+                            </td>
 
-                    <td>
-                        <input type="text" name="linkedin_url" form="edit-form-{{ contact['contact_id'] }}" value="{{ contact['linkedin_url'] or '' }}">
-                    </td>
+                            <td>
+                                <input type="text" name="linkedin_url" form="edit-form-{{ contact['contact_id'] }}" value="{{ contact['linkedin_url'] or '' }}">
+                            </td>
 
-                    <td>
-                        <input type="text" name="notes" form="edit-form-{{ contact['contact_id'] }}" value="{{ contact['notes'] or '' }}">
-                    </td>
+                            <td>
+                                <input type="text" name="notes" form="edit-form-{{ contact['contact_id'] }}" value="{{ contact['notes'] or '' }}">
+                            </td>
 
-                    <td>
-                        <button type="submit" form="edit-form-{{ contact['contact_id'] }}">Save</button>
-                        <a href="/contacts">Cancel</a>
-                    </td>
+                            <td>
+                                <button type="submit" form="edit-form-{{ contact['contact_id'] }}">Save</button>
+                                <a href="/contacts">Cancel</a>
+                            </td>
 
-                    <!---->
-
-
-                 {% else %}
-                    <td>{{contact['company_name'] or ''}}</td>
-                    <td>{{contact['first_name'] or ''}}</td>
-                    <td>{{contact['last_name'] or ''}}</td>
-                    <td>{{contact['email'] or ''}}</td>
-                    <td>{{contact['phone'] or ''}}</td>
-                    <td>{{contact['job_title'] or ''}}</td>
-                    <td>{{contact['linkedin_url'] or ''}}</td>
-                    <td>{{contact['notes'] or ''}}</td>
- 
-                     <td>
-                        <a href="/contacts?edit={{ contact['contact_id'] }}">Edit</a>
-                        
-                        <form action="/contacts/delete" method="POST">
-                            <input type="hidden" name="contact_id" value="{{contact['contact_id']}}">
-                            <button type="submit" onclick="return confirm('Are you sure?')">Delete</button>
-                        </form>
+                            <!---->
 
 
-                    </td>
+                        {% else %}
+                            <td>{{contact['company_name'] or ''}}</td>
+                            <td>{{contact['first_name'] or ''}}</td>
+                            <td>{{contact['last_name'] or ''}}</td>
+                            <td>{{contact['email'] or ''}}</td>
+                            <td>{{contact['phone'] or ''}}</td>
+                            <td>{{contact['job_title'] or ''}}</td>
+                            <td>{{contact['linkedin_url'] or ''}}</td>
+                            <td>{{contact['notes'] or ''}}</td>
+        
+                            <td class="actions">
+                                <!--Redirect to Edit Contact Page-->
+                                <a href="/contacts?edit={{ contact['contact_id'] }}" aria-label="Edit Contact" class="edit_link">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                                    </svg>
+                                </a>
+                                
+                                 <!--DELETE Contact-->
+                                <form action="/contacts/delete" method="POST">
+                                    <input type="hidden" name="contact_id" value="{{contact['contact_id']}}">
+                                    <button type="submit" onclick="return confirm('Are you sure?')" aria-label="Delete Contact" class="delete_button">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                            <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                                            </svg>                                        
+                                    </button>
+                                </form>
 
 
-                 {% endif %}
-            </tr>
-
-            {% endfor %}
-        </tbody>
-
-    </table>
+                            </td>
 
 
+                        {% endif %}
+                    </tr>
 
-        <h2>Insert Contact</h2>
-        <form action ="/contacts/insert" method = "POST">
+                    {% endfor %}
+                </tbody>
 
-           
-            <select name="company_id" id="company" required>
+            </table>
+        </section>
 
-                {% for company in companies %}
-                <option value="{{company['company_id']}}">{{company['company_name']}}</option>
+        <section class = "form_insert_section">
+                <h2>Insert Contact</h2>
+                <form action ="/contacts/insert" method = "POST" class="form-insert">
+
                 
-                {% endfor %}
+                    <label for="company_id">Company</label>
+                    <select name="company_id" id="company" required>
 
-            </select>
-            
+                        {% for company in companies %}
+                        <option value="{{company['company_id']}}">{{company['company_name']}}</option>
+                        
+                        {% endfor %}
 
-            <input type="text" name = "first_name" placeholder="Jane">
-            <input type="text" name="last_name" placeholder="Doe">
-            <input type="text" name="email" placeholder="jane.doe@email.com">
-            <input type="text" name="phone" placeholder="123-456-7890">
-            <input type="text" name="job_title" placeholder="Manager" >
-            <input type="text" name="linkedin_url" placeholder="www.linkedin.com" >
-            <input type="text" name="notes" placeholder="Notes..." >
+                    </select>
+                    
 
-            <button type="submit">Insert</button>
-        </form>
+                    <label for="first_name">First Name</label>
+                    <input type="text" name = "first_name" placeholder="Jane">
+
+                    <label for="last_name">Last Name</label>
+                    <input type="text" name="last_name" placeholder="Doe">
+
+                    <label for="email">Email</label>
+                    <input type="text" name="email" placeholder="jane.doe@email.com">
+
+                    <label for="phone">Phone</label>
+                    <input type="text" name="phone" placeholder="123-456-7890">
+
+                    <label for="job_title">Job Title</label>
+                    <input type="text" name="job_title" placeholder="Manager" >
+
+                    <label for="linkedin_url">Linkedin URL</label>
+                    <input type="text" name="linkedin_url" placeholder="www.linkedin.com" >
+
+                    <label for="notes">Notes</label>
+                    <input type="text" name="notes" placeholder="Notes..." >
+
+                    <button type="submit">Insert</button>
+                </form>
+        </section>
+
+    </div>
 
 {% endblock %}

@@ -39,14 +39,12 @@ h1{
     color: #0b334e;
 }
 
-a {
-  text-decoration: none;
+h2{
+    margin: 0 0 1vh 0;
 }
 
-thead > tr  >th{
-    color: #eef1f3;
-    background-color: #16537b;
-    padding: 1vh;
+a {
+  text-decoration: none;
 }
 
 
@@ -63,7 +61,8 @@ tr:hover {
 }
 
 /* links inside Action column */
-td > a{
+
+/* td > a{
     display: inline-block;
     background-color: #16537b;
     color: #eef1f3;
@@ -73,11 +72,9 @@ td > a{
     width: 75px;
     text-align: center;
     margin-bottom: 1px;
-}
+} */
 
-td > a:hover{
-    background-color: rgb(27, 110, 165);
-}
+
 
 button{
     background-color: #16537b;
@@ -91,8 +88,115 @@ button{
 }
 
 button:hover{
-     background-color: rgb(27, 110, 165);
+     cursor: pointer;
+} 
+
+.actions{
+    display: flex;
+    flex-direction: column;
+}
+
+/*Edit Link (Pencil Icon)*/
+
+.edit_link{
+    color: #233D4D;
+    padding: 5px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.edit_link:hover{
+    color: #00A8E8;
+}
+
+.bi-pencil-square{
+    stroke: currentColor; 
+    stroke-width: 0.5px; 
+    stroke-linejoin: round;
+    stroke-linecap: round;
 }
 
 
 
+
+/* Trash Button */
+.delete_button{
+    background: none;     
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    color: #bcbcbc;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    /* transition: color 0.2s, transform 0.2s; */
+}
+
+.delete_button:hover {
+    color: #F50400; 
+}
+
+.bi-trash{
+    stroke: currentColor; 
+    stroke-width: 0.5px; 
+    stroke-linejoin: round;
+    stroke-linecap: round;
+}
+
+
+/* Main Content for Table Pages:
+    - Tables
+    - Insert forms
+*/
+
+.main-content{
+    display: flex;
+    align-items: flex-start; 
+    gap: 10vh; 
+    padding: 3vh;
+}
+
+    /* - Insert forms */
+.form_insert_section {
+    flex: 0 0 20vh;  
+    position: sticky; 
+    top: 20px;
+}
+
+.form-insert label, input {
+    display: block;
+    width: 25vh;
+    margin-bottom: 5px; 
+}
+
+.form-insert input {
+    margin-bottom: 15px; 
+}
+
+    /* -Tables */
+.table_section {
+    flex: 1;                
+    overflow: auto;
+    max-height: 100vh;
+}
+
+table {
+    width: 100%;
+    border-collapse: separate; 
+    border-spacing: 0;
+
+}
+
+thead th {
+    position: sticky;
+    top: 0;
+    background-color: #1f4e79; 
+    color: white; 
+    padding: 1vh;
+    z-index: 10;
+    text-align: left;
+    white-space: nowrap;
+    box-shadow: inset 0 -2px 0 #ccc;
+}

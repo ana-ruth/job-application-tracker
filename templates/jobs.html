@@ -6,235 +6,276 @@
 
         <h1>Jobs</h1>
 
-        <table>
+        <div class="main-content">
 
-            <!-- Jobs Table Columns-->
-            <thead>
-            <tr>
-                <th>Company</th>
-                <th>Job Title</th>
-                <th>Job Description</th>
-                <th>Salary min</th>
-                <th>Salary Max</th>
-                <th>Job Type</th>
-                <th>Job url</th>
-                <th>Date Posted</th>
-                <th>Is Active</th>
-                <th>Requirements</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
+        <section class ="table_section">
 
-        <tbody>
-             {% for job in jobs %}
-            <tr>
-                 <!-- Jobs Table View when Editing a row-->
-                 {% if edit_id == job['job_id'] %}
-                <form id="edit-form-{{ job['job_id'] }}" action="/jobs/update/{{ job['job_id'] }}" method="POST"></form>
+            <table>
+                <!-- Jobs Table Columns-->
+                <thead>
+                <tr>
+                    <th>Company</th>
+                    <th>Job Title</th>
+                    <th>Job Description</th>
+                    <th>Salary min</th>
+                    <th>Salary Max</th>
+                    <th>Job Type</th>
+                    <th>Job url</th>
+                    <th>Date Posted</th>
+                    <th>Is Active</th>
+                    <th>Requirements</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
 
-                   <td>                    
-                        <select name="company_id" id="company" form ="edit-form-{{ job['job_id'] }}" required>
-
-                            {% for company in companies %}
-                            <option value="{{company['company_id']}}"
-                            {% if company['company_id'] == job['company_id'] %} selected {% endif %}>
-                            {{company['company_name']}}</option>
-                            
-                            {% endfor %}
-
-                        </select>
-                      
-                    </td>
-
-                    <td>
-                        <input type="text" name="job_title" form="edit-form-{{ job['job_id'] }}" value="{{ job['job_title'] or '' }}">
-                    </td>
-                    
-                    <td>
-                        <input type="text" name="job_description" form="edit-form-{{ job['job_id'] }}" value="{{ job['job_description'] or '' }}">
-                    </td>
-
-                    
-                    <td>
-                        <input type="text" name="salary_min" form="edit-form-{{ job['job_id'] }}" value="{{ job['salary_min'] or '' }}">
-                    </td>
-
-                    <td>
-                        <input type="text" name="salary_max" form="edit-form-{{ job['job_id'] }}" value="{{ job['salary_max'] or '' }}">
-                    </td>
+            <tbody>
+                {% for job in jobs %}
+                <tr>
+                    <!-- Jobs Table View when Editing a row-->
+                    {% if edit_id == job['job_id'] %}
+                    <form id="edit-form-{{ job['job_id'] }}" action="/jobs/update/{{ job['job_id'] }}" method="POST"></form>
 
                     <td>                    
-                        
-                        <select name="job_type" id="job_type" form="edit-form-{{ job['job_id'] }}">
-                            <option value="Full-time" {{ 'selected' if job['job_type'] == 'Full-time' else '' }}>Full-time</option>
-                            <option value="Part-time" {{ 'selected' if job['job_type'] == 'Part-time' else '' }}>Part-time</option>
-                            <option value="Contract" {{ 'selected' if job['job_type'] == 'Contract' else '' }}>Contract</option>
-                            <option value="Internship" {{ 'selected' if job['job_type'] == 'Internship' else '' }}>Internship</option>
-                        </select>
- 
-                    </td>
+                            <select name="company_id" id="company" form ="edit-form-{{ job['job_id'] }}" required>
 
-                    <td>
-                        <input type="text" name="job_url" form="edit-form-{{ job['job_id'] }}" value="{{ job['job_url'] or '' }}">
-                    </td>
-
-                    <td>
-                        <input type="date" name="date_posted" form="edit-form-{{ job['job_id'] }}" value="{{ job['date_posted'] or '' }}">
-                    </td>
-
-                    <td>
-                        <input type="text" name="is_active" form="edit-form-{{ job['job_id'] }}" value="{{ job['is_active'] or '' }}">
-                    </td>
-
-                    <!-- Requirements JSON column with semi-stuctured data -->
-                  <td>
-                        <div>
-                            <input type="text" name="req_education" placeholder="Education" 
-                                form="edit-form-{{ job['job_id'] }}" 
-                                value="{{ job['requirements'].get('education', '') }}">
-                            
-                            <input type="number" name="req_experience" placeholder="Years Exp" 
-                                form="edit-form-{{ job['job_id'] }}" 
-                                value="{{ job['requirements'].get('experience_years', 0) }}">
-                            
-                            <input type="text" name="req_skills" placeholder="Skills (comma separated)" 
-                                form="edit-form-{{ job['job_id'] }}" 
-                                value="{{ job['requirements'].get('required_skills', []) | join(', ') }}">
-                            
-                            <label style="font-size: 0.8em;">
-                                <input type="checkbox" name="req_remote" value="true" 
-                                    form="edit-form-{{ job['job_id'] }}" 
-                                    {{ 'checked' if job['requirements'].get('remote_option') else '' }}>
-                                Remote
-                            </label>
-
-                            <textarea name="requirements" 
-                                form="edit-form-{{ job['job_id'] }}" 
-                                rows="5" 
-                                placeholder="Certifications: AWS&#10;Languages: Spanish"
-                                style="font-family: monospace; font-size: 0.85em;">
-                                    {%- if job['requirements'] -%}
-                                        {%- for k, v in job['requirements'].items() -%}
-                                            {%- if k != 'education' and k != 'experience_years' and k != 'required_skills' and k != 'remote_option' -%}
-                            {{ k }}: {{ v if v is not iterable or v is string else v|join(', ') }}{{ "\n\n" }}
-                                            {%- endif -%}
-                                        {%- endfor -%}
-                                    {%- endif -%}
-                            </textarea>
-                        </div>
-                    </td>  
-
-
-                    <td>
-                        <button type="submit" form="edit-form-{{ job['job_id'] }}">Save</button>
-                        <a href="/jobs">Cancel</a>
-                    </td>
-
-                <!-- Jobs Table View when Displaying all rows-->
-                 {% else %}
-                
-                 <td>{{job['company_name'] or ''}}</td>
-                    <td>{{job['job_title'] or ''}}</td>
-                    <td>{{job['job_description'] or ''}}</td>
-                    <td>{{job['salary_min'] or ''}}</td>
-                    <td>{{job['salary_max'] or ''}}</td>
-                    <td>{{job['job_type'] or ''}}</td>
-                    <td>{{job['job_url'] or ''}}</td>
-                    <td>{{job['date_posted'] or ''}}</td>
-                    <td>{{job['is_active'] or ''}}</td>
-                
-
-                    <td style="min-width: 200px; vertical-align: top;">
-                        <div style="font-size: 0.85em; line-height: 1.4;">
-                            {% if job['requirements'] %}
-                                <ul style="list-style: none; padding: 0; margin: 0;">
-                                    {% for key, value in job['requirements'].items() %}
-                                        <li style="margin-bottom: 4px;">
-                                            <strong style="text-transform: capitalize; color: #555;">
-                                                {{ key.replace('_', ' ') }}:
-                                            </strong> 
-                                            
-                                            {# Check if value is a list (like skills) to join with commas #}
-                                            {% if value is iterable and value is not string %}
-                                                <span style="color: #333;">{{ value | join(', ') }}</span>
-                                            {% else %}
-                                                <span style="color: #333;">{{ value }}</span>
-                                            {% endif %}
-                                        </li>
-                                        {% endfor %}
+                                {% for company in companies %}
+                                <option value="{{company['company_id']}}"
+                                {% if company['company_id'] == job['company_id'] %} selected {% endif %}>
+                                {{company['company_name']}}</option>
                                 
-                            {% else %}
-                                    <span style="color: #999; font-style: italic;">No requirements</span>
-                            {% endif %}
-                        </div>
-                    </td>
+                                {% endfor %}
 
-
-                     <td>
-                        <a href="/jobs?edit={{ job['job_id'] }}">Edit</a>
+                            </select>
                         
-                        <form action="/jobs/delete" method="POST">
-                            <input type="hidden" name="job_id" value="{{job['job_id']}}">
-                            <button type="submit" onclick="return confirm('Are you sure?')">Delete</button>
-                        </form>
+                        </td>
+
+                        <td>
+                            <input type="text" name="job_title" form="edit-form-{{ job['job_id'] }}" value="{{ job['job_title'] or '' }}">
+                        </td>
+                        
+                        <td>
+                            <input type="text" name="job_description" form="edit-form-{{ job['job_id'] }}" value="{{ job['job_description'] or '' }}">
+                        </td>
+
+                        
+                        <td>
+                            <input type="text" name="salary_min" form="edit-form-{{ job['job_id'] }}" value="{{ job['salary_min'] or '' }}">
+                        </td>
+
+                        <td>
+                            <input type="text" name="salary_max" form="edit-form-{{ job['job_id'] }}" value="{{ job['salary_max'] or '' }}">
+                        </td>
+
+                        <td>                    
+                            
+                            <select name="job_type" id="job_type" form="edit-form-{{ job['job_id'] }}">
+                                <option value="Full-time" {{ 'selected' if job['job_type'] == 'Full-time' else '' }}>Full-time</option>
+                                <option value="Part-time" {{ 'selected' if job['job_type'] == 'Part-time' else '' }}>Part-time</option>
+                                <option value="Contract" {{ 'selected' if job['job_type'] == 'Contract' else '' }}>Contract</option>
+                                <option value="Internship" {{ 'selected' if job['job_type'] == 'Internship' else '' }}>Internship</option>
+                            </select>
+    
+                        </td>
+
+                        <td>
+                            <input type="text" name="job_url" form="edit-form-{{ job['job_id'] }}" value="{{ job['job_url'] or '' }}">
+                        </td>
+
+                        <td>
+                            <input type="date" name="date_posted" form="edit-form-{{ job['job_id'] }}" value="{{ job['date_posted'] or '' }}">
+                        </td>
+
+                        <td>
+                            <input type="text" name="is_active" form="edit-form-{{ job['job_id'] }}" value="{{ job['is_active'] or '' }}">
+                        </td>
+
+                        <!-- Requirements JSON column with semi-stuctured data -->
+                    <td>
+                            <div>
+                                <input type="text" name="req_education" placeholder="Education" 
+                                    form="edit-form-{{ job['job_id'] }}" 
+                                    value="{{ job['requirements'].get('education', '') }}">
+                                
+                                <input type="number" name="req_experience" placeholder="Years Exp" 
+                                    form="edit-form-{{ job['job_id'] }}" 
+                                    value="{{ job['requirements'].get('experience_years', 0) }}">
+                                
+                                <input type="text" name="req_skills" placeholder="Skills (comma separated)" 
+                                    form="edit-form-{{ job['job_id'] }}" 
+                                    value="{{ job['requirements'].get('required_skills', []) | join(', ') }}">
+                                
+                                <label style="font-size: 0.8em;">
+                                    <input type="checkbox" name="req_remote" value="true" 
+                                        form="edit-form-{{ job['job_id'] }}" 
+                                        {{ 'checked' if job['requirements'].get('remote_option') else '' }}>
+                                    Remote
+                                </label>
+
+                                <textarea name="requirements" 
+                                    form="edit-form-{{ job['job_id'] }}" 
+                                    rows="5" 
+                                    placeholder="Certifications: AWS&#10;Languages: Spanish"
+                                    style="font-family: monospace; font-size: 0.85em;">
+                                        {%- if job['requirements'] -%}
+                                            {%- for k, v in job['requirements'].items() -%}
+                                                {%- if k != 'education' and k != 'experience_years' and k != 'required_skills' and k != 'remote_option' -%}
+                                {{ k }}: {{ v if v is not iterable or v is string else v|join(', ') }}{{ "\n\n" }}
+                                                {%- endif -%}
+                                            {%- endfor -%}
+                                        {%- endif -%}
+                                </textarea>
+                            </div>
+                        </td>  
 
 
-                    </td>
+                        <td>
+                            <button type="submit" form="edit-form-{{ job['job_id'] }}">Save</button>
+                            <a href="/jobs">Cancel</a>
+                        </td>
+
+                    <!-- Jobs Table View when Displaying all rows-->
+                    {% else %}
+                    
+                    <td>{{job['company_name'] or ''}}</td>
+                        <td>{{job['job_title'] or ''}}</td>
+                        <td>{{job['job_description'] or ''}}</td>
+                        <td>{{job['salary_min'] or ''}}</td>
+                        <td>{{job['salary_max'] or ''}}</td>
+                        <td>{{job['job_type'] or ''}}</td>
+                        <td>{{job['job_url'] or ''}}</td>
+                        <td>{{job['date_posted'] or ''}}</td>
+                        <td>{{job['is_active'] or ''}}</td>
+                    
+
+                        <td style="min-width: 200px; vertical-align: top;">
+                            <div style="font-size: 0.85em; line-height: 1.4;">
+                                {% if job['requirements'] %}
+                                    <ul style="list-style: none; padding: 0; margin: 0;">
+                                        {% for key, value in job['requirements'].items() %}
+                                            <li style="margin-bottom: 4px;">
+                                                <strong style="text-transform: capitalize; color: #555;">
+                                                    {{ key.replace('_', ' ') }}:
+                                                </strong> 
+                                                
+                                                {# Check if value is a list (like skills) to join with commas #}
+                                                {% if value is iterable and value is not string %}
+                                                    <span style="color: #333;">{{ value | join(', ') }}</span>
+                                                {% else %}
+                                                    <span style="color: #333;">{{ value }}</span>
+                                                {% endif %}
+                                            </li>
+                                            {% endfor %}
+                                    
+                                {% else %}
+                                        <span style="color: #999; font-style: italic;">No requirements</span>
+                                {% endif %}
+                            </div>
+                        </td>
 
 
-                 {% endif %}
-            </tr>
+                        <td class="actions">
+                            <!--Redirect to Edit Job Page-->
+                            <a href="/jobs?edit={{ job['job_id'] }}" aria-label="Edit Job" class="edit_link">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                                    </svg>
+                            </a>
+                            
+                            <!--DELETE Job-->
+                            <form action="/jobs/delete" method="POST">
+                                <input type="hidden" name="job_id" value="{{job['job_id']}}">
+                                <button type="submit" onclick="return confirm('Are you sure?')" aria-label="Delete Job" class="delete_button">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                            <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                                            </svg>
+                                </button>
+                            </form>
 
-            {% endfor %}
 
-        </tbody>
-
-        </table>
+                        </td>
 
 
-        <h2>Insert Job</h2>
-         <form action ="/jobs/insert" method = "POST">
+                    {% endif %}
+                </tr>
 
-           
-            <select name="company_id" id="company" required>
-
-                {% for company in companies %}
-                <option value="{{company['company_id']}}">{{company['company_name']}}</option>
-                
                 {% endfor %}
 
-            </select>
+            </tbody>
+
+            </table>
+        
+        </section>
+
+    <section class = "form_insert_section">
+
+            <h2>Insert Job</h2>
+            <form action ="/jobs/insert" method = "POST" class="form-insert">
+
             
+                <label for="company_id">Company</label>
+                <select name="company_id" id="company" required>
 
-            <input type="text" name = "job_title" placeholder="Software Developer">
-            <input type="text" name="job_description" placeholder="Requires Java experience">
-            <input type="text" name="salary_min" placeholder="50000">
-            <input type="text" name="salary_max" placeholder="80000">
+                    {% for company in companies %}
+                    <option value="{{company['company_id']}}">{{company['company_name']}}</option>
+                    
+                    {% endfor %}
 
-            <select name="job_type" id="job_type">
-                    <option value="Full-time">Full-time</option>
-                    <option value="Part-time">Part-time</option>
-                    <option value="Contract">Contract</option>
-                    <option value="Internship">Internship</option>
-            </select>
+                </select>
+                
 
-            <input type="text" name="job_url" placeholder="www.company.com" >
-            <input type="date" name="date_posted" >
-            <input type="text" name="is_active" placeholder="">
+                <label for="job_title">Job Title</label>
+                <input type="text" name = "job_title" placeholder="Software Developer">
+
+                <label for="job_description">Job Description</label>
+                <input type="text" name="job_description" placeholder="Requires Java experience">
+
+                <label for="salary_min">Mininmum Salary</label>
+                <input type="text" name="salary_min" placeholder="50000">
+
+                <label for="salary_max">Maximum Salary</label>
+                <input type="text" name="salary_max" placeholder="80000">
+
+                <label for="job_type">Job Type</label>
+                <select name="job_type" id="job_type">
+                        <option value="Full-time">Full-time</option>
+                        <option value="Part-time">Part-time</option>
+                        <option value="Contract">Contract</option>
+                        <option value="Internship">Internship</option>
+                </select>
+
+                <label for="job_url">Job Url</label>
+                <input type="text" name="job_url" placeholder="www.company.com" >
+
+                <label for="date_posted">Date Posted</label>
+                <input type="date" name="date_posted" >
+
+                <label for="is_active">Active? (1=yes, 0=no)</label>
+                <input type="text" name="is_active" placeholder="1">
 
 
-            <!--Requirements JSON Column-->
-            <input type="text" name="req_education" placeholder="Education (e.g. BS in CS)">
-            <input type="number" name="req_experience" placeholder="Years of Experience">
-            <input type="text" name="req_skills" placeholder="Skills (Python, SQL, etc.)">
-            <label><input type="checkbox" name="req_remote" value="true"> Remote Friendly</label>
-            <label for="requirements">Requirements</label>
-            <textarea name="requirements" rows="5" placeholder="Certifications: AWS, Azure&#10;Languagues: Spanish"></textarea>
+                <!--Requirements JSON Column-->
+                <label for="req_education">Education</label>
+                <input type="text" name="req_education" placeholder="Education (e.g. BS in CS)">
+
+                <label for="req_experience">Experience</label>
+                <input type="number" name="req_experience" placeholder="Years of Experience">
+
+                <label for="req_skills">Skills</label>
+                <input type="text" name="req_skills" placeholder="Skills (Python, SQL, etc.)">
+
+                <label for="req_remote">Remote?</label>
+                <input type="checkbox" name="req_remote" value="true">
+
+                <label for="requirements">Requirements</label>
+                <textarea name="requirements" rows="5" placeholder="Certifications: AWS, Azure&#10;Languagues: Spanish"></textarea>
 
 
 
-            <button type="submit">Insert</button>
-        </form>       
+                <button type="submit">Insert</button>
+            </form>      
+        </section> 
 
-
+    </div>
 {% endblock %}

@@ -12,6 +12,7 @@ Gemini
 6. "What do I need to change in jobs page to display and get json data for requirements column?"
 7. "How to get json data in a text area for applications table?"
 8. "Why is the JSON data returning as a string and not as an list?"
+9. "How to keep labels on top of inputs without using div in CSS?"
 
 ## What Worked Well
 - AI provided possible causes for not displaying flask data in html

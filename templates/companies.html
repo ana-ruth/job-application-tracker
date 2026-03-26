@@ -4,89 +4,126 @@
 
 {% block content %}
 
-        <h1>Companies</h1>
+    <h1>Companies</h1>
 
-    <table>
-        <thead>
-            <tr>
-                    <th>Company</th>
-                    <th>Industry</th>
-                    <th>Website</th>
-                    <th>City</th>
-                    <th>State</th>
-                    <th>Notes</th>
-                    <th>Actions</th>
-            </tr>
-        </thead>
+    <div class="main-content">
 
-        <tbody>
-            {% for company in companies %}
-            <tr>
-                {% if edit_id == company['company_id'] %}
-                    <form id="edit-form-{{ company['company_id'] }}" action="/companies/update/{{ company['company_id'] }}" method="POST"></form>
-                    
-                    <td>
-                        <input type="text" name="company_name" form="edit-form-{{ company['company_id'] }}" value="{{ company['company_name'] or '' }}" required>
-                    </td>
-                    <td>
-                        <input type="text" name="industry" form="edit-form-{{ company['company_id'] }}" value="{{ company['industry'] or '' }}">
-                    </td>
+        <section class ="table_section">
+            <table>
+                <thead>
+                    <tr>
+                            <th>Company</th>
+                            <th>Industry</th>
+                            <th>Website</th>
+                            <th>City</th>
+                            <th>State</th>
+                            <th>Notes</th>
+                            <th>Actions</th>
+                    </tr>
+                </thead>
 
-                    <td>
-                        <input type="text" name="website" form="edit-form-{{ company['company_id'] }}" value="{{ company['website'] or '' }}">
-                    </td>
+                <tbody>
+                    {% for company in companies %}
+                    <tr>
+                        {% if edit_id == company['company_id'] %}
+                            <form id="edit-form-{{ company['company_id'] }}" action="/companies/update/{{ company['company_id'] }}" method="POST"></form>
+                            
+                            <td>
+                                <input type="text" name="company_name" form="edit-form-{{ company['company_id'] }}" value="{{ company['company_name'] or '' }}" required>
+                            </td>
+                            <td>
+                                <input type="text" name="industry" form="edit-form-{{ company['company_id'] }}" value="{{ company['industry'] or '' }}">
+                            </td>
 
-                    <td>
-                        <input type="text" name="city" form="edit-form-{{ company['company_id'] }}" value="{{ company['city'] or ''}}">
-                    </td> 
-                    
-                    <td>
-                        <input type="text" name="state" form="edit-form-{{ company['company_id'] }}" value="{{ company['state'] or '' }}">
-                    </td>
+                            <td>
+                                <input type="text" name="website" form="edit-form-{{ company['company_id'] }}" value="{{ company['website'] or '' }}">
+                            </td>
 
-                    <td>
-                        <input type="text" name="notes" form="edit-form-{{ company['company_id'] }}" value="{{ company['notes'] or '' }}">
-                    </td>
+                            <td>
+                                <input type="text" name="city" form="edit-form-{{ company['company_id'] }}" value="{{ company['city'] or ''}}">
+                            </td> 
+                            
+                            <td>
+                                <input type="text" name="state" form="edit-form-{{ company['company_id'] }}" value="{{ company['state'] or '' }}">
+                            </td>
 
-                    <td>
-                        <button type="submit" form="edit-form-{{ company['company_id'] }}">Save</button>
-                        <a href="/companies">Cancel</a>
-                    </td>
+                            <td>
+                                <input type="text" name="notes" form="edit-form-{{ company['company_id'] }}" value="{{ company['notes'] or '' }}">
+                            </td>
 
-                {% else %}
-                    <td>{{ company['company_name'] or ''}}</td>
-                    <td>{{ company['industry'] or ''}}</td>
-                    <td>{{ company['website'] or ''}}</td>
-                    <td>{{ company['city'] or ''}} </td>
-                    <td>{{ company['state'] or ''}}</td>
-                    <td>{{ company['notes'] or ''}}</td>
-                    <td>
-                        <a href="/companies?edit={{ company['company_id'] }}">Edit</a>
+                            <td>
+                                <button type="submit" form="edit-form-{{ company['company_id'] }}">Save</button>
+                                <a href="/companies">Cancel</a>
+                            </td>
+
+                        {% else %}
+                            <td>{{ company['company_name'] or ''}}</td>
+                            <td>{{ company['industry'] or ''}}</td>
+                            <td>{{ company['website'] or ''}}</td>
+                            <td>{{ company['city'] or ''}} </td>
+                            <td>{{ company['state'] or ''}}</td>
+                            <td>{{ company['notes'] or ''}}</td>
+                            <td class="actions">
+
+                                 <!--Redirect to Edit Company Page-->
+                                <a href="/companies?edit={{ company['company_id'] }}" aria-label="Edit Company" class="edit_link">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                                    </svg>
+                                </a>
+                                
+
+                                <!--DELETE Company-->
+                                <form action="/companies/delete" method="POST">
+                                    <input type="hidden" name="company_id" value="{{company['company_id']}}">
+                                    <button type="submit" onclick="return confirm('Are you sure?')" aria-label="Delete Company" class="delete_button">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                            <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                                            </svg>
+                                    
+                                    </button>
+                                </form>
+
+
+                            </td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+
+
+        <section class = "form_insert_section">
+
+            <h2>Insert Company</h2>
+            <form action ="/companies/insert" method = "POST" class="form-insert">
+                
+                    <label for="company_name">Company</label>
+                    <input type="text" name="company_name" placeholder = "Company A" required>
+                
+                    <label for="industry">Industry</label>
+                    <input type="text" name = "industry", placeholder="Software">               
+                
+                    <label for="website">Website</label>
+                    <input type="text" name="website" placeholder="www.website.com">
                         
-                        <form action="/companies/delete" method="POST">
-                            <input type="hidden" name="company_id" value="{{company['company_id']}}">
-                            <button type="submit" onclick="return confirm('Are you sure?')">Delete</button>
-                        </form>
+                    <label for="city">City</label>
+                    <input type="text" name="city" placeholder="Miami">
 
+                    <label for="state">State</label>
+                    <input type="text" name="state" placeholder="Florida">                
 
-                    </td>
-                {% endif %}
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                    <label for="notes">Notes</label>
+                    <input type="text" name="notes" placeholder="Notes..." >
 
+                    <button type="submit">Insert</button>
+            </form>
 
-        <h2>Insert Company</h2>
-        <form action ="/companies/insert" method = "POST">
-            <input type="text" name="company_name" placeholder = "Company A" required>
-            <input type="text" name = "industry", placeholder="Software">
-            <input type="text" name="website" placeholder="www.website.com">
-            <input type="text" name="city" placeholder="Miami">
-            <input type="text" name="state" placeholder="Florida">
-            <input type="text" name="notes" placeholder="Notes..." >
+        </section>
 
-            <button type="submit">Insert</button>
-        </form>
+    </div>
 
 {% endblock %}

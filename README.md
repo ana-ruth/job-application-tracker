@@ -1,7 +1,7 @@
 # job-application-tracker
 A web application to track job applications - COP4751 Course Project
 
-## Features (Coming Soon)
+## Features
 - Track companies and job listings
 - Record application submissions
 - Manage interview schedules

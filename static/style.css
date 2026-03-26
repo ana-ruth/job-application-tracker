@@ -1,0 +1,98 @@
+html{
+    font-family: 'Helvetica';
+    margin:0;
+    padding: 0;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+}
+
+nav{
+    display: flex;
+    justify-content: flex-end;
+
+    background-color:#16537b;
+    padding: 5vh;
+
+   
+}
+nav > a{
+    font-weight: 600;
+    color: #eef1f3;
+    padding: 0 0 0 2vh;
+}
+
+nav > a:hover{
+
+    color: #aacce2;
+    cursor: pointer; 
+    
+}
+
+main{
+    padding: 4vh 6vh 3vh 6vh;
+}
+
+h1{
+    color: #0b334e;
+}
+
+a {
+  text-decoration: none;
+}
+
+thead > tr  >th{
+    color: #eef1f3;
+    background-color: #16537b;
+    padding: 1vh;
+}
+
+
+tr:nth-child(even) {
+    background-color: #ffffff; 
+}
+
+tr:nth-child(odd) {
+    background-color: #f2f2f2; 
+}
+
+tr:hover {
+    background-color: #e8f0fe;
+}
+
+/* links inside Action column */
+td > a{
+    display: inline-block;
+    background-color: #16537b;
+    color: #eef1f3;
+    border-radius: 5px;
+    padding: 1px;
+    font-size: 1.75vh;
+    width: 75px;
+    text-align: center;
+    margin-bottom: 1px;
+}
+
+td > a:hover{
+    background-color: rgb(27, 110, 165);
+}
+
+button{
+    background-color: #16537b;
+    color: #eef1f3;
+    border-radius: 5px;
+    border: None;
+    padding: 1px;
+    font-size: 1.75vh;
+    width: 77px;
+    text-align: center;
+}
+
+button:hover{
+     background-color: rgb(27, 110, 165);
+}
+
+
+

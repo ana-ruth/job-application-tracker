@@ -13,10 +13,16 @@ def get_db():
         password='root123;', database='job_tracker'
     )
 
+'''
+    Dashboard
+'''
+
 @app.route('/')
 def dashboard():
     stats = statistics()
     return render_template('dashboard.html', stats=stats)
+
+
 
 '''
     Companies Table
@@ -73,6 +79,8 @@ def createCompany():
         create_company(company, industry, website,city, state, notes)
     
     return redirect('/companies')
+
+
 
 
 '''
@@ -143,6 +151,7 @@ def updateContact(contact_id):
     return redirect(url_for('contacts'))
 
 
+
 '''
     Jobs Table
 '''
@@ -188,7 +197,7 @@ def createJob():
     date_posted = request.form['date_posted'].strip() or None
     is_active = request.form['is_active'].strip() or None
 
-    # Requirements JSON
+    # Requirements JSON column
     req_education = request.form['req_education'].strip()  or None
     req_experience = request.form['req_experience'].strip()  or None
 
@@ -197,13 +206,32 @@ def createJob():
 
     req_remote = True if request.form['req_remote'] == 'true' else False
     
-    requirements_dict = {
-        "education": req_education,
-        "experience_years": req_experience,
-        "required_skills": req_skills,
-        "remote_option": req_remote
-    }
+    raw_requirements = request.form.get('requirements','')
+    requirements_dict = {}
 
+    # Split the text into individual lines
+    lines = raw_requirements.strip().split('\n')
+
+    for line in lines:
+        # Split the line at the first colon
+        if ':' in line:
+            key, value = line.split(':', 1)
+            k = key.strip()
+            v = value.strip()
+
+            if k and v:
+                if v.isdigit():
+                    requirements_dict[k] = int(v)
+                elif ',' in v:
+                    requirements_dict[k] = [i.strip() for i in v.split(',') if i.strip()]
+                else:
+                    requirements_dict[k] = v
+
+   
+    requirements_dict["education"] = req_education
+    requirements_dict["experience_years"] = int(req_experience)
+    requirements_dict["required_skills"] = req_skills
+    requirements_dict["remote_option"] = req_remote
     
     requirements = json.dumps(requirements_dict)
     
@@ -235,18 +263,42 @@ def updateJob(job_id):
     req_skills = [s.strip() for s in input_skills.split(',') if s.strip()]
     req_remote = True if request.form.get('req_remote') == 'true' else False
 
-    req_dict = {
-        "education": req_education,
-        "experience_years": req_experience,
-        "required_skills": req_skills,
-        "remote_option": req_remote
-    }
-    requirements = json.dumps(req_dict)
+    raw_requirements = request.form.get('requirements','')
+    requirements_dict = {}
+
+    # Split the text into individual lines
+    lines = raw_requirements.strip().split('\n')
+
+    for line in lines:
+        # Split the line at the first colon
+        if ':' in line:
+            key, value = line.split(':', 1)
+            k = key.strip()
+            v = value.strip()
+
+            if k and v:
+                if v.isdigit():
+                    requirements_dict[k] = int(v)
+                elif ',' in v:
+                    requirements_dict[k] = [i.strip() for i in v.split(',') if i.strip()]
+                else:
+                    requirements_dict[k] = v
+
+   
+    requirements_dict["education"] = req_education
+    requirements_dict["experience_years"] = int(req_experience)
+    requirements_dict["required_skills"] = req_skills
+    requirements_dict["remote_option"] = req_remote
+    
+
+    requirements = json.dumps(requirements_dict)
 
 
     update_job(job_id, company_id, job_title, job_description, salary_min, salary_max, job_type, job_url, date_posted, is_active, requirements)
       
     return redirect(url_for('jobs'))
+
+
 
 
 '''
@@ -278,6 +330,8 @@ def applications():
 
 @app.route('/applications/insert', methods=['GET','POST'])
 def createApplication():
+
+    #interview data JSON column
     raw_text = request.form.get('interview_data', '')
     interview_dict = {}
 
@@ -294,7 +348,7 @@ def createApplication():
             if k and v:
                 if v.isdigit():
                     interview_dict[k] = int(v)
-                elif k.lower() == 'interviewers' or k.lower() == 'skills' or k.lower() == 'technical_questions':
+                elif k.lower() == 'interviewers' or k.lower() == 'skills' or k.lower() == 'technical_questions' or ',' in v:
                     interview_dict[k] = [i.strip() for i in v.split(',') if i.strip()]
                 else:
                     interview_dict[k] = v
@@ -367,6 +421,10 @@ def updateApplication(application_id):
     return redirect(url_for('applications'))
 
 
+
+'''
+    Job Match
+'''
 @app.route('/job_match', methods=['GET','POST'])
 def find_jobs():
 

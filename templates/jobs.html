@@ -7,6 +7,8 @@
         <h1>Jobs</h1>
 
         <table>
+
+            <!-- Jobs Table Columns-->
             <thead>
             <tr>
                 <th>Company</th>
@@ -26,6 +28,7 @@
         <tbody>
              {% for job in jobs %}
             <tr>
+                 <!-- Jobs Table View when Editing a row-->
                  {% if edit_id == job['job_id'] %}
                 <form id="edit-form-{{ job['job_id'] }}" action="/jobs/update/{{ job['job_id'] }}" method="POST"></form>
 
@@ -83,6 +86,7 @@
                         <input type="text" name="is_active" form="edit-form-{{ job['job_id'] }}" value="{{ job['is_active'] or '' }}">
                     </td>
 
+                    <!-- Requirements JSON column with semi-stuctured data -->
                   <td>
                         <div>
                             <input type="text" name="req_education" placeholder="Education" 
@@ -103,10 +107,22 @@
                                     {{ 'checked' if job['requirements'].get('remote_option') else '' }}>
                                 Remote
                             </label>
+
+                            <textarea name="requirements" 
+                                form="edit-form-{{ job['job_id'] }}" 
+                                rows="5" 
+                                placeholder="Certifications: AWS&#10;Languages: Spanish"
+                                style="font-family: monospace; font-size: 0.85em;">
+                                    {%- if job['requirements'] -%}
+                                        {%- for k, v in job['requirements'].items() -%}
+                                            {%- if k != 'education' and k != 'experience_years' and k != 'required_skills' and k != 'remote_option' -%}
+                            {{ k }}: {{ v if v is not iterable or v is string else v|join(', ') }}{{ "\n\n" }}
+                                            {%- endif -%}
+                                        {%- endfor -%}
+                                    {%- endif -%}
+                            </textarea>
                         </div>
                     </td>  
-
-
 
 
                     <td>
@@ -114,9 +130,9 @@
                         <a href="/jobs">Cancel</a>
                     </td>
 
+                <!-- Jobs Table View when Displaying all rows-->
                  {% else %}
-
-
+                
                  <td>{{job['company_name'] or ''}}</td>
                     <td>{{job['job_title'] or ''}}</td>
                     <td>{{job['job_description'] or ''}}</td>
@@ -128,17 +144,29 @@
                     <td>{{job['is_active'] or ''}}</td>
                 
 
-                    <td>
-                        {% if job['requirements'] %}
-                            <small>
-                                <strong>Edu:</strong> {{ job['requirements'].get('education', 'N/A') }}<br>
-                                <strong>Exp:</strong> {{ job['requirements'].get('experience_years', 0) }} yrs<br>
-                                <strong>Skills:</strong> {{ job['requirements'].get('required_skills', []) | join(', ') }}<br>
-                                <strong>Remote:</strong> {{ 'Yes' if job['requirements'].get('remote_option') else 'No' }}
-                            </small>
-                        {% else %}
-                            <span>No requirements</span>
-                        {% endif %}
+                    <td style="min-width: 200px; vertical-align: top;">
+                        <div style="font-size: 0.85em; line-height: 1.4;">
+                            {% if job['requirements'] %}
+                                <ul style="list-style: none; padding: 0; margin: 0;">
+                                    {% for key, value in job['requirements'].items() %}
+                                        <li style="margin-bottom: 4px;">
+                                            <strong style="text-transform: capitalize; color: #555;">
+                                                {{ key.replace('_', ' ') }}:
+                                            </strong> 
+                                            
+                                            {# Check if value is a list (like skills) to join with commas #}
+                                            {% if value is iterable and value is not string %}
+                                                <span style="color: #333;">{{ value | join(', ') }}</span>
+                                            {% else %}
+                                                <span style="color: #333;">{{ value }}</span>
+                                            {% endif %}
+                                        </li>
+                                        {% endfor %}
+                                
+                            {% else %}
+                                    <span style="color: #999; font-style: italic;">No requirements</span>
+                            {% endif %}
+                        </div>
                     </td>
 
 
@@ -200,6 +228,10 @@
             <input type="number" name="req_experience" placeholder="Years of Experience">
             <input type="text" name="req_skills" placeholder="Skills (Python, SQL, etc.)">
             <label><input type="checkbox" name="req_remote" value="true"> Remote Friendly</label>
+            <label for="requirements">Requirements</label>
+            <textarea name="requirements" rows="5" placeholder="Certifications: AWS, Azure&#10;Languagues: Spanish"></textarea>
+
+
 
             <button type="submit">Insert</button>
         </form>       

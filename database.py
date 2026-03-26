@@ -21,12 +21,15 @@ def statistics():
         conn = get_db()
         cursor = conn.cursor(dictionary=True)
         
+        #total applications
         cursor.execute('SELECT COUNT(*) as total_applications  FROM applications')
         stats['total_applications'] = cursor.fetchone()['total_applications']
 
+        #total interviews
         cursor.execute('SELECT COUNT(*) as interviews FROM applications WHERE status = "Interview"')
         stats['interviews'] = cursor.fetchone()['interviews']
 
+        #total jobs
         cursor.execute('SELECT COUNT(*) as total_jobs FROM jobs')
         stats['total_jobs'] = cursor.fetchone()['total_jobs']
 
@@ -49,7 +52,6 @@ def read_all_companies():
     cursor.execute('SELECT * FROM companies')
     companies = cursor.fetchall()
     conn.close()
-
     return companies
 
 def delete_company(company_id):
@@ -177,6 +179,7 @@ def read_all_jobs():
     jobs = cursor.fetchall()
     conn.close()
 
+    # handle JSON column
     for job in jobs:
         if job['requirements']:
             try:

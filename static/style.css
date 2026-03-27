@@ -96,8 +96,8 @@ button:hover{
     flex-direction: column;
 }
 
+/************************/
 /*Edit Link (Pencil Icon)*/
-
 .edit_link{
     color: #233D4D;
     padding: 5px;
@@ -119,8 +119,7 @@ button:hover{
 }
 
 
-
-
+/************************/
 /* Trash Button */
 .delete_button{
     background: none;     
@@ -131,7 +130,6 @@ button:hover{
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    /* transition: color 0.2s, transform 0.2s; */
 }
 
 .delete_button:hover {
@@ -140,10 +138,12 @@ button:hover{
 
 .bi-trash{
     stroke: currentColor; 
-    stroke-width: 0.5px; 
+    stroke-width: 0.3px; 
     stroke-linejoin: round;
     stroke-linecap: round;
 }
+
+
 
 
 /* Main Content for Table Pages:
@@ -158,6 +158,7 @@ button:hover{
     padding: 3vh;
 }
 
+/*********************************/
     /* - Insert forms */
 .form_insert_section {
     flex: 0 0 20vh;  
@@ -165,16 +166,56 @@ button:hover{
     top: 20px;
 }
 
-.form-insert label, input {
+.form-insert label{
     display: block;
+    font-size: 2vh;
+    margin-bottom: 0.5vh;
+    color: #475569;
+
+}
+
+.form-insert  input, select, textarea {
+
+    margin-bottom: 1.5vh;
     width: 25vh;
-    margin-bottom: 5px; 
+    height: 5vh;
+    padding: 1vh;
+    border: 1px solid #cbd5e1; 
+    border-radius: 8px;       
+    font-size: 1rem;
+    background-color: #f8fafc;
+    box-sizing: border-box;
+    font-size: 2vh;
 }
 
-.form-insert input {
-    margin-bottom: 15px; 
+.form-insert textarea{
+    height: 10vh;
 }
 
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #1f4e79;
+    box-shadow: 0 0 0 2px rgba(31, 78, 121, 0.1); 
+    background-color: #ffffff;
+}
+
+.form-insert button{
+    width: 25vh;
+    height: 5vh;
+    padding: 1vh;
+    border-radius: 8px; 
+    background-color: #1f4e79;
+    color: white;
+}
+
+.form-insert button:hover{
+    background-color: #112b43;
+    font-weight: 600;
+}
+
+
+/*********************************/
     /* -Tables */
 .table_section {
     flex: 1;                

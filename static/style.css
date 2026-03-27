@@ -57,7 +57,7 @@ tr:nth-child(odd) {
 }
 
 tr:hover {
-    background-color: #e8f0fe;
+    background-color: #edf3fcd7;
 }
 
 /* links inside Action column */
@@ -158,6 +158,29 @@ button:hover{
     padding: 3vh;
 }
 
+/* Inputs for insert form and edit row*/
+input, select, textarea {
+
+    margin-bottom: 1.5vh;
+    width: 25vh;
+    height: 5vh;
+    padding: 1vh;
+    border: 1px solid #cbd5e1; 
+    border-radius: 8px;       
+    font-size: 1rem;
+    background-color: #f8fafc;
+    box-sizing: border-box;
+    font-size: 2vh;
+}
+
+textarea{
+    height: 10vh;
+}
+
+
+
+
+
 /*********************************/
     /* - Insert forms */
 .form_insert_section {
@@ -174,26 +197,8 @@ button:hover{
 
 }
 
-.form-insert  input, select, textarea {
 
-    margin-bottom: 1.5vh;
-    width: 25vh;
-    height: 5vh;
-    padding: 1vh;
-    border: 1px solid #cbd5e1; 
-    border-radius: 8px;       
-    font-size: 1rem;
-    background-color: #f8fafc;
-    box-sizing: border-box;
-    font-size: 2vh;
-}
-
-.form-insert textarea{
-    height: 10vh;
-}
-
-
-input:focus, select:focus {
+.form-insert input:focus, select:focus {
     outline: none;
     border-color: #1f4e79;
     box-shadow: 0 0 0 2px rgba(31, 78, 121, 0.1); 
@@ -240,4 +245,64 @@ thead th {
     text-align: left;
     white-space: nowrap;
     box-shadow: inset 0 -2px 0 #ccc;
+    height: 6vh;
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 1.85vh;
 }
+
+.save_button{
+
+    display: inline-block;
+    background-color: #f6f6f6;
+    color: #16537b;
+    border-style: solid;
+    border-radius: 5px;
+    border-color:#cecece;
+    border-width: 1px;
+    padding: 1px;
+    font-size: 1.75vh;
+    width: 10.4vh;
+    height: 2.5vh;
+    text-align: center;
+    margin: 1px 1px 1px 0;
+}
+
+.save_button:hover{
+    background-color: #d5d5d5;
+    font-weight: 600;
+}
+
+.cancel_link{
+    display: inline-block;
+    background-color: #16537b;
+    color: #f6f6f6;
+    border-radius: 5px;
+    padding: 1.2px;
+    font-size: 1.75vh;
+    width: 10vh;
+    height: 2.2vh;
+    text-align: center;
+    margin: 1px 0 1px 1px;
+}
+
+.cancel_link:hover{
+    background-color: #0f3c59;
+    font-weight: 600;
+}
+
+.actions-edit td{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    justify-items: center;
+    justify-content: center;
+}
+
+    /*cells*/
+th, td{
+    padding: 1.5vh;
+}
+
+

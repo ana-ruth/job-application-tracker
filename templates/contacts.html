@@ -75,9 +75,9 @@
                                 <input type="text" name="notes" form="edit-form-{{ contact['contact_id'] }}" value="{{ contact['notes'] or '' }}">
                             </td>
 
-                            <td>
-                                <button type="submit" form="edit-form-{{ contact['contact_id'] }}">Save</button>
-                                <a href="/contacts">Cancel</a>
+                            <td class="actions-edit">
+                                <button type="submit" form="edit-form-{{ contact['contact_id'] }}" class="save_button">Save</button>
+                                <a href="/contacts" class="cancel_link">Cancel</a>
                             </td>
 
                             <!---->

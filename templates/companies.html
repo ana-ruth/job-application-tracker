@@ -51,9 +51,9 @@
                                 <input type="text" name="notes" form="edit-form-{{ company['company_id'] }}" value="{{ company['notes'] or '' }}">
                             </td>
 
-                            <td>
-                                <button type="submit" form="edit-form-{{ company['company_id'] }}">Save</button>
-                                <a href="/companies">Cancel</a>
+                            <td class="actions-edit">
+                                <button type="submit" form="edit-form-{{ company['company_id'] }}" class="save_button">Save</button>
+                                <a href="/companies" class="cancel_link">Cancel</a>
                             </td>
 
                         {% else %}

@@ -105,7 +105,7 @@
                                     value="{{ job['requirements'].get('required_skills', []) | join(', ') }}">
                                 
                                 <label style="font-size: 0.8em;">
-                                    <input type="checkbox" name="req_remote" value="true" 
+                                    <input type="checkbox" name="req_remote" value="true"
                                         form="edit-form-{{ job['job_id'] }}" 
                                         {{ 'checked' if job['requirements'].get('remote_option') else '' }}>
                                     Remote
@@ -128,9 +128,9 @@
                         </td>  
 
 
-                        <td>
-                            <button type="submit" form="edit-form-{{ job['job_id'] }}">Save</button>
-                            <a href="/jobs">Cancel</a>
+                        <td class="actions-edit">
+                            <button type="submit" form="edit-form-{{ job['job_id'] }}" class="save_button">Save</button>
+                            <a href="/jobs" class="cancel_link">Cancel</a>
                         </td>
 
                     <!-- Jobs Table View when Displaying all rows-->

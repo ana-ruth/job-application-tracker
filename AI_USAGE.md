@@ -16,6 +16,7 @@ Gemini
 10. "Help me consolidate all the dashboard queries into a single query."
 11. "How can I improve the UI of the dashboard to display all statistics?"
 12. "Improve the UI for job match page"
+13. "Explain the following error message"
 
 
 ## What Worked Well

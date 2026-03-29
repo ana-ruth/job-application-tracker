@@ -6,12 +6,28 @@
     </head>
     <body>
         <nav>
-            <a href="/companies">Companies</a>
-            <a href="/contacts">Contacts</a>
-            <a href="/jobs">Jobs</a>
-            <a href="/applications">Applications</a>
-            <a href="/job_match">Job Match</a>
-            <a href="/">Dashboard</a>
+
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-briefcase-fill" viewBox="0 0 16 16">
+                <path d="M6.5 1A1.5 1.5 0 0 0 5 2.5V3H1.5A1.5 1.5 0 0 0 0 4.5v1.384l7.614 2.03a1.5 1.5 0 0 0 .772 0L16 5.884V4.5A1.5 1.5 0 0 0 14.5 3H11v-.5A1.5 1.5 0 0 0 9.5 1zm0 1h3a.5.5 0 0 1 .5.5V3H6v-.5a.5.5 0 0 1 .5-.5"/>
+                <path d="M0 12.5A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5V6.85L8.129 8.947a.5.5 0 0 1-.258 0L0 6.85z"/>
+                </svg>
+
+                <p style = "padding-left: 1vh;">Job Tracker</p>
+
+            </div>
+            
+
+            <div>
+                <a href="/" class="nav-item {{ 'active' if request.path == '/' }}">Dashboard</a>
+                <a href="/companies" class="nav-item {{ 'active' if request.path == '/companies' }}">Companies</a>
+                <a href="/contacts" class="nav-item {{ 'active' if request.path == '/contacts' }}">Contacts</a>
+                <a href="/jobs" class="nav-item {{ 'active' if request.path == '/jobs' }}">Jobs</a>
+                <a href="/applications" class="nav-item {{ 'active' if request.path == '/applications' }}">Applications</a>
+                <a href="/job_match"  class="nav-item {{ 'active' if request.path == '/job_match' }}">Job Match</a>
+            </div>
+
+           
         </nav>
 
         <main class="container">

@@ -196,45 +196,30 @@ def createJob():
     job_url = request.form['job_url'].strip() or None
     date_posted = request.form['date_posted'].strip() or None
     is_active = request.form['is_active'].strip() or None
-
-    # Requirements JSON column
-    req_education = request.form['req_education'].strip()  or None
-    req_experience = request.form['req_experience'].strip()  or None
-
-    input_skills = request.form['req_skills']
-    req_skills = [s.strip() for s in input_skills.split(',') if s.strip()]
-
-    req_remote = request.form.get('req_remote', '').strip() or None
     
-    raw_requirements = request.form.get('requirements','')
+    raw_text = request.form.get('requirements', '')
     requirements_dict = {}
 
     # Split the text into individual lines
-    lines = raw_requirements.strip().split('\n')
-
+    lines = raw_text.strip().split('\n')
+    
     for line in lines:
-        # Split the line at the first colon
         if ':' in line:
+            # Split the line at the first colon
             key, value = line.split(':', 1)
             k = key.strip()
             v = value.strip()
-
+            
             if k and v:
                 if v.isdigit():
                     requirements_dict[k] = int(v)
-                elif ',' in v:
+                elif k.lower() == 'required_skills' or k.lower() == 'skills' or ',' in v:
                     requirements_dict[k] = [i.strip() for i in v.split(',') if i.strip()]
                 else:
                     requirements_dict[k] = v
 
-   
-    requirements_dict["education"] = req_education or None
-    requirements_dict["experience_years"] = int(req_experience) if req_experience else None
-    requirements_dict["required_skills"] = req_skills or None
-    requirements_dict["remote_option"] = req_remote or None
-    
     requirements = json.dumps(requirements_dict)
-    
+
 
     create_job(company_id, job_title, job_description, salary_min, salary_max, job_type, job_url, date_posted, is_active, requirements)
 
@@ -254,45 +239,27 @@ def updateJob(job_id):
     job_url = request.form.get('job_url','').strip() or None
     date_posted = request.form.get('date_posted','').strip() or None
     is_active = request.form.get('is_active','').strip() or None
-
-    # Requirements JSON
-    req_education = request.form.get('req_education', '').strip() or None
-    req_experience = request.form.get('req_experience', 0)
     
-    input_skills = request.form.get('req_skills', '')
-    req_skills = [s.strip() for s in input_skills.split(',') if s.strip()]
-    req_remote = True if request.form.get('req_remote') == 'true' else False
-
-    raw_requirements = request.form.get('requirements','')
+    #requirements_data JSON column
+    raw_text = request.form.get('requirements', '')
     requirements_dict = {}
-
-    # Split the text into individual lines
-    lines = raw_requirements.strip().split('\n')
-
-    for line in lines:
-        # Split the line at the first colon
+    
+    # Split text into lines and process each "Key: Value" pair
+    for line in raw_text.strip().split('\n'):
         if ':' in line:
-            key, value = line.split(':', 1)
+            key, val = line.split(':', 1)
             k = key.strip()
-            v = value.strip()
-
+            v = val.strip()
+            
             if k and v:
                 if v.isdigit():
                     requirements_dict[k] = int(v)
-                elif ',' in v:
+                elif k.lower() == 'required_skills' or k.lower() == 'skills' or ',' in v:
                     requirements_dict[k] = [i.strip() for i in v.split(',') if i.strip()]
                 else:
                     requirements_dict[k] = v
 
-   
-    requirements_dict["education"] = req_education
-    requirements_dict["experience_years"] = int(req_experience)
-    requirements_dict["required_skills"] = req_skills
-    requirements_dict["remote_option"] = req_remote
-    
-
     requirements = json.dumps(requirements_dict)
-
 
     update_job(job_id, company_id, job_title, job_description, salary_min, salary_max, job_type, job_url, date_posted, is_active, requirements)
       

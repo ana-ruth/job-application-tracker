@@ -15,6 +15,7 @@ Gemini
 9. "How to keep labels on top of inputs without using div in CSS?"
 10. "Help me consolidate all the dashboard queries into a single query."
 11. "How can I improve the UI of the dashboard to display all statistics?"
+12. "Improve the UI for job match page"
 
 
 ## What Worked Well

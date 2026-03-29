@@ -50,7 +50,7 @@
                         </td>
 
                         <td>
-                            <input type="text" name="job_title" form="edit-form-{{ job['job_id'] }}" value="{{ job['job_title'] or '' }}">
+                            <input type="text" name="job_title" form="edit-form-{{ job['job_id'] }}" value="{{ job['job_title'] or '' }}" required>
                         </td>
                         
                         <td>
@@ -89,42 +89,21 @@
                             <input type="text" name="is_active" form="edit-form-{{ job['job_id'] }}" value="{{ job['is_active'] or '' }}">
                         </td>
 
-                        <!-- Requirements JSON column with semi-stuctured data -->
-                    <td>
-                            <div>
-                                <input type="text" name="req_education" placeholder="Education" 
-                                    form="edit-form-{{ job['job_id'] }}" 
-                                    value="{{ job['requirements'].get('education', '') }}">
-                                
-                                <input type="number" name="req_experience" placeholder="Years Exp" 
-                                    form="edit-form-{{ job['job_id'] }}" 
-                                    value="{{ job['requirements'].get('experience_years', 0) }}">
-                                
-                                <input type="text" name="req_skills" placeholder="Skills (comma separated)" 
-                                    form="edit-form-{{ job['job_id'] }}" 
-                                    value="{{ job['requirements'].get('required_skills', []) | join(', ') }}">
-                                
-                                <label style="font-size: 0.8em;">
-                                    <input type="checkbox" name="req_remote" value="true"
-                                        form="edit-form-{{ job['job_id'] }}" 
-                                        {{ 'checked' if job['requirements'].get('remote_option') else '' }}>
-                                    Remote
-                                </label>
-
-                                <textarea name="requirements" 
-                                    form="edit-form-{{ job['job_id'] }}" 
-                                    rows="5" 
-                                    placeholder="Certifications: AWS&#10;Languages: Spanish"
-                                    style="font-family: monospace; font-size: 0.85em;">
-                                        {%- if job['requirements'] -%}
-                                            {%- for k, v in job['requirements'].items() -%}
-                                                {%- if k != 'education' and k != 'experience_years' and k != 'required_skills' and k != 'remote_option' -%}
-                                {{ k }}: {{ v if v is not iterable or v is string else v|join(', ') }}{{ "\n\n" }}
-                                                {%- endif -%}
-                                            {%- endfor -%}
-                                        {%- endif -%}
-                                </textarea>
-                            </div>
+                        <!-- Requirements JSON column -->
+                        <td>
+                            <textarea name="requirements" 
+                                form="edit-form-{{ job['job_id'] }}" 
+                                rows="5" 
+                                placeholder="Certifications: AWS&#10;Languages: Spanish"
+                                style="font-family: monospace; font-size: 0.85em;">
+                                    {%- if job['requirements'] -%}
+                                        {%- for k, v in job['requirements'].items() -%}
+                                            {%- if k != 'education' and k != 'experience_years' and k != 'required_skills' and k != 'remote_option' -%}
+                            {{ k }}: {{ v if v is not iterable or v is string else v|join(', ') }}{{ "\n\n" }}
+                                            {%- endif -%}
+                                        {%- endfor -%}
+                                    {%- endif -%}
+                            </textarea>
                         </td>  
 
 
@@ -146,10 +125,10 @@
                         <td>{{job['date_posted'] or ''}}</td>
                         <td>{{job['is_active'] or ''}}</td>
                     
-
+                            <!-- Requirements JSON column -->
                         <td style="min-width: 200px; vertical-align: top;">
                             <div style="font-size: 0.85em; line-height: 1.4;">
-                                {% if job['requirements'] %}
+                                {% if job['requirements'] and job['requirements'] is mapping %}
                                     <ul style="list-style: none; padding: 0; margin: 0;">
                                         {% for key, value in job['requirements'].items() %}
                                             <li style="margin-bottom: 4px;">
@@ -226,10 +205,10 @@
                 
 
                 <label for="job_title">Job Title</label>
-                <input type="text" name = "job_title" placeholder="Software Developer">
+                <input type="text" name = "job_title" placeholder="Software Developer" required>
 
                 <label for="job_description">Job Description</label>
-                <input type="text" name="job_description" placeholder="Requires Java experience">
+                <input type="text" name="job_description" placeholder="Involves Full-Stack work">
 
                 <label for="salary_min">Mininmum Salary</label>
                 <input type="text" name="salary_min" placeholder="50000">
@@ -254,24 +233,8 @@
                 <label for="is_active">Active? (1=yes, 0=no)</label>
                 <input type="text" name="is_active" placeholder="1">
 
-
-                <!--Requirements JSON Column-->
-                <label for="req_education">Education</label>
-                <input type="text" name="req_education" placeholder="Education (e.g. BS in CS)">
-
-                <label for="req_experience">Experience</label>
-                <input type="number" name="req_experience" placeholder="Years of Experience">
-
-                <label for="req_skills">Skills</label>
-                <input type="text" name="req_skills" placeholder="Skills (Python, SQL, etc.)">
-
-                <label for="req_remote">Remote?</label>
-                <input type="checkbox" name="req_remote">
-
                 <label for="requirements">Requirements</label>
                 <textarea name="requirements" rows="5" placeholder="Certifications: AWS, Azure&#10;Languagues: Spanish"></textarea>
-
-
 
                 <button type="submit">Insert</button>
             </form>      

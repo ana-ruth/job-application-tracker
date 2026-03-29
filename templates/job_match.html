@@ -4,41 +4,69 @@
 
 {% block content %}
 
+
+    <div class="match_container">
     <h1>Job Match Results</h1>
 
-    <form action="/job_match" method = "POST">
-        <label for="skills">Your Skills:</label>
-        <input type="text" name = "skills" placeholder="SQL, Java, Python">
-        <button type="submit">Match Me</button>
-    
-    </form>
-    
+    <div class="search-container">
+        <form action="/job_match" method="POST" style="display:flex; width:100%; gap:15px;">
+            <div class="search-input-group">
+                <label>Your Skills</label>
+                <input type="text" name="skills" class = "match_input" placeholder="e.g. SQL, Java, React" value="{{ user_skills | join(', ') }}">
+            </div>
+            <button class="match_btn" type="submit">Match Me</button>
+        </form>
+    </div>
 
-
-    <p>Search results for: <strong>{{ user_skills | join(', ') }}</strong></p>
-
+    <p style="color: #64748b;">Showing results for: 
+        {% for skill in user_skills %}
+            <span class="tag">{{ skill }}</span>
+        {% endfor %}
+    </p>
 
     {% for job in jobs %}
-    <div class="job-result">
-        <h3>{{ job['title'] }} <span class="badge">{{ job['match_percent'] }}% Match</span></h3>
-        <p><strong>Company:</strong> {{ job['company_name'] }}</p>
-        
-        <div class="skills-info">
-            {% if job['match_percent'] == 100 %}
-                <p class="success">You have all the required skills for this position!</p>
-            {% else %}
-                <div class="warning">
-                    <strong>Missing Skills:</strong> 
-                    {{ job['missing'] | join(', ') }}
-
-                    ({{job['match_count']}} / {{job['total_skills']}}) skills
+    <div class="job-card">
+        <div class="job-header">
+            <div>
+                <h3 style="margin:0;">{{ job['title'] }}</h3>
+                <p style="color: #64748b; margin: 5px 0;">{{ job['company_name'] }}</p>
+            </div>
+            
+            <div class="match-meter-container">
+                <strong style="color: {{ 'var(--success)' if job['match_percent'] > 70 else 'var(--warning)' }}">
+                    {{ job['match_percent'] }}% Match
+                </strong>
+                <div class="progress-bg">
+                    <div class="progress-fill" style="width: {{ job['match_percent'] }}%; background: {{ 'var(--success)' if job['match_percent'] > 70 else 'var(--warning)' }};"></div>
                 </div>
+            </div>
+        </div>
+
+        <div class="skills-info" style="margin-top: 1.5rem;">
+            {% if job['match_percent'] == 100 %}
+                <p style="color: var(--success); font-weight: 600;">✓ Perfect Match! You have all required skills.</p>
+            {% else %}
+                <p style="font-size: 0.9rem; margin-bottom: 5px;"><strong>Missing Skills:</strong></p>
+                {% for m_skill in job['missing'] %}
+                    <span class="tag tag-missing">{{ m_skill }}</span>
+                {% endfor %}
+                <p style="font-size: 0.75rem; color: #94a3b8; margin-top: 10px;">
+                    Matched {{ job['match_count'] }} of {{ job['total_skills'] }} requirements
+                </p>
             {% endif %}
         </div>
     </div>
     {% else %}
-        <p>No jobs found matching those skills. Try expanding your search!</p>
+        <div class="job-card" style="text-align: center; color: #94a3b8;">
+            <p>No jobs found. Try adding more skills to your profile!</p>
+        </div>
     {% endfor %}
+</div>
+
+
+
+
+
 
 
 {% endblock %}

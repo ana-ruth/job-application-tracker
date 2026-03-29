@@ -9,27 +9,48 @@ body{
     padding: 0;
 }
 
+/** Nav bar **/
 nav{
     display: flex;
-    justify-content: flex-end;
-
+    justify-content: space-between;
     background-color:#0b2a3f;
-    padding: 5vh;
-
-   
+    padding: 4vh;
 }
-nav > a{
+
+nav > div > p{
+    margin: 0;
     font-weight: 600;
     color: #eef1f3;
-    padding: 0 0 0 2vh;
 }
 
-nav > a:hover{
+nav > div > a{
+    font-weight: 600;
+    color: #eef1f3;
+    margin: 0 1.5vh 0 1.5vh;
+}
+
+nav > div>  a:hover{
 
     color: #aacce2;
     cursor: pointer; 
     
 }
+
+nav > div{
+    display: flex;
+    flex-direction: row;
+}
+
+.bi-briefcase-fill{
+    color: #89bbdd;
+}
+
+.nav-item.active {
+    color: #89bbdd;
+
+    border-bottom: 2px solid white;
+}
+
 
 
 main{
@@ -51,55 +72,29 @@ a {
 }
 
 
-tr:nth-child(even) {
-    background-color: #ffffff; 
-}
-
-tr:nth-child(odd) {
-    background-color: #f2f2f2; 
-}
-
-tr:hover {
-    background-color: #edf3fcd7;
-}
-
-/* links inside Action column */
-
-/* td > a{
-    display: inline-block;
-    background-color: #16537b;
-    color: #eef1f3;
-    border-radius: 5px;
-    padding: 1px;
-    font-size: 1.75vh;
-    width: 75px;
-    text-align: center;
-    margin-bottom: 1px;
-} */
-
-
-
+ 
 button{
-    background-color: #16537b;
     color: #eef1f3;
     border-radius: 5px;
     border: None;
-    padding: 1px;
     font-size: 1.75vh;
     width: 77px;
     text-align: center;
-}
+    background-color: #112b43;
+     
+} 
 
 button:hover{
      cursor: pointer;
 } 
+
+/** Actions Column **/
 
 .actions{
     display: flex;
     flex-direction: column;
 }
 
-/************************/
 /*Edit Link (Pencil Icon)*/
 .edit_link{
     color: #233D4D;
@@ -122,7 +117,7 @@ button:hover{
 }
 
 
-/************************/
+
 /* Trash Button */
 .delete_button{
     background: none;     
@@ -181,10 +176,7 @@ textarea{
 }
 
 
-
-
-
-/*********************************/
+  /************************/
     /* - Insert forms */
 .form_insert_section {
     flex: 0 0 20vh;  
@@ -200,26 +192,21 @@ textarea{
 
 }
 
-
-.form-insert input:focus, select:focus {
-    outline: none;
-    border-color: #1f4e79;
-    box-shadow: 0 0 0 2px rgba(31, 78, 121, 0.1); 
-    background-color: #ffffff;
-}
-
 .form-insert button{
     width: 25vh;
     height: 5vh;
     padding: 1vh;
     border-radius: 8px; 
-    background-color: #1f4e79;
+    background-color: #112b43;
     color: white;
+    font-weight: 800;
+
 }
 
 .form-insert button:hover{
-    background-color: #112b43;
-    font-weight: 600;
+    background-color: #89bbdd;
+    color: #062441;
+    font-weight: 800; 
 }
 
 
@@ -241,13 +228,12 @@ table {
 thead th {
     position: sticky;
     top: 0;
-    background-color: #1f4e79; 
+    background-color: #0b2a3f; 
     color: white; 
-    padding: 1vh;
+    padding: 2vh;
     z-index: 10;
     text-align: left;
     white-space: nowrap;
-    box-shadow: inset 0 -2px 0 #ccc;
     height: 6vh;
     text-transform: uppercase;
     font-weight: 500;
@@ -303,14 +289,26 @@ thead th {
     justify-content: center;
 }
 
-    /*cells*/
+  /*cells*/
 th, td{
-    padding: 1.5vh;
+    padding: 1.25vh;
+}
+
+  /*rows*/
+tr:nth-child(even) {
+    background-color: #ffffff; 
+}
+
+tr:nth-child(odd) {
+    background-color: #f2f2f2; 
+}
+
+tr:hover {
+    background-color: #edf3fcd7;
 }
 
 
-
-/*****************/
+/***********************/
 /*    Dashboard    */
 
 .dashboard {
@@ -320,7 +318,6 @@ th, td{
     --text-light: #6b7280;
     --text-dark: #111827;
 
-    font-family: 'Inter', sans-serif;
     background-color: #ffffff;
     color: var(--text-dark);
     margin: 0;
@@ -396,3 +393,86 @@ header {
 
 .small-label { font-size: 0.75rem; color: var(--text-light); text-transform: uppercase; margin-bottom: 0.5rem; display: block; }
 .big-num { font-size: 1.5rem; font-weight: 700; }
+
+
+
+/*****************************/
+    /** Job Match Page **/
+
+.match_container{
+    padding: 5rem;
+    --primary: #004884;
+    --success: #2ecc71;
+    --warning: #f39c12;
+    --border: #e1e4e8;
+}
+
+
+/* Search Bar Styling */
+.search-container {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    margin-bottom: 2rem;
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+}
+
+.search-input-group { 
+    flex-grow: 1; 
+}
+
+.match_input {
+    width: 100%;
+}
+
+.match_btn {
+    width: 25vh;
+    height: 5vh;
+    border-radius: 8px; 
+    background-color: #112b43;
+    color: white;
+    margin-top: 2.5vh;
+    font-weight: 800;
+}
+
+.match_btn:hover{
+    background-color: #89bbdd;
+    color: #062441;
+    font-weight: 800; 
+}
+
+/* Job Result Cards */
+.job-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.job-card:hover {
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.job-header { display: flex; justify-content: space-between; align-items: flex-start; }
+
+/* Match Meter */
+.match-meter-container { width: 150px; text-align: right; }
+.progress-bg { background: #eee; height: 8px; border-radius: 4px; overflow: hidden; margin-top: 5px; }
+.progress-fill { height: 100%; border-radius: 4px; }
+
+/* Skill Tags */
+.tag {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    margin: 4px 2px;
+    background: #f1f5f9;
+    color: #475569;
+}
+.tag-missing { background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; }
+

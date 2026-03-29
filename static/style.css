@@ -9,6 +9,41 @@ body{
     padding: 0;
 }
 
+main{
+    padding: 4vh 6vh 3vh 6vh;
+}
+
+h1{
+    color: #0b334e;
+    padding-left: 4vh;
+    
+}
+
+h2{
+    margin: 0 0 1vh 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+
+ 
+button{
+    color: #eef1f3;
+    border-radius: 5px;
+    border: None;
+    font-size: 1.75vh;
+    width: 77px;
+    text-align: center;
+    background-color: #112b43;
+     
+} 
+
+button:hover{
+     cursor: pointer;
+} 
+
 /** Nav bar **/
 nav{
     display: flex;
@@ -53,49 +88,18 @@ nav > div{
 
 
 
-main{
-    padding: 4vh 6vh 3vh 6vh;
-}
-
-h1{
-    color: #0b334e;
-    padding-left: 4vh;
-    
-}
-
-h2{
-    margin: 0 0 1vh 0;
-}
-
-a {
-  text-decoration: none;
-}
-
-
- 
-button{
-    color: #eef1f3;
-    border-radius: 5px;
-    border: None;
-    font-size: 1.75vh;
-    width: 77px;
-    text-align: center;
-    background-color: #112b43;
-     
-} 
-
-button:hover{
-     cursor: pointer;
-} 
 
 /** Actions Column **/
+    /* - Edit Link 
+    - Delete Button
+    */
 
 .actions{
     display: flex;
     flex-direction: column;
 }
 
-/*Edit Link (Pencil Icon)*/
+    /* - Edit Link (Pencil Icon)*/
 .edit_link{
     color: #233D4D;
     padding: 5px;
@@ -118,7 +122,7 @@ button:hover{
 
 
 
-/* Trash Button */
+    /* - Delete Button (Trash Icon) */
 .delete_button{
     background: none;     
     border: none;
@@ -156,6 +160,9 @@ button:hover{
     padding: 3vh;
 }
 
+
+    /* - Insert forms */
+
 /* Inputs for insert form and edit row*/
 input, select, textarea {
 
@@ -176,8 +183,6 @@ textarea{
 }
 
 
-  /************************/
-    /* - Insert forms */
 .form_insert_section {
     flex: 0 0 20vh;  
     position: sticky; 
@@ -210,7 +215,6 @@ textarea{
 }
 
 
-/*********************************/
     /* -Tables */
 .table_section {
     flex: 1;                
@@ -224,7 +228,7 @@ table {
     border-spacing: 0;
 
 }
-
+    /*table header row*/
 thead th {
     position: sticky;
     top: 0;
@@ -240,6 +244,7 @@ thead th {
     font-size: 1.85vh;
 }
 
+    /*save button*/
 .save_button{
 
     display: inline-block;
@@ -262,6 +267,7 @@ thead th {
     font-weight: 600;
 }
 
+    /*save link*/
 .cancel_link{
     display: inline-block;
     background-color: #16537b;
@@ -295,6 +301,7 @@ th, td{
 }
 
   /*rows*/
+
 tr:nth-child(even) {
     background-color: #ffffff; 
 }
@@ -308,7 +315,9 @@ tr:hover {
 }
 
 
-/***********************/
+
+
+
 /*    Dashboard    */
 
 .dashboard {
@@ -396,7 +405,6 @@ header {
 
 
 
-/*****************************/
     /** Job Match Page **/
 
 .match_container{

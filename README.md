@@ -10,3 +10,4 @@ A web application to track job applications - COP4751 Course Project
 - MySQL Database
 - Python with Flask
 - HTML/CSS for the web interface
+

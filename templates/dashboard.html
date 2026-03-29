@@ -10,6 +10,7 @@
             <span style="color: var(--text-light);">Application Overview</span>
         </header>
 
+        <!--Application Status Bars-->
         <ul class="pipeline-list">
             {% set total = stats['total_applications'] if stats['total_applications'] > 0 else 1 %}
             
@@ -45,6 +46,7 @@
             </li>
         </ul>
 
+        <!--General Statistics-->
         <div class="footer-metrics">
             <div>
                 <span class="small-label">Total Volume</span>

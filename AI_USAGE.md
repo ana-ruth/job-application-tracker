@@ -41,3 +41,8 @@ Gemini
 - Fixed CSS and HTML code for dashboard so that styling for this page did not affect other pages.
 
 ## Lessons Learned
+- Don't trust blindly AI code, read it before using it.
+- Identify any potential places in AI generated code where there might be conflict with my own code.
+- Remove anything extra AI gives.
+- AI gives good ideas to do something I want to implement.
+- It provides thorough explanations for any error messages.

@@ -10,6 +10,8 @@
 
         <section class ="table_section">
             <table>
+
+                <!-- Contacts Table Columns-->
                 <thead>
                     <tr>
                         <th>Company</th>
@@ -28,8 +30,9 @@
                 <tbody>
                     {% for contact in contacts %}
                     <tr>
+                        <!-- Contacts Table View when Editing a row-->
                         {% if edit_id == contact['contact_id'] %}
-                        <!---->
+                        
                         <form id="edit-form-{{ contact['contact_id'] }}" action="/contacts/update/{{ contact['contact_id'] }}" method="POST"></form>
 
                         <td>                    
@@ -80,9 +83,8 @@
                                 <a href="/contacts" class="cancel_link">Cancel</a>
                             </td>
 
-                            <!---->
-
-
+                            
+                        <!-- Applications Table View when Displaying all rows-->
                         {% else %}
                             <td>{{contact['company_name'] or ''}}</td>
                             <td>{{contact['first_name'] or ''}}</td>
@@ -126,6 +128,7 @@
             </table>
         </section>
 
+        <!--Insert Contact Form-->
         <section class = "form_insert_section">
                 <h2>Insert Contact</h2>
                 <form action ="/contacts/insert" method = "POST" class="form-insert">

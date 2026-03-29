@@ -2,7 +2,6 @@ from flask import Flask, render_template, request, redirect, url_for
 import mysql.connector
 
 from database import *
-
 import json
 
 app = Flask(__name__)
@@ -12,6 +11,7 @@ def get_db():
         host='localhost', user='root',
         password='root123;', database='job_tracker'
     )
+
 
 '''
     Dashboard
@@ -26,15 +26,13 @@ def dashboard():
 
 '''
     Companies Table
+        functions: companies(), updateCompany(), deleteCompany(), createCompany()
 '''
 
 @app.route('/companies')
 def companies():
 
-    edit_id = request.args.get('edit', type=int)    
-    conn = get_db() 
-    cursor = conn.cursor(dictionary=True) 
-    cursor.close
+    edit_id = request.args.get('edit', type=int)
     companies = read_all_companies()
 
     return render_template('companies.html', companies=companies, edit_id=edit_id)
@@ -85,6 +83,7 @@ def createCompany():
 
 '''
     Contacts Table
+        functions: contacts(), createContacts(), deleteContact(), updateContact()
 '''
 
 @app.route('/contacts')
@@ -136,7 +135,6 @@ def deleteContact():
 def updateContact(contact_id):
    
     # if user input is empty set it to None (Null)
-    
     company_id = request.form.get('company_id') 
     first_name = request.form.get('first_name','').strip() or None
     last_name = request.form.get('last_name','').strip() or None
@@ -154,6 +152,7 @@ def updateContact(contact_id):
 
 '''
     Jobs Table
+        functions: jobs(), deleteJob(), createJob(), updateJob()
 '''
 @app.route('/jobs')
 def jobs():
@@ -197,6 +196,7 @@ def createJob():
     date_posted = request.form['date_posted'].strip() or None
     is_active = request.form['is_active'].strip() or None
     
+    # JSON Column
     raw_text = request.form.get('requirements', '')
     requirements_dict = {}
 
@@ -229,7 +229,6 @@ def createJob():
 def updateJob(job_id):
    
     # if user input is empty set it to None (Null)
-    
     company_id = request.form.get('company_id') 
     job_title = request.form.get('job_title','').strip() or None
     job_description = request.form.get('job_description','').strip() or None
@@ -270,6 +269,7 @@ def updateJob(job_id):
 
 '''
     Applications Table
+        functions: applications(), createApplication(), deleteApplication(), updateApplication()
 '''
 
 @app.route('/applications')
@@ -322,6 +322,7 @@ def createApplication():
 
     interview_data = json.dumps(interview_dict)
 
+    # if user input is empty set it to None (Null)
     job_id = request.form['job_id'] or None
     application_date =  request.form['application_date'].strip() or None
     status = request.form['status'].strip() or None
@@ -330,7 +331,6 @@ def createApplication():
     response_date = request.form['response_date'].strip() or None
     interview_date = request.form['interview_date'].strip() or None
     notes = request.form['notes'].strip() or None
-
 
 
     create_application(job_id, application_date, status, resume_version, cover_letter_sent, response_date, interview_date, notes, interview_data)
@@ -350,7 +350,6 @@ def deleteApplication():
 def updateApplication(application_id):
    
     # if user input is empty set it to None (Null)
-    
     company_id = request.form.get('company_id') 
     job_id = request.form.get('job_id','')
 
@@ -391,6 +390,7 @@ def updateApplication(application_id):
 
 '''
     Job Match
+        functions: find_jobs(), job_match()
 '''
 @app.route('/job_match', methods=['GET','POST'])
 def find_jobs():

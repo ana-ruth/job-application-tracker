@@ -8,6 +8,7 @@
     <div class="match_container">
     <h1>Job Match Results</h1>
 
+    <!--Search bar to insert skills for job matching-->
     <div class="search-container">
         <form action="/job_match" method="POST" style="display:flex; width:100%; gap:15px;">
             <div class="search-input-group">
@@ -24,6 +25,7 @@
         {% endfor %}
     </p>
 
+    <!--Job Matching results section-->
     {% for job in jobs %}
     <div class="job-card">
         <div class="job-header">
@@ -56,17 +58,14 @@
             {% endif %}
         </div>
     </div>
+
+    <!--Empty section if no jobs are found-->
     {% else %}
         <div class="job-card" style="text-align: center; color: #94a3b8;">
             <p>No jobs found. Try adding more skills to your profile!</p>
         </div>
     {% endfor %}
 </div>
-
-
-
-
-
 
 
 {% endblock %}

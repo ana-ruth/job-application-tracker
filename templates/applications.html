@@ -10,6 +10,8 @@
 
         <section class ="table_section">
             <table>
+
+                <!-- Applications Table Columns-->
                 <thead>
                     <tr>
                         <th>Company</th>
@@ -31,6 +33,8 @@
                 <tbody>
                     {% for application in applications %}
                     <tr>
+
+                        <!-- Applications Table View when Editing a row-->
                         {% if edit_id == application['application_id'] %}
 
                         <form id="edit-form-{{ application['application_id'] }}" action="/applications/update/{{ application['application_id'] }}" method="POST"></form>
@@ -68,6 +72,7 @@
                             <input type="date" name="application_date" form="edit-form-{{ application['application_id'] }}" value="{{ application['application_date'] or '' }}">
                         </td>
 
+                        <!-- Status enum() column -->
                         <td>
                         
                             <select name="status"form="edit-form-{{ application['application_id'] }}">
@@ -106,6 +111,7 @@
                         </td>
 
 
+                        <!-- Interview data JSON column -->
                         <td>
                             <textarea name="interview_raw" 
                                     form="edit-form-{{ application['application_id'] }}" 
@@ -123,6 +129,7 @@
                         </td>
 
 
+                        <!-- Applications Table View when Displaying all rows-->
                         {% else %}
                                 <td>{{application['company_name'] or ''}}</td>
                                 <td>{{application['job_title'] or ''}}</td>
@@ -134,7 +141,7 @@
                                 <td>{{application['interview_date'] or ''}}</td>
                                 <td>{{application['notes'] or ''}}</td>
                             
-                            
+                                <!-- interview data JSON column -->
                                 <td style="min-width: 200px; vertical-align: top;">
                                     <div style="font-size: 0.85em; line-height: 1.4;">
                                         {% if application['interview_data'] and application['interview_data'] is mapping %}
@@ -197,6 +204,7 @@
         </section>
 
 
+        <!--Insert Application Form-->
         <section class = "form_insert_section">
             <h2>Insert Application</h2>
             <form action ="/applications/insert" method = "POST" class="form-insert">
@@ -226,6 +234,7 @@
                 <label for="application_date">Application Date</label>
                 <input type="date" name = "application_date" placeholder="" required>
 
+                <!--status enum() column-->
                 <label for="status">Status</label>
                 <select name="status">
                         <option value="Applied">Applied</option>

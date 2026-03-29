@@ -66,8 +66,8 @@
                             <input type="text" name="salary_max" form="edit-form-{{ job['job_id'] }}" value="{{ job['salary_max'] or '' }}">
                         </td>
 
+                        <!--Job Type enum() column-->
                         <td>                    
-                            
                             <select name="job_type" id="job_type" form="edit-form-{{ job['job_id'] }}">
                                 <option value="Full-time" {{ 'selected' if job['job_type'] == 'Full-time' else '' }}>Full-time</option>
                                 <option value="Part-time" {{ 'selected' if job['job_type'] == 'Part-time' else '' }}>Part-time</option>
@@ -187,6 +187,8 @@
         
         </section>
 
+
+        <!--Insert Job Form-->
     <section class = "form_insert_section">
 
             <h2>Insert Job</h2>
@@ -216,6 +218,7 @@
                 <label for="salary_max">Maximum Salary</label>
                 <input type="text" name="salary_max" placeholder="80000">
 
+                <!--Job Type enum() column-->
                 <label for="job_type">Job Type</label>
                 <select name="job_type" id="job_type">
                         <option value="Full-time">Full-time</option>

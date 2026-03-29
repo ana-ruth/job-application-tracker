@@ -21,6 +21,7 @@ def statistics():
         conn = get_db()
         cursor = conn.cursor(dictionary=True)
         
+        # Get application and overall statistics from tables
         query = """
                 SELECT 
                         (SELECT COUNT(*) FROM jobs) AS total_jobs,
@@ -55,11 +56,12 @@ def statistics():
 
 '''
     Companies Table
+        functions: read_all_companies, delete_company, update_company, create_company
 '''
 def read_all_companies():
     conn = get_db()
     cursor = conn.cursor(dictionary=True)
-    cursor.execute('SELECT * FROM companies')
+    cursor.execute('SELECT * FROM companies') # Select all companies
     companies = cursor.fetchall()
     conn.close()
     return companies
@@ -68,6 +70,8 @@ def delete_company(company_id):
     try:
         conn = get_db()
         cursor = conn.cursor(dictionary=True)
+
+        # Delete selected company
         delete_query = 'DELETE FROM companies WHERE company_id = %s'
         cursor.execute(delete_query, (company_id,))
         conn.commit()
@@ -82,9 +86,11 @@ def update_company(company_id, company_name, industry, website, city, state, not
     try:
         conn = get_db()
         cursor = conn.cursor(dictionary=True)   
+
+        # Update selected company
         update_query = 'UPDATE companies SET company_name = %s, industry = %s, website = %s, city = %s, state = %s, notes = %s WHERE company_id = %s'
-        
         cursor.execute(update_query, (company_name, industry, website, city, state, notes, company_id))
+        
         conn.commit()
         conn.close()
 
@@ -96,6 +102,8 @@ def create_company(company_name, industry, website, city, state, notes):
     try:
         conn = get_db()
         cursor = conn.cursor(dictionary=True)   
+
+        # Insert new company
         insert_query = '''INSERT INTO companies (company_name, industry, website, city, state, notes) 
                            VALUES (%s, %s, %s, %s, %s, %s)
                        '''
@@ -111,11 +119,14 @@ def create_company(company_name, industry, website, city, state, notes):
 
 '''
     Contacts Table
+        functions: read_all_contacts, create_contact, delete_contact, update_contact
 '''
 
 def read_all_contacts():
     conn = get_db()
     cursor = conn.cursor(dictionary=True)
+
+    # Select all contacts and their corresponding companies
     cursor.execute("""
                    SELECT c.*, co.company_name 
                    FROM contacts c 
@@ -131,7 +142,9 @@ def read_all_contacts():
 def create_contact(company_id, first_name, last_name, email, phone, job_title, linkedin_url, notes):
     try:
         conn = get_db()
-        cursor = conn.cursor(dictionary=True)   
+        cursor = conn.cursor(dictionary=True) 
+
+        # Insert new contact  
         insert_query = '''INSERT INTO contacts (company_id, first_name, last_name, email, phone, job_title, linkedin_url, notes) 
                            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
                        '''
@@ -148,6 +161,8 @@ def delete_contact(contactID):
     try:
         conn = get_db()
         cursor = conn.cursor(dictionary=True)
+
+        # Delete selected contact
         delete_query = 'DELETE FROM contacts WHERE contact_id = %s'
         cursor.execute(delete_query, (contactID,))
         conn.commit()
@@ -162,9 +177,11 @@ def update_contact(contact_id, company_id, first_name, last_name, email, phone, 
     try:
         conn = get_db()
         cursor = conn.cursor(dictionary=True)   
+
+        # Update selected contact
         update_query = 'UPDATE contacts SET company_id = %s, first_name = %s, last_name = %s, email = %s, phone = %s, job_title = %s, linkedin_url = %s, notes = %s WHERE contact_id = %s'
-        
         cursor.execute(update_query, (company_id, first_name, last_name, email, phone, job_title, linkedin_url, notes, contact_id))
+        
         conn.commit()
         conn.close()
 
@@ -175,11 +192,14 @@ def update_contact(contact_id, company_id, first_name, last_name, email, phone, 
 
 '''
     Jobs Table
+        functions: read_all_jobs, read_all_active_jobs, delete_job, create_job, update_job
 '''
 
 def read_all_jobs():
     conn = get_db()
     cursor = conn.cursor(dictionary=True)
+
+    # Select all jobs and their corresponding company
     cursor.execute("""
                    SELECT j.*, co.company_name 
                    FROM jobs j 
@@ -228,6 +248,8 @@ def delete_job(jobID):
     try:
         conn = get_db()
         cursor = conn.cursor(dictionary=True)
+
+        # Delete selected job
         delete_query = 'DELETE FROM jobs WHERE job_id = %s'
         cursor.execute(delete_query, (jobID,))
         conn.commit()
@@ -241,7 +263,9 @@ def delete_job(jobID):
 def create_job(company_id, job_title, job_description, salary_min, salary_max, job_type, job_url, date_posted, is_active, requirements):
     try:
         conn = get_db()
-        cursor = conn.cursor(dictionary=True)   
+        cursor = conn.cursor(dictionary=True)
+
+        # Insert new job   
         insert_query = '''INSERT INTO jobs (company_id, job_title, job_description, salary_min, salary_max, job_type, job_url, date_posted, is_active, requirements) 
                            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                        '''
@@ -259,10 +283,12 @@ def create_job(company_id, job_title, job_description, salary_min, salary_max, j
 def update_job(job_id, company_id, job_title, job_description, salary_min, salary_max, job_type, job_url, date_posted, is_active, requirements):
     try:
         conn = get_db()
-        cursor = conn.cursor(dictionary=True)   
+        cursor = conn.cursor(dictionary=True)  
+
+        # Update selected job 
         update_query = 'UPDATE jobs SET company_id = %s, job_title = %s, job_description = %s, salary_min = %s, salary_max = %s, job_type = %s, job_url = %s, date_posted = %s, is_active = %s, requirements = %s WHERE job_id = %s'
-        
         cursor.execute(update_query, (company_id, job_title, job_description, salary_min, salary_max, job_type, job_url, date_posted, is_active, requirements, job_id))
+       
         conn.commit()
         conn.close()
 
@@ -273,10 +299,13 @@ def update_job(job_id, company_id, job_title, job_description, salary_min, salar
 
 '''
     Applications Table
+        functions: read_all_applications, create_application, delete_application, update_application, 
 '''
 def read_all_applications():
     conn = get_db()
     cursor = conn.cursor(dictionary=True)
+
+    # Select all applications and their corresponding company and job
     cursor.execute("""
                    SELECT a.*, c.company_name, j.job_title 
                    FROM applications a 
@@ -303,6 +332,8 @@ def create_application(job_id, application_date, status, resume_version, cover_l
     try:
         conn = get_db()
         cursor = conn.cursor(dictionary=True)   
+
+        # Insert new application
         insert_query = '''INSERT INTO applications (job_id, application_date, status, resume_version, cover_letter_sent, response_date, interview_date, notes, interview_data) 
                         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
                     '''
@@ -319,6 +350,8 @@ def delete_application(applicationID):
     try:
         conn = get_db()
         cursor = conn.cursor(dictionary=True)
+
+        # Delete selected application
         delete_query = 'DELETE FROM applications WHERE application_id = %s'
         cursor.execute(delete_query, (applicationID,))
         conn.commit()
@@ -334,9 +367,11 @@ def update_application(application_id, job_id, application_date, status, resume_
     try:
         conn = get_db()
         cursor = conn.cursor(dictionary=True)   
+
+        # Update selected application
         update_query = 'UPDATE applications SET job_id = %s, application_date = %s, status = %s, resume_version = %s, cover_letter_sent = %s, response_date = %s, interview_date = %s, notes = %s, interview_data = %s WHERE application_id = %s'
-        
         cursor.execute(update_query, (job_id, application_date, status, resume_version, cover_letter_sent, response_date, interview_date, notes, interview_data, application_id))
+        
         conn.commit()
         conn.close()
 

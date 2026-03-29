@@ -10,6 +10,8 @@
 
         <section class ="table_section">
             <table>
+
+                <!-- Companies Table Columns-->
                 <thead>
                     <tr>
                             <th>Company</th>
@@ -25,6 +27,7 @@
                 <tbody>
                     {% for company in companies %}
                     <tr>
+                        <!-- Companies Table View when Editing a row-->
                         {% if edit_id == company['company_id'] %}
                             <form id="edit-form-{{ company['company_id'] }}" action="/companies/update/{{ company['company_id'] }}" method="POST"></form>
                             
@@ -56,6 +59,7 @@
                                 <a href="/companies" class="cancel_link">Cancel</a>
                             </td>
 
+                        <!-- Companies Table View when Displaying all rows-->
                         {% else %}
                             <td>{{ company['company_name'] or ''}}</td>
                             <td>{{ company['industry'] or ''}}</td>
@@ -96,6 +100,7 @@
         </section>
 
 
+        <!--Insert Companies Form-->
         <section class = "form_insert_section">
 
             <h2>Insert Company</h2>

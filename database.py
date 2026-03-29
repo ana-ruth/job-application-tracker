@@ -21,17 +21,27 @@ def statistics():
         conn = get_db()
         cursor = conn.cursor(dictionary=True)
         
-        #total applications
-        cursor.execute('SELECT COUNT(*) as total_applications  FROM applications')
-        stats['total_applications'] = cursor.fetchone()['total_applications']
+        query = """
+                SELECT 
+                        (SELECT COUNT(*) FROM jobs) AS total_jobs,
+                        (SELECT COUNT(*) FROM companies) AS total_companies,
+                        (SELECT COUNT(*) FROM contacts) AS total_contacts,
+                        COUNT(*) AS total_applications,
+                        SUM(CASE WHEN status = 'Applied' THEN 1 ELSE 0 END) AS s_applied,
+                        SUM(CASE WHEN status = 'Screening' THEN 1 ELSE 0 END) AS s_screening,
+                        SUM(CASE WHEN status = 'Phone Screen' THEN 1 ELSE 0 END) AS s_phone,
+                        SUM(CASE WHEN status = 'Interview' THEN 1 ELSE 0 END) AS s_interview,
+                        SUM(CASE WHEN status = 'Interview Completed' THEN 1 ELSE 0 END) AS s_completed,
+                        SUM(CASE WHEN status = 'Offer' THEN 1 ELSE 0 END) AS s_offer,
+                        SUM(CASE WHEN status = 'Offer Accepted' THEN 1 ELSE 0 END) AS s_accepted,
+                        SUM(CASE WHEN status = 'Rejected' THEN 1 ELSE 0 END) AS s_rejected,
+                        SUM(CASE WHEN status = 'Withdrawn' THEN 1 ELSE 0 END) AS s_withdrawn
+                    FROM applications;
+                """
+        
+        cursor.execute(query)
+        stats = cursor.fetchone()
 
-        #total interviews
-        cursor.execute('SELECT COUNT(*) as interviews FROM applications WHERE status = "Interview"')
-        stats['interviews'] = cursor.fetchone()['interviews']
-
-        #total jobs
-        cursor.execute('SELECT COUNT(*) as total_jobs FROM jobs')
-        stats['total_jobs'] = cursor.fetchone()['total_jobs']
 
         conn.close()
 

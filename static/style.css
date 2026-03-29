@@ -13,7 +13,7 @@ nav{
     display: flex;
     justify-content: flex-end;
 
-    background-color:#16537b;
+    background-color:#0b2a3f;
     padding: 5vh;
 
    
@@ -31,12 +31,15 @@ nav > a:hover{
     
 }
 
+
 main{
     padding: 4vh 6vh 3vh 6vh;
 }
 
 h1{
     color: #0b334e;
+    padding-left: 4vh;
+    
 }
 
 h2{
@@ -306,3 +309,90 @@ th, td{
 }
 
 
+
+/*****************/
+/*    Dashboard    */
+
+.dashboard {
+
+    --accent: #2563eb; 
+    --border: #e5e7eb;
+    --text-light: #6b7280;
+    --text-dark: #111827;
+
+    font-family: 'Inter', sans-serif;
+    background-color: #ffffff;
+    color: var(--text-dark);
+    margin: 0;
+
+    max-width: 800px; margin: 0 auto; 
+
+}
+
+/* Header Dashboard */
+header {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 2rem;
+    margin-bottom: 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+/* Vertical Pipeline List */
+.pipeline-list {
+    list-style: none;
+    padding: 0;
+}
+
+.pipeline-item {
+    display: flex;
+    align-items: center;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.pipeline-item:last-child { border-bottom: none; }
+
+.status-name {
+    flex: 1;
+    font-weight: 500;
+    font-size: 1.1rem;
+}
+
+.status-bar-bg {
+    width: 200px;
+    height: 8px;
+    background: #f3f4f6;
+    border-radius: 4px;
+    margin-right: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.status-bar-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 4px;
+}
+
+.status-count {
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    width: 40px;
+    text-align: right;
+}
+
+/* Secondary Stats Grid */
+.footer-metrics {
+    margin-top: 4rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    background: #f9fafb;
+    padding: 2rem;
+    border-radius: 8px;
+}
+
+.small-label { font-size: 0.75rem; color: var(--text-light); text-transform: uppercase; margin-bottom: 0.5rem; display: block; }
+.big-num { font-size: 1.5rem; font-weight: 700; }

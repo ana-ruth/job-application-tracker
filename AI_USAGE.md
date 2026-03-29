@@ -13,6 +13,9 @@ Gemini
 7. "How to get json data in a text area for applications table?"
 8. "Why is the JSON data returning as a string and not as an list?"
 9. "How to keep labels on top of inputs without using div in CSS?"
+10. "Help me consolidate all the dashboard queries into a single query."
+11. "How can I improve the UI of the dashboard to display all statistics?"
+
 
 ## What Worked Well
 - AI provided possible causes for not displaying flask data in html
@@ -23,6 +26,8 @@ Gemini
 - Gemini showed me needed changes in HTML and Flask code to convert data into json to update jobs table and how to get json data from table to display in the website
 - AI showed me how to get and edit JSON data in a text area
 - It gave me code to convert JSON string to a list in Python
+- Gemini gave a me a single query composed of subqueries to get all statistics for the dashboard at once.
+- I got HTML and CSS code to organize application statistics with bars and modern UI
 
 ## What I Modified
 - Applied example to my own code based on the fields my tables have. 
@@ -31,5 +36,7 @@ Gemini
 - Changed table fields to the corresponding values for my table.
 - Changed fields to match my keys in requirements json columns. Updated SQL queries for jobs table to include requirements column in insert, update, and read. 
 - I included JSON text to list code in corresponding function 
+- I placed the query in the corresponding function and removed unnecessary subqueries.
+- Fixed CSS and HTML code for dashboard so that styling for this page did not affect other pages.
 
 ## Lessons Learned

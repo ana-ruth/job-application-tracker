@@ -3,8 +3,67 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-        <p>Total Applications: {{stats['total_applications'] }}</p>
-        <p>Total Interviews: {{stats['interviews']}}</p>
-        <p>Total Jobs: {{stats['total_jobs']}}</p>
+
+    <div class="dashboard">
+        <header>
+            <h1 style="padding:0;">Dashboard</h1>
+            <span style="color: var(--text-light);">Application Overview</span>
+        </header>
+
+        <ul class="pipeline-list">
+            {% set total = stats['total_applications'] if stats['total_applications'] > 0 else 1 %}
+            
+            <li class="pipeline-item">
+                <span class="status-name">Applied</span>
+                <div class="status-bar-bg"><div class="status-bar-fill" style="width: {{ (stats['s_applied'] / total) * 100 }}%;"></div></div>
+                <span class="status-count">{{ stats['s_applied'] }}</span>
+            </li>
+
+            <li class="pipeline-item">
+                <span class="status-name">Screenings</span>
+                <div class="status-bar-bg"><div class="status-bar-fill" style="width: {{ ( (stats['s_screening'] + stats['s_phone'])/ total) * 100 }}%; background: #f59e0b;"></div></div>
+                <span class="status-count">{{ stats['s_screening'] + stats['s_phone'] }}</span>
+            </li>
+
+
+            <li class="pipeline-item">
+                <span class="status-name">Interviews</span>
+                <div class="status-bar-bg"><div class="status-bar-fill" style="width: {{ (stats['s_interview'] / total) * 100 }}%; background: #f5650b;"></div></div>
+                <span class="status-count">{{ stats['s_interview'] }}</span>
+            </li>
+
+            <li class="pipeline-item">
+                <span class="status-name">Offers</span>
+                <div class="status-bar-bg"><div class="status-bar-fill" style="width: {{ (stats['s_offer'] / total) * 100 }}%; background: #10b981;"></div></div>
+                <span class="status-count">{{ stats['s_offer'] }}</span>
+            </li>
+
+            <li class="pipeline-item">
+                <span class="status-name" style="color: #ef4444;">Rejected</span>
+                <div class="status-bar-bg"><div class="status-bar-fill" style="width: {{ (stats['s_rejected'] / total) * 100 }}%; background: #ef4444;"></div></div>
+                <span class="status-count">{{ stats['s_rejected'] }}</span>
+            </li>
+        </ul>
+
+        <div class="footer-metrics">
+            <div>
+                <span class="small-label">Total Volume</span>
+                <span class="big-num">{{ stats['total_applications'] }}</span>
+            </div>
+            <div>
+                <span class="small-label">Network Contacts</span>
+                <span class="big-num">{{ stats['total_contacts'] }}</span>
+            </div>
+            <div>
+                <span class="small-label">Companies</span>
+                <span class="big-num">{{ stats['total_companies'] }}</span>
+            </div>
+
+            <div>
+                <span class="small-label">Total Listings</span>
+                <span class="big-num">{{ stats['total_jobs'] }}</span>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}

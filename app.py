@@ -204,7 +204,7 @@ def createJob():
     input_skills = request.form['req_skills']
     req_skills = [s.strip() for s in input_skills.split(',') if s.strip()]
 
-    req_remote = True if request.form['req_remote'] == 'true' else False
+    req_remote = request.form.get('req_remote', '').strip() or None
     
     raw_requirements = request.form.get('requirements','')
     requirements_dict = {}
@@ -228,10 +228,10 @@ def createJob():
                     requirements_dict[k] = v
 
    
-    requirements_dict["education"] = req_education
-    requirements_dict["experience_years"] = int(req_experience)
-    requirements_dict["required_skills"] = req_skills
-    requirements_dict["remote_option"] = req_remote
+    requirements_dict["education"] = req_education or None
+    requirements_dict["experience_years"] = int(req_experience) if req_experience else None
+    requirements_dict["required_skills"] = req_skills or None
+    requirements_dict["remote_option"] = req_remote or None
     
     requirements = json.dumps(requirements_dict)
     

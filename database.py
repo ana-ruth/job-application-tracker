@@ -24,21 +24,21 @@ def statistics():
         # Get application and overall statistics from tables
         query = """
                 SELECT 
-                        (SELECT COUNT(*) FROM jobs) AS total_jobs,
-                        (SELECT COUNT(*) FROM companies) AS total_companies,
-                        (SELECT COUNT(*) FROM contacts) AS total_contacts,
-                        COUNT(*) AS total_applications,
-                        SUM(CASE WHEN status = 'Applied' THEN 1 ELSE 0 END) AS s_applied,
-                        SUM(CASE WHEN status = 'Screening' THEN 1 ELSE 0 END) AS s_screening,
-                        SUM(CASE WHEN status = 'Phone Screen' THEN 1 ELSE 0 END) AS s_phone,
-                        SUM(CASE WHEN status = 'Interview' THEN 1 ELSE 0 END) AS s_interview,
-                        SUM(CASE WHEN status = 'Interview Completed' THEN 1 ELSE 0 END) AS s_completed,
-                        SUM(CASE WHEN status = 'Offer' THEN 1 ELSE 0 END) AS s_offer,
-                        SUM(CASE WHEN status = 'Offer Accepted' THEN 1 ELSE 0 END) AS s_accepted,
-                        SUM(CASE WHEN status = 'Rejected' THEN 1 ELSE 0 END) AS s_rejected,
-                        SUM(CASE WHEN status = 'Withdrawn' THEN 1 ELSE 0 END) AS s_withdrawn
-                    FROM applications;
-                """
+                    (SELECT COUNT(*) FROM jobs) AS total_jobs,
+                    (SELECT COUNT(*) FROM companies) AS total_companies,
+                    (SELECT COUNT(*) FROM contacts) AS total_contacts,
+                    COUNT(*) AS total_applications,
+                    COALESCE(SUM(CASE WHEN status = 'Applied' THEN 1 ELSE 0 END), 0) AS s_applied,
+                    COALESCE(SUM(CASE WHEN status = 'Screening' THEN 1 ELSE 0 END), 0) AS s_screening,
+                    COALESCE(SUM(CASE WHEN status = 'Phone Screen' THEN 1 ELSE 0 END), 0) AS s_phone,
+                    COALESCE(SUM(CASE WHEN status = 'Interview' THEN 1 ELSE 0 END), 0) AS s_interview,
+                    COALESCE(SUM(CASE WHEN status = 'Interview Completed' THEN 1 ELSE 0 END), 0) AS s_completed,
+                    COALESCE(SUM(CASE WHEN status = 'Offer' THEN 1 ELSE 0 END), 0) AS s_offer,
+                    COALESCE(SUM(CASE WHEN status = 'Offer Accepted' THEN 1 ELSE 0 END), 0) AS s_accepted,
+                    COALESCE(SUM(CASE WHEN status = 'Rejected' THEN 1 ELSE 0 END), 0) AS s_rejected,
+                    COALESCE(SUM(CASE WHEN status = 'Withdrawn' THEN 1 ELSE 0 END), 0) AS s_withdrawn
+                FROM applications;
+            """
         
         cursor.execute(query)
         stats = cursor.fetchone()

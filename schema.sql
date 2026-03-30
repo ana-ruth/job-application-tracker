@@ -14,7 +14,7 @@ CREATE TABLE companies(
    created_at  timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (company_id),
   KEY idx_company_industry (industry)
-)
+);
 
 -- jobs table
 CREATE TABLE jobs (
@@ -34,7 +34,7 @@ CREATE TABLE jobs (
   KEY idx_job_title (job_title),
   KEY idx_company_type (company_id, job_type),
   CONSTRAINT jobs_ibfk_1 FOREIGN KEY (company_id) REFERENCES companies (company_id) ON DELETE CASCADE
-)
+);
 
 -- applications table
 CREATE TABLE applications (
@@ -53,7 +53,7 @@ CREATE TABLE applications (
   KEY idx_app_status (status),
   KEY applications_ibfk_1 (job_id),
   CONSTRAINT applications_ibfk_1 FOREIGN KEY (job_id) REFERENCES jobs (job_id) ON DELETE CASCADE
-) 
+); 
 
 
 -- contacts table
@@ -71,6 +71,6 @@ CREATE TABLE contacts (
   PRIMARY KEY (contact_id),
   KEY contacts_ibfk_1 (company_id),
   CONSTRAINT contacts_ibfk_1 FOREIGN KEY (company_id) REFERENCES companies (company_id) ON DELETE CASCADE
-)
+);
 
 

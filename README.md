@@ -12,33 +12,47 @@ A web application to track job applications - COP4751 Course Project
 - HTML/CSS for the web interface
 
 ### Database Set up
-1. Run SCHEMA.SQL content in MySQL.
-2. Write your database info and password in files: 
+1. Run queries in SCHEMA.SQL in MySQL.
+2. Write your database credential in the following files: 
     app.py (lines 10-13)
     database.py (lines 6-11)
 
 ### Project Repo
-1. Clone repository
+1. Clone repository and open it.
 
+```
     git clone https://github.com/ana-ruth/job-application-tracker.git
+    cd job-application-tracker
+```
+2. Environment Setup
+   
+Create and activate a virtual environment to keep your dependencies isolated:
 
-2. Create virtual environment
+Windows:
+```
+python -m venv venv
+.\venv\Scripts\activate
+```
 
-    python -m venv venv
-
-3. Activate environment
-
-    .\venv\Scripts\activate
+Mac/Linux:
+```
+python3 -m venv venv
+source venv/bin/activate
+```
 
 4. Install python dependencies
 
+```
     pip install -r requirements.txt
+```
 
-5. Run application
+6. Run application
 
+```
     python app.py
+```
 
-6.  Open website
+8.  Open your browser and navigate to:
 
     http://127.0.0.1:5000
 

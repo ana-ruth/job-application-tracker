@@ -1,7 +1,7 @@
 # AI Usage Documentation
 
 ## Tools Used
-Gemini
+Gemini: for debugging and UI suggestions
 
 ## Key Prompts
 1. "Why is the dictionary from my flask route not displaying in the html?"

@@ -11,13 +11,13 @@ A web application to track job applications - COP4751 Course Project
 - Python with Flask
 - HTML/CSS for the web interface
 
-### Database Set up
+## Database Set up
 1. Run queries in SCHEMA.SQL in MySQL.
-2. Write your database credential in the following files: 
+2. Write your database credentials in the following files: 
     app.py (lines 10-13)
     database.py (lines 6-11)
 
-### Project Repo
+## Project Repo
 1. Clone repository and open it.
 
 ```
@@ -43,16 +43,21 @@ source venv/bin/activate
 4. Install python dependencies
 
 ```
-    pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 6. Run application
 
 ```
-    python app.py
+python app.py
 ```
 
 8.  Open your browser and navigate to:
+```
+http://127.0.0.1:5000
+```
 
-    http://127.0.0.1:5000
+### Demo Video
+https://github.com/user-attachments/assets/76ad7c6d-3eb7-441b-b83c-7733abfe6134
+
 
